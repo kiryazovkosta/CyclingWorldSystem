@@ -22,6 +22,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{2B24693E-EE64-4B86-94E7-4F0C04790D73}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{82438196-04B0-4964-9030-2DCFF2B759F1}"
+	ProjectSection(SolutionItems) = preProject
+		src\Common\readme.txt = src\Common\readme.txt
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common\Common.csproj", "{528983CB-AE21-44BA-AFF4-82FB5815345F}"
 EndProject
