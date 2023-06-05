@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{EF76A50A-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{CDF1259C-FAB7-4B3C-8A25-0B19BC0FC8D5}"
 	ProjectSection(SolutionItems) = preProject
-		TextFile1.txt = TextFile1.txt
+		src\Core\Readme.txt = src\Core\Readme.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CyclingWorldSystem.Domain", "src\Core\CyclingWorldSystem.Domain\CyclingWorldSystem.Domain.csproj", "{4C9B591E-A247-477C-B941-841B1B97BFEF}"
