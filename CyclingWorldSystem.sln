@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{066DC0D4-3F69-4654-B2AF-7811934D025F}"
-	ProjectSection(SolutionItems) = preProject
-		src\TextFile1.txt = src\TextFile1.txt
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9E60E4BD-CB6E-4E47-ACB4-AF57644E7793}"
 	ProjectSection(SolutionItems) = preProject
