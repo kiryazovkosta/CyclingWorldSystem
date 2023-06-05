@@ -13,14 +13,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9E60E4BD
 		tests\TextFile2.txt = tests\TextFile2.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF76A50A-A6CA-4BA7-A02E-14B3FFEF4FFB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{EF76A50A-A6CA-4BA7-A02E-14B3FFEF4FFB}"
 	ProjectSection(SolutionItems) = preProject
 		docs\TextFile3.txt = docs\TextFile3.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{CDF1259C-FAB7-4B3C-8A25-0B19BC0FC8D5}"
+	ProjectSection(SolutionItems) = preProject
+		TextFile1.txt = TextFile1.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclingWorldSystem.Domain", "CyclingWorldSystem.Domain\CyclingWorldSystem.Domain.csproj", "{353A5FFB-A189-49B4-ABE9-935C0320AAD3}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{353A5FFB-A189-49B4-ABE9-935C0320AAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{353A5FFB-A189-49B4-ABE9-935C0320AAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{353A5FFB-A189-49B4-ABE9-935C0320AAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{353A5FFB-A189-49B4-ABE9-935C0320AAD3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CDF1259C-FAB7-4B3C-8A25-0B19BC0FC8D5} = {066DC0D4-3F69-4654-B2AF-7811934D025F}
+		{353A5FFB-A189-49B4-ABE9-935C0320AAD3} = {CDF1259C-FAB7-4B3C-8A25-0B19BC0FC8D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68C611A6-204F-4078-92FF-390AB1139139}
