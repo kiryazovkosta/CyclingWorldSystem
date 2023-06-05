@@ -1,7 +1,6 @@
-﻿namespace CyclingWorldSystem.Domain
-{
-	public class Class1
-	{
+﻿namespace CyclingWorldSystem.Domain;
 
-	}
+public class Class1
+{
+
 }
