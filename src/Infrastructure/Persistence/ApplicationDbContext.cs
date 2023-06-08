@@ -1,9 +1,10 @@
 ﻿namespace Persistence;
 
-using Domain.Repositories.Abstractions;
+using Domain.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public sealed class ApplicationDbContext : DbContext
+public sealed class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 {
 	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
