@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Entities\Bikes\Queries\" />
+    <Folder Include="Identity\Users\Queries\" />
   </ItemGroup>
 
 </Project>

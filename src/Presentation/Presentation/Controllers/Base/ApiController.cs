@@ -8,10 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 [Route("api/[controller]")]
 public abstract class ApiController : ControllerBase
 {
-	private ISender _sender;
+	protected readonly ISender Sender;
 
-	/// <summary>
-	/// Gets the sender.
-	/// </summary>
-	protected ISender Sender => _sender ??= HttpContext.RequestServices.GetService<ISender>();
+	protected ApiController(ISender sender)
+	{
+		this.Sender = sender;
+	}
 }

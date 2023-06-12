@@ -1,5 +1,13 @@
 ﻿namespace Application.Entities.Bikes.Models;
 
-using System;
+using System.ComponentModel;
 
-public sealed record CreateBikeRequest(string Brand, string Model);
+public sealed class CreateBikeRequest
+{
+	public string Brand { get; set; } = null!;
+
+	/// <summary>
+	/// The model of the bike as string. Maximum length of 50 symbols is alowed.
+	/// </summary>
+	public string Model { get; set; } = null!;
+}

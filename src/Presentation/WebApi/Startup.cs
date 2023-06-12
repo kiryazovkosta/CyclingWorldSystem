@@ -6,11 +6,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddApplicationPart(Presentation.AssemblyReference.Assembly);
 
-builder.Services.AddEndpointsApiExplorer()
-	.AddSwaggerGen()
-	.AddPersistence(builder.Configuration)
-	.AddApplication()
-	.AddTransient<ExceptionHandlingMiddleware>();
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(option =>
+{
+	option.SupportNonNullableReferenceTypes();
+});
+
+builder.Services.AddPersistence(builder.Configuration);
+
+builder.Services.AddApplication();
+
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
 
 var app = builder.Build();
 
@@ -21,10 +29,13 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ExceptionHandlingMiddleware>()
-	.UseHttpsRedirection()
-	.UseAuthentication()
-	.UseAuthorization();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 
