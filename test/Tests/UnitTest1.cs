@@ -9,15 +9,13 @@ public class UnitTest1
 	public void Test1()
 	{
 		// Arrange
-		var id = Guid.NewGuid();
 		var brand = "Brand";
 		var model = "Model";
 
 		// Act
-		var bike = new Bike(id, brand, model);
+		var bike = Bike.Create(brand, model);
 
 		// Assert
-		Assert.Equal(id, bike.Id);
 		Assert.Equal(brand, bike.Brand);
 		Assert.Equal(model, bike.Model);
 	}

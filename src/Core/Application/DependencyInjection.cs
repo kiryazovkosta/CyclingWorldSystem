@@ -13,13 +13,13 @@ public static class DependencyInjection
 	{
 		services.AddMediatR(config =>
 		{
-			config.RegisterServicesFromAssemblyContaining<ApplicationAssemblyReference>();
+			config.RegisterServicesFromAssemblyContaining<AssemblyReference>();
 
 			config.NotificationPublisher = new TaskWhenAllPublisher();
 		});
 
 		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-		services.AddValidatorsFromAssembly(ApplicationAssemblyReference.Assembly, includeInternalTypes: true);
+		services.AddValidatorsFromAssembly(AssemblyReference.Assembly, includeInternalTypes: true);
 
 		return services;
 	}

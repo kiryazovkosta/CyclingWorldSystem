@@ -2,7 +2,7 @@
 
 using System.Reflection;
 
-public class ApplicationAssemblyReference
+public class AssemblyReference
 {
-	public static readonly Assembly Assembly = typeof(ApplicationAssemblyReference).Assembly;
+	public static readonly Assembly Assembly = typeof(AssemblyReference).Assembly;
 }

@@ -2,6 +2,7 @@
 
 using Application.Exceptions;
 using Domain.Exceptions.Base;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
 internal sealed class ExceptionHandlingMiddleware : IMiddleware

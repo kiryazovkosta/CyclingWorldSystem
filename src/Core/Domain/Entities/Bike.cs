@@ -1,12 +1,11 @@
 ﻿namespace Domain.Entities
 {
 	using Domain.Primitives;
-	using System;
 
 	public sealed class Bike : Entity
 	{
-		public Bike(Guid id, string brand, string model) 
-			: base(id)
+		private Bike(string brand, string model) 
+			: base()
 		{ 
 			this.Brand = brand;
 			this.Model = model;
@@ -19,5 +18,11 @@
 		public string Brand { get; init; } = null!;
 
 		public string Model { get; init; } = null!;
+
+		public static Bike Create(string brand, string model)
+		{
+			var bike = new Bike(brand, model);
+			return bike;
+		}
 	}
 }

@@ -23,7 +23,7 @@ public sealed class CreateBikeCommandHandler
 
 	public async Task<Guid> Handle(CreateBikeCommand request, CancellationToken cancellationToken)
 	{
-		var bike = new Bike(Guid.NewGuid(), request.Brand, request.Model);
+		var bike = Bike.Create(request.Brand, request.Model);
 		this._bikeRepository.Add(bike);
 		await this._unitOfWork.SaveChangesAsync(cancellationToken);
 		return bike.Id;
