@@ -30,12 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Core\Application\Application.csproj" />
-    <ProjectReference Include="..\src\Core\Domain\Domain.csproj" />
-    <ProjectReference Include="..\src\Infrastructure\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\src\Infrastructure\Persistence\Persistence.csproj" />
-    <ProjectReference Include="..\src\Presentation\Presentation\Presentation.csproj" />
-    <ProjectReference Include="..\src\Presentation\WebApi\WebApi.csproj" />
+    <ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
+    <ProjectReference Include="..\..\src\Core\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Infrastructure\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\..\src\Presentation\Presentation\Presentation.csproj" />
+    <ProjectReference Include="..\..\src\Presentation\WebApi\WebApi.csproj" />
   </ItemGroup>
 
 </Project>
