@@ -1,8 +1,10 @@
 ﻿namespace Domain.Entities
 {
+	using Domain.Errors;
 	using Domain.Primitives;
+	using Domain.Shared;
 
-	public sealed class Bike : Entity
+	public sealed class Bike : DeletetableEntity
 	{
 		private Bike(string brand, string model) 
 			: base()
@@ -19,8 +21,18 @@
 
 		public string Model { get; init; } = null!;
 
-		public static Bike Create(string brand, string model)
+		public static Result<Bike> Create(string brand, string model)
 		{
+			if (string.IsNullOrEmpty(brand))
+			{
+				return Result.Failure<Bike>(DomainErrors.Bike.BrandIsNullOrEmpty);
+			}
+
+			if (string.IsNullOrEmpty(model))
+			{
+				return Result.Failure<Bike>(DomainErrors.Bike.ModelIsNullOrEmpty);
+			}
+
 			var bike = new Bike(brand, model);
 			return bike;
 		}

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistence.Repositories;
 using Persistence.Repositories.Abstractions;
 using Microsoft.AspNetCore.Identity;
+using Persistence.Interseptors;
 
 public static class DependencyInjection
 {
@@ -16,9 +17,17 @@ public static class DependencyInjection
 	this IServiceCollection services,
 	IConfiguration configuration)
 	{
-		services.AddDbContext<ApplicationDbContext>(options =>
-			options
-				.UseSqlServer(configuration.GetConnectionString("DatabaseConnection")));
+		services.AddSingleton<UpdateAuditableEntitiesInterseptor>();
+
+		services.AddDbContext<ApplicationDbContext>(
+			(sp, optionsBuilder) =>
+			{
+				var outboxInterseptor = sp.GetService<UpdateAuditableEntitiesInterseptor>();
+
+				optionsBuilder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection"),
+					o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+				.AddInterceptors(outboxInterseptor!);
+			});
 
 		services.AddDefaultIdentity<User>(options =>
 			{

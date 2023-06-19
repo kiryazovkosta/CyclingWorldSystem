@@ -13,7 +13,7 @@ public class UnitTest1
 		var model = "Model";
 
 		// Act
-		var bike = Bike.Create(brand, model);
+		var bike = Bike.Create(brand, model).Value;
 
 		// Assert
 		Assert.Equal(brand, bike.Brand);

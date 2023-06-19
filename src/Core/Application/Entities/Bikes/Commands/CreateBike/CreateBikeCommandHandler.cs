@@ -4,11 +4,13 @@ using Application.Abstractions.Messaging;
 using Domain.Abstractions;
 using Domain.Entities;
 using Domain.Repositories.Abstractions;
+using Domain.Shared;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 public sealed class CreateBikeCommandHandler 
-	: ICommandHandler<CreateBikeCommand, Guid>
+	: ICommandHandler<CreateBikeCommand, Bike>
 {
 	private readonly IBikeRepository _bikeRepository;
 	private readonly IUnitOfWork _unitOfWork;
@@ -21,11 +23,12 @@ public sealed class CreateBikeCommandHandler
 		_unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 	}
 
-	public async Task<Guid> Handle(CreateBikeCommand request, CancellationToken cancellationToken)
+	public async Task<Result<Bike>> Handle(CreateBikeCommand request, CancellationToken cancellationToken)
 	{
-		var bike = Bike.Create(request.Brand, request.Model);
-		this._bikeRepository.Add(bike);
-		await this._unitOfWork.SaveChangesAsync(cancellationToken);
-		return bike.Id;
+		var bikeResult = Bike.Create(request.Brand, request.Model);
+		var bike = bikeResult.Value;
+		_bikeRepository.Add(bike);
+		await _unitOfWork.SaveChangesAsync();
+		return bike;
 	}
 }

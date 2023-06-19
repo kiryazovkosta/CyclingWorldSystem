@@ -1,6 +1,7 @@
 ﻿namespace Application.Identity.Users.Commands.CreateUser;
 
 using Application.Abstractions.Messaging;
+using Domain.Identity;
 using System;
 
 public sealed record CreateUserCommand(
@@ -10,4 +11,4 @@ public sealed record CreateUserCommand(
 	string ConfirmPassword, 
 	string FirstName, 
 	string? MiddleName, 
-	string LastName) : ICommand<Guid>;
+	string LastName) : ICommand<User>;

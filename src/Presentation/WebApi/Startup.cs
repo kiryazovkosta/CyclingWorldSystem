@@ -1,5 +1,6 @@
 using Application;
 using Persistence;
+using Persistence.Interseptors;
 using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
