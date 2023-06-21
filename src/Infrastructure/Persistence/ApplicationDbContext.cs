@@ -19,7 +19,6 @@ public sealed class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-		modelBuilder.Entity<DeletetableEntity>().HasQueryFilter(p => !p.IsDeleted);
 		base.OnModelCreating(modelBuilder);
 	}
 }

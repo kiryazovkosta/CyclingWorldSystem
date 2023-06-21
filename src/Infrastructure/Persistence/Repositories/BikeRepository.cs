@@ -2,6 +2,7 @@
 
 using Domain.Abstractions;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 public sealed class BikeRepository : IBikeRepository
@@ -15,6 +16,28 @@ public sealed class BikeRepository : IBikeRepository
 
 	public void Add(Bike bike)
 	{
-		this._dbContext.Set<Bike>().Add(bike);
+		this._dbContext
+			.Set<Bike>()
+			.Add(bike);
+	}
+
+	public async Task<Bike?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+	{
+		return await _dbContext
+			.Set<Bike>()
+			.FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
+	}
+
+	public async Task<IEnumerable<Bike>> GetAllAsync(CancellationToken cancellationToken = default)
+	{
+		return await this._dbContext
+			.Set<Bike>()
+			.ToListAsync(cancellationToken);
+	}
+
+	public void Delete(Bike bike)
+	{
+		this._dbContext .Set<Bike>()
+			.Remove(bike);
 	}
 }

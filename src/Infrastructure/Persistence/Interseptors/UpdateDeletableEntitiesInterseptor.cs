@@ -8,14 +8,14 @@ namespace Persistence.Interseptors;
 public class UpdateDeletableEntitiesInterseptor : SaveChangesInterceptor
 {
 	public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
-		DbContextEventData eventData, 
-		InterceptionResult<int> result, 
+		DbContextEventData eventData,
+		InterceptionResult<int> result,
 		CancellationToken cancellationToken = default)
 	{
 		var dbContext = eventData.Context;
 		if (dbContext is null)
 		{
-			return base.SavingChangesAsync( eventData, result, cancellationToken);
+			return base.SavingChangesAsync(eventData, result, cancellationToken);
 		}
 
 		IEnumerable<EntityEntry<IDeletableEntity>> entries =

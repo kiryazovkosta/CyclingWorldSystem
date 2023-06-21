@@ -13,6 +13,8 @@ public sealed class BikeConfiguration : IEntityTypeConfiguration<Bike>
 
 		builder.HasKey(x => x.Id);
 
+		builder.HasQueryFilter(bike => !bike.IsDeleted);
+
 		builder
 			.Property(bike => bike.Brand)
 			.HasMaxLength(GlobalConstants.Bike.BrandMaxLength)

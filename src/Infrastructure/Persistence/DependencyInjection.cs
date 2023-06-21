@@ -18,15 +18,19 @@ public static class DependencyInjection
 	IConfiguration configuration)
 	{
 		services.AddSingleton<UpdateAuditableEntitiesInterseptor>();
+		services.AddSingleton<UpdateDeletableEntitiesInterseptor>();
 
 		services.AddDbContext<ApplicationDbContext>(
 			(sp, optionsBuilder) =>
 			{
-				var outboxInterseptor = sp.GetService<UpdateAuditableEntitiesInterseptor>();
+				var updateInterseptor = sp.GetService<UpdateAuditableEntitiesInterseptor>();
+				var deleteInterseptor = sp.GetService<UpdateDeletableEntitiesInterseptor>();
 
 				optionsBuilder.UseSqlServer(configuration.GetConnectionString("DatabaseConnection"),
 					o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
-				.AddInterceptors(outboxInterseptor!);
+				.AddInterceptors(
+					updateInterseptor!, 
+					deleteInterseptor!);
 			});
 
 		services.AddDefaultIdentity<User>(options =>
