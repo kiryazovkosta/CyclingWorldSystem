@@ -1,6 +1,7 @@
 ﻿namespace Domain.Entities
 {
 	using Domain.Errors;
+	using Domain.Identity;
 	using Domain.Primitives;
 	using Domain.Shared;
 
@@ -17,9 +18,21 @@
 		{ 
 		}
 
+		public string Name { get; init; } = null!;
+
+		public Guid BikeTypeId { get; init; }
+		public BikeType BikeType { get; init; } = null!;
+
+		public decimal Weight { get; set; }
+
 		public string Brand { get; init; } = null!;
 
 		public string Model { get; init; } = null!;
+
+		public string? Notes { get; init; }
+
+		public Guid UserId { get; init; }
+		public User User { get; init; } = null!;
 
 		public static Result<Bike> Create(string brand, string model)
 		{
