@@ -5,7 +5,7 @@
 	using Domain.Primitives;
 	using Domain.Shared;
 
-	public sealed class Bike : DeletetableEntity
+	public sealed class Bike : DeletableEntity
 	{
 		private Bike(string brand, string model) 
 			: base()

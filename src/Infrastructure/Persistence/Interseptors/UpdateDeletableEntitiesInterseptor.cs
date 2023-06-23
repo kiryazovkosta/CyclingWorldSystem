@@ -18,11 +18,11 @@ public class UpdateDeletableEntitiesInterseptor : SaveChangesInterceptor
 			return base.SavingChangesAsync(eventData, result, cancellationToken);
 		}
 
-		IEnumerable<EntityEntry<IDeletableEntity>> entries =
+		IEnumerable<EntityEntry<DeletableEntity>> entries =
 			dbContext
 				.ChangeTracker
-				.Entries<IDeletableEntity>();
-		foreach (EntityEntry<IDeletableEntity> entityEntry in entries)
+				.Entries<DeletableEntity>();
+		foreach (EntityEntry<DeletableEntity> entityEntry in entries)
 		{
 			if (entityEntry.State == EntityState.Deleted)
 			{

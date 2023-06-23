@@ -2,7 +2,7 @@
 
 using Domain.Primitives;
 
-public class BikeType : DeletetableEntity
+public class BikeType : DeletableEntity
 {
     private BikeType()
     {

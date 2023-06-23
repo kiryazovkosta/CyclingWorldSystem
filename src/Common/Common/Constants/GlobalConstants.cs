@@ -38,6 +38,50 @@ public static class GlobalConstants
 		public const int ModelMinLength = 2;
 
 		public const int NotesMaxLength = 255;
+	}
 
+	public static class Image
+	{
+		public const int UrlMaxLength = 2048;
+	}
+
+	public static class TrainingPlan
+	{
+		public const string TableName = "TrainingPlans";
+
+		public const int TitleMaxLength = 80;
+		public const int TitleMinLength = 5;
+	}
+
+	public static class UserChallenge
+	{
+		public const string TableName = "UsersChallenges";
+	}
+
+	public static class UserTrainingPlan
+	{
+		public const string TableName = "UsersTrainingPlans";
+	}
+
+	public static class Waypoint
+	{
+		public const string TableName = "Waypoints";
+
+		public const int LatitudePrecision = 12;
+		public const int LatitudeScale = 9;
+
+		public const int LongitudePrecision = 12;
+		public const int LongitudeScale = 9;
+
+		public const int SpeedPrecision = 12;
+		public const int SpeedScale = 3;
+	}
+
+	public static class Workout
+	{
+		public const string TableName = "Workout";
+
+		public const int TitleMaxLength = 80;
+		public const int TitleMinLength = 3;
 	}
 }
