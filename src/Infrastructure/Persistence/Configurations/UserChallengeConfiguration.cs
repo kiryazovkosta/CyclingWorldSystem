@@ -14,7 +14,7 @@ public class UserChallengeConfiguration : IEntityTypeConfiguration<UserChallenge
 			.ToTable(GlobalConstants.UserChallenge.TableName);
 
 		builder
-			.HasIndex(uc => new { uc.UserId, uc.ChallengeId });
+			.HasKey(uc => new { uc.UserId, uc.ChallengeId });
 
 		builder
 			.HasOne(uc => uc.User)

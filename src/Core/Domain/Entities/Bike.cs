@@ -16,6 +16,7 @@
 
 		private Bike() 
 		{ 
+			this.Activities = new HashSet<Activity>();
 		}
 
 		public string Name { get; init; } = null!;
@@ -33,6 +34,8 @@
 
 		public Guid UserId { get; init; }
 		public User User { get; init; } = null!;
+
+		public ICollection<Activity> Activities { get; init; }
 
 		public static Result<Bike> Create(string brand, string model)
 		{

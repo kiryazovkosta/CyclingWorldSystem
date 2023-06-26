@@ -8,7 +8,29 @@ public static class GlobalConstants
         public const int LastNameMaxLength = 50;
     }
 
-    public static class BikeType
+	public static class Activity
+	{
+		public const string TableName = "Activities";
+
+		public const int TitleMaxLength = 80;
+		public const int TitleMinLength = 5;
+
+		public const int DescriptionMaxLength = 255;
+		public const int DescriptionMinLength = 10;
+
+		public const int PrivateNotesMaxLength = 255;
+		public const int PrivateNotesMinLength = 10;
+
+		public const int DestancePrecision = 7;
+		public const int DestanceScale = 3;
+	}
+
+	public static class ActivityLike
+	{
+		public const string TableName = "Likes";
+	}
+
+	public static class BikeType
     {
 		public const string TableName = "BikeTypes";
 
@@ -30,7 +52,6 @@ public static class GlobalConstants
 		public const decimal WeightMaxValue = 99.99M;
 		public const decimal WeightMinValue = 0.00M;
 
-
 		public const int BrandMaxLength = 50;
 		public const int BrandMinLength = 2;
 
@@ -40,8 +61,29 @@ public static class GlobalConstants
 		public const int NotesMaxLength = 255;
 	}
 
+	public static class Challenge
+	{
+		public const string TableName = "Challenges";
+
+		public const int TitleMaxLength = 80;
+		public const int TitleMinLength = 5;
+
+		public const int DescriptionMaxLength = 255;
+		public const int DescriptionMinLength = 10;
+	}
+
+	public static class Comment
+	{
+		public const string TableName = "Comments";
+
+		public const int ContentMaxLength = 255;
+		public const int ContentMinLength = 5;
+	}
+
 	public static class Image
 	{
+		public const string TableName = "Images";
+
 		public const int UrlMaxLength = 2048;
 	}
 

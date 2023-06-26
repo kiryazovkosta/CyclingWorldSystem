@@ -20,7 +20,7 @@ public class WorkoutConfiguration : IEntityTypeConfiguration<Workout>
 		builder.HasOne(w => w.TrainingPlan)
 			.WithMany(tp => tp.Workouts)
 			.IsRequired()
-			.HasForeignKey(w => w.TrainingPlan.Id)
+			.HasForeignKey(w => w.TrainingPlanId)
 			.OnDelete(DeleteBehavior.Restrict);
 	}
 }

@@ -4,7 +4,7 @@ using Domain.Identity;
 
 public class UserTrainingPlan
 {
-	public string UserId { get; set; } = null!;
+	public Guid UserId { get; set; }
 	public User User { get; set; } = null!;
 
 	public Guid TrainingPlanId { get; set; }

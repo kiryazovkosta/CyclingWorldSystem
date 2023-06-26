@@ -1,10 +1,11 @@
 ﻿namespace Domain.Entities;
 
 using Common.Enumerations;
+using Domain.Primitives;
 using System;
 using System.Collections.Generic;
 
-public class Challenge
+public class Challenge : DeletableEntity
 {
     public Challenge()
     {
