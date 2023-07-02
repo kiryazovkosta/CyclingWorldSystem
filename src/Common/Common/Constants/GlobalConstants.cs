@@ -6,7 +6,21 @@ public static class GlobalConstants
     {
         public const int FirstNameMaxLength = 50;
         public const int LastNameMaxLength = 50;
-    }
+
+		public const string AdministratorUserName = "Admin";
+		public const string ManagerUserName = "Manager";
+		public const string UserUserName = "User";
+
+		public const string DefaultPassword = "P@ssw0rd@a!";
+		public const string DefaultEmailDomain = "@example.com";
+	}
+
+	public static class Role
+	{
+		public const string AdministratorRoleName = "Administrator";
+		public const string ManagerRoleName = "Manager";
+		public const string UserRoleName = "User";
+	}
 
 	public static class Activity
 	{

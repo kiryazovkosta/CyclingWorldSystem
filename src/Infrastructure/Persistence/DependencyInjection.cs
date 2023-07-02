@@ -48,6 +48,8 @@ public static class DependencyInjection
 			.AddDefaultTokenProviders()
 			.AddDefaultTokenProviders();
 
+		services.AddScoped<ApplicationInitializer>();
+
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 		services.AddScoped<IBikeRepository, BikeRepository>();
