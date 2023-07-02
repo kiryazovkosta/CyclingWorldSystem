@@ -18,7 +18,7 @@ public static class ApplyAutomaticaMigration
 			var initializer = scope.ServiceProvider.GetService<ApplicationInitializer>();
 			initializer?.SeedAsync().Wait();
 		}
-		catch (Exception ex)
+		catch (Exception)
 		{
 			throw;
 		}

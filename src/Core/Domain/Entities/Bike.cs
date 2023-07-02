@@ -8,7 +8,7 @@
 	public sealed class Bike : DeletableEntity
 	{
 		private Bike(string brand, string model) 
-			: base()
+			: this()
 		{ 
 			this.Brand = brand;
 			this.Model = model;

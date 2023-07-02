@@ -1,6 +1,7 @@
 ﻿namespace Presentation.Controllers;
 
 using Application.Identity.Users.Commands.CreateUser;
+using Application.Identity.Users.Commands.LoginUser;
 using Application.Identity.Users.Models;
 using Mapster;
 using MediatR;
@@ -15,7 +16,7 @@ public sealed class AccountsController : ApiController
 	{
 	}
 
-	[HttpPost]
+	[HttpPost("Register")]
 	[ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> CreateUser(
@@ -24,5 +25,16 @@ public sealed class AccountsController : ApiController
 		var command = request.Adapt<CreateUserCommand>();
 		var bikeId = await this.Sender.Send(command, cancellationToken);
 		return Ok(bikeId);
+	}
+
+	[HttpPost("LogIn")]
+	[ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<IActionResult> LogInUser(
+	[FromBody] LoginUserRequest request, CancellationToken cancellationToken)
+	{
+		var command = request.Adapt<LoginUserCommand>();
+		var token = await this.Sender.Send(command, cancellationToken);
+		return Ok(token.Value);
 	}
 }

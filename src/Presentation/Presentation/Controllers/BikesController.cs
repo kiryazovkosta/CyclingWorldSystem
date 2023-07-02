@@ -8,6 +8,7 @@ using Application.Entities.Bikes.Queries.GetBikeById;
 using Application.Entities.Bikes.Queries.GetBikes;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
@@ -31,6 +32,7 @@ public sealed class BikesController : ApiController
 	}
 
 	[HttpGet]
+	[Authorize]
 	[ProducesResponseType(typeof(BikeResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> GetBikes(CancellationToken cancellationToken)

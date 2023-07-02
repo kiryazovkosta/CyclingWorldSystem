@@ -13,6 +13,8 @@ public static class GlobalConstants
 
 		public const string DefaultPassword = "P@ssw0rd@a!";
 		public const string DefaultEmailDomain = "@example.com";
+
+		public static string NotFoundMessage = "The provided userName {0} does not exists.";
 	}
 
 	public static class Role
