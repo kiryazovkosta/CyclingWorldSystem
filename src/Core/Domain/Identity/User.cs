@@ -26,4 +26,6 @@ public class User : IdentityUser<Guid>, IAuditableEntity, IDeletableEntity
 	public DateTime? ModifiedOn { get; set; }
 	public bool IsDeleted { get; set; }
 	public DateTime? DeletedOn { get; set; }
+
+	public ICollection<UserRole> UserRoles { get; set; }
 }
