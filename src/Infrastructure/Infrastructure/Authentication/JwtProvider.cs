@@ -13,17 +13,16 @@ using System.Text;
 
 public sealed class JwtProvider : IJwtProvider
 {
-	private readonly JwtOptions _options;
+	private readonly JwtOptions _jWtOptions;
 
 	public JwtProvider(IOptions<JwtOptions> jwtOptions)
 	{
-		this._options = jwtOptions.Value ?? throw new ArgumentNullException(nameof(jwtOptions));
+		this._jWtOptions = jwtOptions.Value ?? throw new ArgumentNullException(nameof(jwtOptions));
 	}
 
-	private const int ExpirationMinutes = 30;
 	public string CreateToken(User user)
 	{
-		var expiration = DateTime.UtcNow.AddMinutes(ExpirationMinutes);
+		var expiration = DateTime.UtcNow.AddMinutes(this._jWtOptions.ExpirationMinutes);
 		var token = CreateJwtToken(
 			CreateClaims(user),
 			CreateSigningCredentials(),
@@ -36,8 +35,8 @@ public sealed class JwtProvider : IJwtProvider
 	private JwtSecurityToken CreateJwtToken(List<Claim> claims, SigningCredentials credentials,
 		DateTime expiration) =>
 		new(
-			"apiWithAuthBackend",
-			"apiWithAuthBackend",
+			this._jWtOptions.Issuer,
+			this._jWtOptions.Audience,
 			claims,
 			expires: expiration,
 			signingCredentials: credentials
@@ -68,7 +67,7 @@ public sealed class JwtProvider : IJwtProvider
 	{
 		return new SigningCredentials(
 			new SymmetricSecurityKey(
-				Encoding.UTF8.GetBytes("!SomethingSecret!")
+				Encoding.UTF8.GetBytes(this._jWtOptions.SecretKey)
 			),
 			SecurityAlgorithms.HmacSha256
 		);

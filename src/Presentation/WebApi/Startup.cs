@@ -1,6 +1,7 @@
 using Application;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
@@ -52,12 +53,14 @@ builder.Services.AddApplication();
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
-//builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
 //builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 builder.Services
 	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
+		var jwtSettingsSection = builder.Configuration.GetSection("Jwt");
+
 		options.TokenValidationParameters = new TokenValidationParameters()
 		{
 			ClockSkew = TimeSpan.Zero,
@@ -65,10 +68,10 @@ builder.Services
 			ValidateAudience = true,
 			ValidateLifetime = true,
 			ValidateIssuerSigningKey = true,
-			ValidIssuer = "apiWithAuthBackend",
-			ValidAudience = "apiWithAuthBackend",
+			ValidIssuer = jwtSettingsSection.GetValue<string>("Issuer"),
+			ValidAudience = jwtSettingsSection.GetValue<string>("Audience"),
 			IssuerSigningKey = new SymmetricSecurityKey(
-				Encoding.UTF8.GetBytes("!SomethingSecret!")
+				Encoding.UTF8.GetBytes(jwtSettingsSection.GetValue<string>("SecretKey") ?? string.Empty)
 			),
 		};
 	});
