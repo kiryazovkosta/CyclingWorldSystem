@@ -4,6 +4,13 @@ namespace Domain.Errors;
 
 public static class DomainErrors
 {
+	public static class BikeType
+	{
+		public static Error BikeTypesCollectionIsNull => new(
+		"BikeType.GetAllAsync",
+		"The bike type collection is null!");
+	}
+
 	public static class Bike
 	{
 		public static Error BrandIsNullOrEmpty => new(

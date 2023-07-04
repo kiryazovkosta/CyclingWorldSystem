@@ -1,6 +1,6 @@
-﻿namespace Domain.Abstractions;
+﻿using Domain.Entities;
 
-using Domain.Entities;
+namespace Domain.Repositories;
 
 public interface IBikeRepository
 {

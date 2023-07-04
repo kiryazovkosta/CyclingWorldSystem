@@ -3,4 +3,4 @@ using Application.Entities.Bikes.Models;
 
 namespace Application.Entities.Bikes.Queries.GetBikes;
 
-public sealed record GetBikesQuery() : IQuery<List<SimplifiedBikeResponse>>;
+public sealed record GetBikesQuery() : IQuery<List<SimpleBikeResponse>>;

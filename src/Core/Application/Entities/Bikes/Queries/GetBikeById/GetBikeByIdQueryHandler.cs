@@ -1,6 +1,6 @@
 ﻿using Application.Abstractions.Messaging;
 using Application.Entities.Bikes.Models;
-using Domain.Abstractions;
+using Domain.Repositories;
 using Domain.Errors;
 using Domain.Shared;
 using Mapster;

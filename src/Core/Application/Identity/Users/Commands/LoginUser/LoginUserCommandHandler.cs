@@ -2,6 +2,8 @@
 
 using Application.Abstractions;
 using Application.Abstractions.Messaging;
+using Application.Identity.Users.Commands.LogInUser;
+using Application.Identity.Users.Models;
 using Domain.Errors;
 using Domain.Exceptions;
 using Domain.Exceptions.Base;
@@ -13,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 public class LoginUserCommandHandler
-	: ICommandHandler<LoginUserCommand, string>
+	: ICommandHandler<LogInUserCommand, LogInUserResponse>
 {
 	private readonly SignInManager<User> _signInManager;
 	private readonly UserManager<User> _userManager;
@@ -29,8 +31,8 @@ public class LoginUserCommandHandler
 		_jwkProvider = jwkProvider ?? throw new ArgumentNullException(nameof(jwkProvider));
 	}
 
-	public async Task<Result<string>> Handle(
-		LoginUserCommand request, 
+	public async Task<Result<LogInUserResponse>> Handle(
+		LogInUserCommand request, 
 		CancellationToken cancellationToken)
 	{
 		var user = await this._userManager.FindByNameAsync(request.UserName)
@@ -45,17 +47,17 @@ public class LoginUserCommandHandler
 
 			if (result.Succeeded)
 			{
-				var token = this._jwkProvider.Generate(user);
-				return Result.Create(token);
+				var token = this._jwkProvider.CreateToken(user);
+				return Result.Success(new LogInUserResponse(user.UserName!, user!.Email!, token));
 			}
 		}
 
 		if (!await this._userManager.IsEmailConfirmedAsync(user!))
 		{
-			return Result.Failure<string>(new Error("", ""));
+			return Result.Failure<LogInUserResponse>(new Error("", ""));
 		}
 
-		return Result.Failure<string>(new Error("", ""));
+		return Result.Failure<LogInUserResponse>(new Error("", ""));
 
 
 	}

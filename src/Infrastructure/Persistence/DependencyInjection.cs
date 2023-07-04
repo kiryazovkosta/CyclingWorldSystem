@@ -1,6 +1,5 @@
 ﻿namespace Persistence;
 
-using Domain.Abstractions;
 using Domain.Identity;
 using Domain.Repositories.Abstractions;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +9,7 @@ using Persistence.Repositories;
 using Persistence.Repositories.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Persistence.Interseptors;
+using Domain.Repositories;
 
 public static class DependencyInjection
 {
@@ -52,6 +52,7 @@ public static class DependencyInjection
 
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+		services.AddScoped<IBikeTypeRepository, BikeTypeRepository>();
 		services.AddScoped<IBikeRepository, BikeRepository>();
 
 		return services;

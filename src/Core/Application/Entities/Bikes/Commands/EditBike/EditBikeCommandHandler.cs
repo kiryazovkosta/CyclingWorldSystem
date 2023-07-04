@@ -1,7 +1,7 @@
 ﻿namespace Application.Entities.Bikes.Commands.EditBike;
 
 using Application.Abstractions.Messaging;
-using Domain.Abstractions;
+using Domain.Repositories;
 using Domain.Entities;
 using Domain.Errors;
 using Domain.Repositories.Abstractions;

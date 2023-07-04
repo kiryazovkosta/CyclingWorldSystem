@@ -1,7 +1,7 @@
 ﻿namespace Application.Entities.Bikes.Commands.DeleteBike;
 
 using Application.Abstractions.Messaging;
-using Domain.Abstractions;
+using Domain.Repositories;
 using Domain.Errors;
 using Domain.Repositories.Abstractions;
 using Domain.Shared;

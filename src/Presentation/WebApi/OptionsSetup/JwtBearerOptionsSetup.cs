@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-public class JwtBearerOptionsSetup : IConfigureOptions<JwtBearerOptions>
+public class JwtBearerOptionsSetup : IPostConfigureOptions<JwtBearerOptions>
 {
 	private readonly JwtOptions _jwtOptions;
 
@@ -15,18 +15,11 @@ public class JwtBearerOptionsSetup : IConfigureOptions<JwtBearerOptions>
 		_jwtOptions = jwtOptions.Value ?? throw new ArgumentNullException(nameof(jwtOptions));
 	}
 
-	public void Configure(JwtBearerOptions options)
+	public void PostConfigure(string? name, JwtBearerOptions options)
 	{
-		options.TokenValidationParameters = new()
-		{
-			ValidateIssuer = true,
-			ValidateAudience = true,
-			ValidateLifetime = true,
-			ValidateIssuerSigningKey = true,
-			ValidIssuer = _jwtOptions.Issuer,
-			ValidAudience = _jwtOptions.Audience,
-			IssuerSigningKey = new SymmetricSecurityKey(
-				Encoding.UTF8.GetBytes(_jwtOptions.SecretKey))
-		};
+		options.TokenValidationParameters.ValidIssuer = this._jwtOptions.Issuer;
+		options.TokenValidationParameters.ValidAudience = this._jwtOptions.Audience;
+		options.TokenValidationParameters.IssuerSigningKey =
+			new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._jwtOptions.SecretKey));
 	}
 }

@@ -1,0 +1,9 @@
+﻿namespace Application.Identity.Users.Models;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+public sealed record LogInUserResponse(string UserName, string Email, string Token);

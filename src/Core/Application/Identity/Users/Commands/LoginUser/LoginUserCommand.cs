@@ -1,5 +1,6 @@
-﻿namespace Application.Identity.Users.Commands.LoginUser;
+﻿namespace Application.Identity.Users.Commands.LogInUser;
 
 using Application.Abstractions.Messaging;
+using Application.Identity.Users.Models;
 
-public sealed record LoginUserCommand(string UserName, string Password) : ICommand<string>;
+public sealed record LogInUserCommand(string UserName, string Password) : ICommand<LogInUserResponse>;

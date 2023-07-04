@@ -1,7 +1,7 @@
 ﻿namespace Application.Entities.Bikes.Commands.CreateBike;
 
 using Application.Abstractions.Messaging;
-using Domain.Abstractions;
+using Domain.Repositories;
 using Domain.Entities;
 using Domain.Repositories.Abstractions;
 using Domain.Shared;

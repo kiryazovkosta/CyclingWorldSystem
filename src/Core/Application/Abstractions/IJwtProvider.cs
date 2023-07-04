@@ -4,5 +4,5 @@ using Domain.Identity;
 
 public interface IJwtProvider
 {
-	string Generate(User user);
+	string CreateToken(User user);
 }

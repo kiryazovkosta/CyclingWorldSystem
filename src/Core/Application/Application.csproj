@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entities\BikeTypes\Commands\" />
     <Folder Include="Identity\Users\Queries\" />
   </ItemGroup>
 

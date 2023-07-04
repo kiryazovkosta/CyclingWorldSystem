@@ -2,6 +2,7 @@
 
 using Application.Identity.Users.Commands.CreateUser;
 using Application.Identity.Users.Commands.LoginUser;
+using Application.Identity.Users.Commands.LogInUser;
 using Application.Identity.Users.Models;
 using Mapster;
 using MediatR;
@@ -33,7 +34,7 @@ public sealed class AccountsController : ApiController
 	public async Task<IActionResult> LogInUser(
 	[FromBody] LoginUserRequest request, CancellationToken cancellationToken)
 	{
-		var command = request.Adapt<LoginUserCommand>();
+		var command = request.Adapt<LogInUserCommand>();
 		var token = await this.Sender.Send(command, cancellationToken);
 		return Ok(token.Value);
 	}
