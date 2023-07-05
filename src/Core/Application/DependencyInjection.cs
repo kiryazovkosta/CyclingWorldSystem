@@ -1,7 +1,6 @@
 ﻿namespace Application;
 
 using Application.Behaviors;
-using Application.Entities.Bikes.Commands.CreateBike;
 using FluentValidation;
 using MediatR;
 using MediatR.NotificationPublishers;
@@ -19,7 +18,8 @@ public static class DependencyInjection
 		});
 
 		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-		services.AddValidatorsFromAssembly(AssemblyReference.Assembly, includeInternalTypes: true);
+
+		services.AddValidatorsFromAssembly(Application.AssemblyReference.Assembly, includeInternalTypes: true);
 
 		return services;
 	}

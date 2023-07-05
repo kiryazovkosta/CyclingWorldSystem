@@ -11,6 +11,8 @@ public class BikeTypeConfiguration : IEntityTypeConfiguration<BikeType>
 	{
 		builder.ToTable(GlobalConstants.BikeType.TableName);
 
+		builder.HasQueryFilter(bikeType => !bikeType.IsDeleted);
+
 		builder.HasKey(x => x.Id);
 
 		builder.Property(x => x.Name)

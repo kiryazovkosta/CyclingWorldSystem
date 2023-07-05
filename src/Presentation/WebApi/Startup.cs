@@ -1,4 +1,5 @@
 using Application;
+using FluentValidation;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -54,7 +55,6 @@ builder.Services.AddApplication();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 builder.Services.ConfigureOptions<JwtOptionsSetup>();
-//builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 builder.Services
 	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>

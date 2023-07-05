@@ -26,6 +26,11 @@ public sealed class CreateBikeCommandHandler
 	public async Task<Result<Bike>> Handle(CreateBikeCommand request, CancellationToken cancellationToken)
 	{
 		var bikeResult = Bike.Create(request.Brand, request.Model);
+		if (bikeResult.IsFailure) 
+		{
+			return Result.Failure<Bike>(bikeResult.Error);
+		}
+		
 		var bike = bikeResult.Value;
 		_bikeRepository.Add(bike);
 		await _unitOfWork.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using Domain.Shared;
+﻿using Common.Constants;
+using Domain.Shared;
 
 namespace Domain.Errors;
 
@@ -9,6 +10,18 @@ public static class DomainErrors
 		public static Error BikeTypesCollectionIsNull => new(
 		"BikeType.GetAllAsync",
 		"The bike type collection is null!");
+
+		public static Error BikeTypeNameIsNull => new(
+			"BikeType.Create.Name",
+			GlobalMessages.BikeType.NameIsNullOrEmpty);
+
+		public static Error BikeTypeNameInvalidLength(int min, int max) => new(
+			"BikeType.Create.Name",
+			string.Format(GlobalMessages.BikeType.NameLengthIsInvalid, min, max));
+
+		public static Error BikeTypeNameExists(string name) => new(
+			"BikeType.Create.Name",
+			string.Format($"There is a bike type with name: {0}", name));
 	}
 
 	public static class Bike
