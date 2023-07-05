@@ -3,6 +3,8 @@
 using Application.Entities.Bikes.Models;
 using Application.Entities.Bikes.Queries.GetBikes;
 using Application.Entities.BikeTypes.Commands.CreateBikeType;
+using Application.Entities.BikeTypes.Commands.DeleteBikeType;
+using Application.Entities.BikeTypes.Commands.UpdateBikeType;
 using Application.Entities.BikeTypes.Models;
 using Application.Entities.BikeTypes.Queries.GetAllBikeTypes;
 using Domain.Entities;
@@ -49,5 +51,36 @@ public class BikeTypesController : ApiController
 
 		var result = await this.Sender.Send(command, cancellationToken);
 		return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
+	}
+
+	[HttpPut]
+	[ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<IResult> UpdateBikeType(
+		UpdateBikeTypeRequest request,
+		IValidator<UpdateBikeTypeCommand> validator,
+		CancellationToken cancellationToken)
+	{
+		var command = request.Adapt<UpdateBikeTypeCommand>();
+		var validation = validator.Validate(command);
+		if (!validation.IsValid)
+		{
+			return Results.ValidationProblem(validation.ToDictionary());
+		}
+
+		var result = await this.Sender.Send(command, cancellationToken);
+		return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
+	}
+
+	[HttpDelete("{id:guid}")]
+	[ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<IResult> DeleteProductType(
+		Guid id, 
+		CancellationToken cancellationToken)
+	{
+		var command = new DeleteBikeTypeCommand(id);
+		var result = await this.Sender.Send(command, cancellationToken);
+		return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
 	}
 }

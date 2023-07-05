@@ -24,8 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\BikeTypes\Commands\DeleteBikeType\" />
-    <Folder Include="Entities\BikeTypes\Commands\UpdateBikeType\" />
     <Folder Include="Identity\Users\Queries\" />
   </ItemGroup>
 

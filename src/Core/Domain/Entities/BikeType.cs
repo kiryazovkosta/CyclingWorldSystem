@@ -18,27 +18,19 @@ public class BikeType : DeletableEntity
         this.Name = name;
     }
 
-    public string Name { get; init; } = null!;
+    public string Name { get; private set; } = null!;
 
     public ICollection<Bike> Bikes { get; init; }
 
     public static Result<BikeType> Create(string name, bool exists)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            return Result.Failure<BikeType>(DomainErrors.BikeType.BikeTypeNameIsNull);
-        }
-
-        if (name.Length < GlobalConstants.BikeType.NameMinLength 
-            || name.Length > GlobalConstants.BikeType.NameMaxLength) 
-        {
-			return Result.Failure<BikeType>(
-                DomainErrors.BikeType.BikeTypeNameInvalidLength(
-                    GlobalConstants.BikeType.NameMinLength, 
-                    GlobalConstants.BikeType.NameMaxLength));
+		var nameValidationResult = ValidateName(name);
+		if (!nameValidationResult.IsSuccess)
+		{
+			return Result.Failure<BikeType>(nameValidationResult.Error);
 		}
 
-        if (exists)
+		if (exists)
         {
 			return Result.Failure<BikeType>(
 	            DomainErrors.BikeType.BikeTypeNameExists(name));
@@ -47,4 +39,35 @@ public class BikeType : DeletableEntity
         var bikeType = new BikeType(name);
         return bikeType;
     }
+
+	public Result Update(string name)
+	{
+		var nameValidationResult = ValidateName(name);
+		if (!nameValidationResult.IsSuccess)
+		{
+			return Result.Failure<BikeType>(nameValidationResult.Error);
+		}
+
+		this.Name = name;
+        return Result.Success();
+	}
+
+	private static Result ValidateName(string name)
+	{
+		if (string.IsNullOrWhiteSpace(name))
+		{
+			return Result.Failure(DomainErrors.BikeType.BikeTypeNameIsNull);
+		}
+
+		if (name.Length < GlobalConstants.BikeType.NameMinLength
+			|| name.Length > GlobalConstants.BikeType.NameMaxLength)
+		{
+			return Result.Failure(
+				DomainErrors.BikeType.BikeTypeNameInvalidLength(
+					GlobalConstants.BikeType.NameMinLength,
+					GlobalConstants.BikeType.NameMaxLength));
+		}
+
+		return Result.Success();
+	}
 }
