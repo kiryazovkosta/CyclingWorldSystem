@@ -32,12 +32,21 @@ public sealed class BikeRepository : IBikeRepository
 	{
 		return await this._dbContext
 			.Set<Bike>()
+			.AsNoTracking()
 			.ToListAsync(cancellationToken);
 	}
 
 	public void Delete(Bike bike)
 	{
-		this._dbContext .Set<Bike>()
+		this._dbContext
+			.Set<Bike>()
 			.Remove(bike);
+	}
+
+	public void Update(Bike bike)
+	{
+		this._dbContext
+			.Set<Bike>()
+			.Update(bike);
 	}
 }

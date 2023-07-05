@@ -10,5 +10,7 @@ public interface IBikeRepository
 
 	Task<IEnumerable<Bike>> GetAllAsync(CancellationToken cancellationToken = default);
 
+	void Update(Bike bike);
+
 	void Delete(Bike bike);
 }

@@ -1,11 +1,11 @@
-﻿namespace Application.Entities.Bikes.Commands.EditBike;
+﻿namespace Application.Entities.Bikes.Commands.UpdateBike;
 
 using FluentValidation;
 using System;
 
-public class EditBikeCommandValidator : AbstractValidator<EditBikeCommand>
+public class UpdateBikeCommandValidator : AbstractValidator<UpdateBikeCommand>
 {
-	public EditBikeCommandValidator()
+	public UpdateBikeCommandValidator()
 	{
 		this.RuleFor(c => c.Id).NotEqual(Guid.Empty);
 		this.RuleFor(c => c.Brand).NotEmpty();

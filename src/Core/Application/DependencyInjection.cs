@@ -1,6 +1,8 @@
 ﻿namespace Application;
 
 using Application.Behaviors;
+using Application.Interfaces;
+using Application.Services;
 using FluentValidation;
 using MediatR;
 using MediatR.NotificationPublishers;
@@ -20,6 +22,9 @@ public static class DependencyInjection
 		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 		services.AddValidatorsFromAssembly(Application.AssemblyReference.Assembly, includeInternalTypes: true);
+
+		services.AddHttpContextAccessor();
+		services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 		return services;
 	}

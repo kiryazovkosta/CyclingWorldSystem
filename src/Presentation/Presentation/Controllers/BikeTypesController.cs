@@ -1,17 +1,12 @@
 ﻿namespace Presentation.Controllers;
-
-using Application.Entities.Bikes.Models;
-using Application.Entities.Bikes.Queries.GetBikes;
 using Application.Entities.BikeTypes.Commands.CreateBikeType;
 using Application.Entities.BikeTypes.Commands.DeleteBikeType;
 using Application.Entities.BikeTypes.Commands.UpdateBikeType;
 using Application.Entities.BikeTypes.Models;
 using Application.Entities.BikeTypes.Queries.GetAllBikeTypes;
-using Domain.Entities;
 using FluentValidation;
 using Mapster;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;

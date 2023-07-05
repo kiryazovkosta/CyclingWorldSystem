@@ -8,7 +8,7 @@ using Domain.Shared;
 using MediatR;
 
 public class DeleteBikeCommandHandler
-	: ICommandHandler<DeleteBikeCommand, Unit>
+	: ICommandHandler<DeleteBikeCommand>
 {
 	private readonly IBikeRepository _bikeRepository;
 	private readonly IUnitOfWork _unitOfWork;
@@ -19,7 +19,9 @@ public class DeleteBikeCommandHandler
 		_unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 	}
 
-	public async Task<Result<Unit>> Handle(DeleteBikeCommand request, CancellationToken cancellationToken)
+	public async Task<Result> Handle(
+		DeleteBikeCommand request, 
+		CancellationToken cancellationToken)
 	{
 		var bike = await _bikeRepository.GetByIdAsync(request.Id, cancellationToken);
 		if (bike is null)
@@ -29,6 +31,6 @@ public class DeleteBikeCommandHandler
 
 		_bikeRepository.Delete(bike);
 		await _unitOfWork.SaveChangesAsync(cancellationToken);
-		return Unit.Value;
+		return Result.Success();
 	}
 }

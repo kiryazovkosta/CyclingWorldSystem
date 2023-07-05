@@ -48,8 +48,7 @@ public sealed class JwtProvider : IJwtProvider
 		{
 			var claims = new List<Claim>
 				{
-					new Claim(JwtRegisteredClaimNames.Sub, "TokenForTheApiWithAuth"),
-					new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+					new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
 					new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
 					new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 					new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),

@@ -7,7 +7,11 @@ public static class DomainErrors
 {
 	public static Error DeleteOperationFailed(Guid id, string command) => new(
 		command,
-		$"There is a error with deleting product type with Id {id}");
+		string.Format("There is a error with deleting entity with Id {0}", id));
+
+	public static Error UnauthorizedAccess(string command) => new(
+		command,
+		"You does not have permissions to access this resource");
 
 
 	public static class BikeType
@@ -35,13 +39,41 @@ public static class DomainErrors
 
 	public static class Bike
 	{
+		public static Error NameIsNullOrEmpty => new(
+			"Bike.Create.Name",
+			GlobalMessages.Bike.NameIsNullOrEmpty);
+
+		public static Error NameLengthIsInvalid(int min, int max) => new(
+			"Bike.Create.Name",
+			string.Format(GlobalMessages.Bike.NameLengthIsInvalid, min, max));
+
+		public static Error BikeTypeIsInvalid => new(
+			"Bike.Create.BikeType",
+			GlobalMessages.Bike.BikeTypeIsNullOrDefault);
+
+		public static Error WeightIsInvalid(decimal min, decimal max) => new(
+			"Bike.Create.Weight",
+			string.Format(GlobalMessages.Bike.WeightValueIsInvalid, min, max));
+
 		public static Error BrandIsNullOrEmpty => new(
 			"Bike.Create.Brand",
-			"The brand can't be null or empty");
+			GlobalMessages.Bike.BrandIsNullOrEmpty);
+
+		public static Error BrandLengthIsInvalid(int min, int max) => new(
+			"Bike.Create.Brand",
+			string.Format(GlobalMessages.Bike.BrandLengthIsInvalid, min, max));
 
 		public static Error ModelIsNullOrEmpty => new(
 			"Bike.Create.Model",
-			"The model can't be null or empty");
+			GlobalMessages.Bike.ModelIsNullOrEmpty);
+
+		public static Error ModelLengthIsInvalid(int min, int max) => new(
+			"Bike.Create.Brand",
+			string.Format(GlobalMessages.Bike.BrandLengthIsInvalid, min, max));
+
+		public static Error NotesLengthIsInvalid(int max) => new(
+			"Bike.Create.Brand",
+			string.Format(GlobalMessages.Bike.NotesLengthIsInvalid, max));
 
 		public static Error BikeDoesNotExists(Guid id) => new(
 			"Bike.Id",
