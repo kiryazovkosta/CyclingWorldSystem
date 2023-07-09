@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entities\GpxFiles\Queries\" />
     <Folder Include="Identity\Users\Queries\" />
   </ItemGroup>
 

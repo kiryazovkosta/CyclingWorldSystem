@@ -4,6 +4,11 @@ public static class GlobalMessages
 {
 	public const string UniqueIdentifierIsNullOrDefault = "The provided Identificator cloud not be null or defaul.";
 
+	public static class GpxFile
+	{
+		public const string CollectionIsEmpty = "Collection must contains at least one file.";
+	}
+
 	public static class BikeType
 	{
 		public const string NameIsNullOrEmpty = "The provided Name cloud not be null or empty string";

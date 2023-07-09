@@ -1,6 +1,7 @@
 using Application;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -13,7 +14,10 @@ using WebApi.OptionsSetup;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddApplicationPart(Presentation.AssemblyReference.Assembly);
+builder.Services.RegisterMapsterConfiguration();
+
+builder.Services.AddControllers()
+	.AddApplicationPart(Presentation.AssemblyReference.Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 

@@ -142,4 +142,10 @@ public static class GlobalConstants
 		public const int TitleMaxLength = 80;
 		public const int TitleMinLength = 3;
 	}
+
+	public static class GpXFile
+	{
+		public const string XmlNamespacePattern = 
+			"\\s+xmlns\\s*(:\\w)?\\s*=\\s*\\\"(?<url>[^\\\"]*)\\\"";
+	}
 }
