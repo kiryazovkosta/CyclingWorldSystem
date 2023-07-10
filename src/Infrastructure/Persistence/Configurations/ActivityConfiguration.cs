@@ -28,7 +28,7 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
 			.HasMaxLength(GlobalConstants.Activity.PrivateNotesMaxLength);
 		builder
 			.Property(a => a.Distance)
-			.HasPrecision(GlobalConstants.Activity.DestancePrecision, GlobalConstants.Activity.DestanceScale)
+			.HasPrecision(GlobalConstants.Activity.DistancePrecision, GlobalConstants.Activity.DistanceScale)
 			.IsRequired();
 
 		builder

@@ -20,12 +20,16 @@ public static class MapsterExtensions
 			.NewConfig()
 			.Map(dest => dest.Power, 
 				src => src.Extensions.Power, 
-				srcOpt => srcOpt.Extensions.Power.HasValue)
+				srcOpt => srcOpt.Extensions != null)
 			.Map(dest => dest.Cadance, 
 				src => src.Extensions.TrackPointExtension.Cadance,
-				opt => opt.Extensions.TrackPointExtension.Cadance.HasValue)
-			.Map(dest => dest.HeartRate, src => src.Extensions.TrackPointExtension.HeartRate)
-			.Map(dest => dest.Temperature, src => src.Extensions.TrackPointExtension.Temperature);
+				opt => opt.Extensions != null && opt.Extensions.TrackPointExtension != null)
+			.Map(dest => dest.HeartRate, 
+				src => src.Extensions.TrackPointExtension.HeartRate,
+				opt => opt.Extensions != null && opt.Extensions.TrackPointExtension != null)
+			.Map(dest => dest.Temperature, 
+				src => src.Extensions.TrackPointExtension.Temperature,
+				opt => opt.Extensions != null && opt.Extensions.TrackPointExtension != null);
 			
 		TypeAdapterConfig.GlobalSettings.Scan(
 			Application.AssemblyReference.Assembly,

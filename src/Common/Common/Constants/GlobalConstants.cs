@@ -11,7 +11,7 @@ public static class GlobalConstants
 		public const string ManagerUserName = "Manager";
 		public const string UserUserName = "User";
 
-		public const string DefaultPassword = "P@ssw0rd@a!";
+		public const string DefaultPassword = "P@ssw0rd";
 		public const string DefaultEmailDomain = "@example.com";
 
 		public static string NotFoundMessage = "The provided userName {0} does not exists.";
@@ -37,8 +37,8 @@ public static class GlobalConstants
 		public const int PrivateNotesMaxLength = 255;
 		public const int PrivateNotesMinLength = 10;
 
-		public const int DestancePrecision = 7;
-		public const int DestanceScale = 3;
+		public const int DistancePrecision = 7;
+		public const int DistanceScale = 3;
 	}
 
 	public static class ActivityLike
