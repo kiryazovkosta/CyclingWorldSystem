@@ -13,6 +13,21 @@ public static class DomainErrors
 		command,
 		"You does not have permissions to access this resource");
 
+	public static Error AnUnexpectedError(string command) => new(
+		command,
+		GlobalMessages.GlobalError);
+
+	public static class User
+	{
+		public static Error LogInFailed => new(
+			"LogInUserCommand.LogIn",
+			GlobalConstants.User.FailedToLogInMessage);
+
+		public static Error EmailIsNotConfirmend => new(
+			"LogInUserCommand",
+			GlobalConstants.User.EmailIsNotConfirmend);
+	}
+
 
 	public static class BikeType
 	{

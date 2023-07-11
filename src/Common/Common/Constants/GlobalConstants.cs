@@ -14,7 +14,8 @@ public static class GlobalConstants
 		public const string DefaultPassword = "P@ssw0rd";
 		public const string DefaultEmailDomain = "@example.com";
 
-		public static string NotFoundMessage = "The provided userName {0} does not exists.";
+		public static string FailedToLogInMessage = "Failed to login";
+		public static string EmailIsNotConfirmend = "User is not confirmed";
 	}
 
 	public static class Role

@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
+using System.Reflection.Metadata.Ecma335;
 
 public sealed class AccountsController : ApiController
 {
@@ -18,14 +19,14 @@ public sealed class AccountsController : ApiController
 	}
 
 	[HttpPost("Register")]
-	[ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+	[ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> CreateUser(
 		[FromBody] CreateUserRequest request, CancellationToken cancellationToken)
 	{
 		var command = request.Adapt<CreateUserCommand>();
-		var bikeId = await this.Sender.Send(command, cancellationToken);
-		return Ok(bikeId);
+		var user = await this.Sender.Send(command, cancellationToken);
+		return user.IsSuccess ? Ok(user.Value) : BadRequest(user.Error);
 	}
 
 	[HttpPost("LogIn")]
@@ -36,6 +37,6 @@ public sealed class AccountsController : ApiController
 	{
 		var command = request.Adapt<LogInUserCommand>();
 		var token = await this.Sender.Send(command, cancellationToken);
-		return Ok(token.Value);
+		return token.IsSuccess ? Ok(token.Value) : BadRequest(token.Error);
 	}
 }

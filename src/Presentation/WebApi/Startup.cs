@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.Interseptors;
+using Serilog;
+using System.Diagnostics;
 using System.Text;
 using WebApi.Middlewares;
 using WebApi.OptionsSetup;
@@ -15,9 +17,6 @@ using WebApi.OptionsSetup;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.RegisterMapsterConfiguration();
-
-builder.Services.AddControllers()
-	.AddApplicationPart(Presentation.AssemblyReference.Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -56,8 +55,6 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddApplication();
 
-builder.Services.AddTransient<ExceptionHandlingMiddleware>();
-
 builder.Services.ConfigureOptions<JwtOptionsSetup>();
 builder.Services
 	.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -80,7 +77,14 @@ builder.Services
 		};
 	});
 
-var app = builder.Build();
+var file = File.CreateText(@"C:\Temp\Serylog-Dump.txt");
+Serilog.Debugging.SelfLog.Enable(TextWriter.Synchronized(file));
+
+
+builder.Host.UseSerilog((context, configuration) =>
+	configuration.ReadFrom.Configuration(context.Configuration));
+
+WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
@@ -89,7 +93,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 

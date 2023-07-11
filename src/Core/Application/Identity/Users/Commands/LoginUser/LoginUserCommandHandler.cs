@@ -35,8 +35,12 @@ public class LoginUserCommandHandler
 		LogInUserCommand request, 
 		CancellationToken cancellationToken)
 	{
-		var user = await this._userManager.FindByNameAsync(request.UserName)
-				  ?? throw new UserNotFoundException(request.UserName);
+		var user = await this._userManager.FindByNameAsync(request.UserName);
+		if (user is null)
+		{
+			return Result.Failure<LogInUserResponse>(DomainErrors.User.LogInFailed);
+		}
+
         if (user is not null && !user.IsDeleted)
         {
 			var result = await this._signInManager.PasswordSignInAsync(
@@ -54,10 +58,10 @@ public class LoginUserCommandHandler
 
 		if (!await this._userManager.IsEmailConfirmedAsync(user!))
 		{
-			return Result.Failure<LogInUserResponse>(new Error("", ""));
+			return Result.Failure<LogInUserResponse>(DomainErrors.User.EmailIsNotConfirmend);
 		}
 
-		return Result.Failure<LogInUserResponse>(new Error("", ""));
+		return Result.Failure<LogInUserResponse>(DomainErrors.AnUnexpectedError(nameof(LogInUserCommand)));
 
 
 	}
