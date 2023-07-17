@@ -11,6 +11,7 @@ using Persistence.Interseptors;
 using Serilog;
 using System.Diagnostics;
 using System.Text;
+using WebApi.Extensions;
 using WebApi.Middlewares;
 using WebApi.OptionsSetup;
 
@@ -77,12 +78,10 @@ builder.Services
 		};
 	});
 
-var file = File.CreateText(@"C:\Temp\Serylog-Dump.txt");
-Serilog.Debugging.SelfLog.Enable(TextWriter.Synchronized(file));
-
-
 builder.Host.UseSerilog((context, configuration) =>
 	configuration.ReadFrom.Configuration(context.Configuration));
+
+builder.Services.AddCloudinary(builder.Configuration);
 
 WebApplication app = builder.Build();
 

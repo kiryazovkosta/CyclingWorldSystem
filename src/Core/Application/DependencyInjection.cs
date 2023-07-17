@@ -19,7 +19,7 @@ public static class DependencyInjection
 			config.NotificationPublisher = new TaskWhenAllPublisher();
 		});
 
-		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 		services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 
 		services.AddValidatorsFromAssembly(Application.AssemblyReference.Assembly, includeInternalTypes: true);
@@ -29,6 +29,7 @@ public static class DependencyInjection
 
 		services.AddScoped<IGeoCoordinate, GeoCoordinate>();
 		services.AddScoped<IGpxService, GpxService>();
+		services.AddScoped<ICloudinaryService, CloudinaryService>();
 
 		return services;
 	}

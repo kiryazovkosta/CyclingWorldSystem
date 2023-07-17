@@ -20,11 +20,11 @@ public sealed class JwtProvider : IJwtProvider
 		this._jWtOptions = jwtOptions.Value ?? throw new ArgumentNullException(nameof(jwtOptions));
 	}
 
-	public string CreateToken(User user)
+	public string CreateToken(User user, IEnumerable<string> roles)
 	{
 		var expiration = DateTime.UtcNow.AddMinutes(this._jWtOptions.ExpirationMinutes);
 		var token = CreateJwtToken(
-			CreateClaims(user),
+			CreateClaims(user, roles),
 			CreateSigningCredentials(),
 			expiration
 		);
@@ -42,7 +42,7 @@ public sealed class JwtProvider : IJwtProvider
 			signingCredentials: credentials
 		);
 
-	private List<Claim> CreateClaims(User user)
+	private List<Claim> CreateClaims(User user, IEnumerable<string> roles)
 	{
 		try
 		{
@@ -50,10 +50,16 @@ public sealed class JwtProvider : IJwtProvider
 				{
 					new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
 					new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
-					new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-					new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-					new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
+					new Claim("identifier", user.Id.ToString()),
+					new Claim("email", user.Email!),
+					new Claim("username", user.UserName!),
 				};
+			
+			foreach (var role in roles) 
+			{
+				claims.Add(new Claim("role", role));
+            }
+
 			return claims;
 		}
 		catch (Exception e)

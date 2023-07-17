@@ -2,6 +2,16 @@
 
 public static class GlobalConstants
 {
+	public static class Cloudinary
+	{
+		public static IReadOnlyList<string> ValidImagesTypes 
+			=> new string[] { "image/x-png", "image/gif", "image/jpeg", "image/jpg", "image/png", "image/gif" };
+
+		public const string DefaultAvatar =
+			@"http://res.cloudinary.com/dfn7thtsx/image/upload/v1689354492/mavwuuktroa19e3syh3i.png";
+
+    }
+
     public static class User
     {
         public const int FirstNameMaxLength = 50;
@@ -14,8 +24,8 @@ public static class GlobalConstants
 		public const string DefaultPassword = "P@ssw0rd";
 		public const string DefaultEmailDomain = "@example.com";
 
-		public static string FailedToLogInMessage = "Failed to login";
-		public static string EmailIsNotConfirmend = "User is not confirmed";
+		public static readonly string FailedToLogInMessage = "Failed to login";
+		public static string EmailIsNotConfirmed = "User is not confirmed";
 	}
 
 	public static class Role
@@ -102,7 +112,7 @@ public static class GlobalConstants
 		public const string TableName = "Images";
 
 		public const int UrlMaxLength = 2048;
-	}
+    }
 
 	public static class TrainingPlan
 	{

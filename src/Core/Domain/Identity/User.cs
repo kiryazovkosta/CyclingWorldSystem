@@ -1,5 +1,6 @@
 ﻿namespace Domain.Identity;
 
+using Common.Constants;
 using Domain.Entities;
 using Domain.Primitives;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,7 @@ public class User : IdentityUser<Guid>, IAuditableEntity, IDeletableEntity
 
     public string LastName { get; init; } = null!;
 
-	public string ImageUrl { get; set; } = null!;
+	public string ImageUrl { get; set; } = GlobalConstants.Cloudinary.DefaultAvatar;
 
 	public ICollection<Activity> Activities { get; set; } = new HashSet<Activity>();
 

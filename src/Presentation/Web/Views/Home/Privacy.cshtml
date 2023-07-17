@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>
+
+<ul>
+    @{
+        var claims = Context.User.Claims;
+        foreach (var claim in claims)
+        {
+            <li>@claim.Type : @claim.Value</li>
+        }
+
+    }
+
+</ul>

@@ -1,10 +1,6 @@
 ﻿namespace Application.Identity.Users.Models;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 public sealed record CreateUserRequest(
 	string UserName,
@@ -13,4 +9,5 @@ public sealed record CreateUserRequest(
 	string ConfirmPassword,
 	string FirstName,
 	string? MiddleName,
-	string LastName);
+	string LastName,
+	IFormFile? Avatar);

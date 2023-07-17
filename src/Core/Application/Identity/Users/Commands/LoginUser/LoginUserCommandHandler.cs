@@ -41,7 +41,7 @@ public class LoginUserCommandHandler
 			return Result.Failure<LogInUserResponse>(DomainErrors.User.LogInFailed);
 		}
 
-        if (user is not null && !user.IsDeleted)
+        if (!user.IsDeleted)
         {
 			var result = await this._signInManager.PasswordSignInAsync(
 				request.UserName, 
@@ -51,14 +51,16 @@ public class LoginUserCommandHandler
 
 			if (result.Succeeded)
 			{
-				var token = this._jwkProvider.CreateToken(user);
+                var roles = await this._userManager.GetRolesAsync(user);
+
+                var token = this._jwkProvider.CreateToken(user, roles);
 				return Result.Success(new LogInUserResponse(user.UserName!, user!.Email!, token));
 			}
 		}
 
 		if (!await this._userManager.IsEmailConfirmedAsync(user!))
 		{
-			return Result.Failure<LogInUserResponse>(DomainErrors.User.EmailIsNotConfirmend);
+			return Result.Failure<LogInUserResponse>(DomainErrors.User.EmailIsNotConfirmed);
 		}
 
 		return Result.Failure<LogInUserResponse>(DomainErrors.AnUnexpectedError(nameof(LogInUserCommand)));

@@ -1,5 +1,7 @@
 ﻿using Application.Entities.GpxFiles.Models;
+using Application.Identity.Users.Commands.CreateUser;
 using Domain.Entities.GpxFile;
+using Domain.Identity;
 using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,8 +32,12 @@ public static class MapsterExtensions
 			.Map(dest => dest.Temperature, 
 				src => src.Extensions.TrackPointExtension.Temperature,
 				opt => opt.Extensions != null && opt.Extensions.TrackPointExtension != null);
-			
-		TypeAdapterConfig.GlobalSettings.Scan(
+
+		TypeAdapterConfig<CreateUserCommand, User>
+			.NewConfig()
+			.Ignore(dest => dest.ImageUrl);
+
+        TypeAdapterConfig.GlobalSettings.Scan(
 			Application.AssemblyReference.Assembly,
 			Domain.AssemblyReference.Assembly);
 	}

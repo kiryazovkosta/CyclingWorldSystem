@@ -22,10 +22,9 @@ public sealed class AccountsController : ApiController
 	[ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IActionResult> CreateUser(
-		[FromBody] CreateUserRequest request, CancellationToken cancellationToken)
+		[FromForm] CreateUserCommand request, CancellationToken cancellationToken)
 	{
-		var command = request.Adapt<CreateUserCommand>();
-		var user = await this.Sender.Send(command, cancellationToken);
+		var user = await this.Sender.Send(request, cancellationToken);
 		return user.IsSuccess ? Ok(user.Value) : BadRequest(user.Error);
 	}
 

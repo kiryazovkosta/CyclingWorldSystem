@@ -23,10 +23,18 @@ public static class DomainErrors
 			"LogInUserCommand.LogIn",
 			GlobalConstants.User.FailedToLogInMessage);
 
-		public static Error EmailIsNotConfirmend => new(
+		public static Error EmailIsNotConfirmed => new(
 			"LogInUserCommand",
-			GlobalConstants.User.EmailIsNotConfirmend);
+			GlobalConstants.User.EmailIsNotConfirmed);
 	}
+
+	public static class Image
+	{
+		public static Error InvalidFileType => new(
+			"Image.Create.File",
+			GlobalMessages.Image.FileTypeIsInvalid);
+
+    }
 
 
 	public static class BikeType

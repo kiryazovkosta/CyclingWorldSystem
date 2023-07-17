@@ -23,6 +23,7 @@ public sealed class BikesController : ApiController
     }
 
 	[HttpGet("{id:guid}")]
+	[Authorize]
 	[ProducesResponseType(typeof(BikeResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
 	public async Task<IResult> GetBikeById(

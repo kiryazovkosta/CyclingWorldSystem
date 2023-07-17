@@ -8,5 +8,9 @@ public class CreateUserCommandValidator
 	public CreateUserCommandValidator()
 	{
 		this.RuleFor(user => user.UserName).NotEmpty();
+
+		this.RuleFor(user => user.Password)
+			.Equal(user => user.ConfirmPassword)
+			.NotEmpty();
 	}
 }
