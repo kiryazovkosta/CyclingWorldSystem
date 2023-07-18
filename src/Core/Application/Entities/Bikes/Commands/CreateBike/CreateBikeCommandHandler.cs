@@ -12,7 +12,7 @@ using Application.Interfaces;
 using Domain.Errors;
 
 public sealed class CreateBikeCommandHandler 
-	: ICommandHandler<CreateBikeCommand, Bike>
+	: ICommandHandler<CreateBikeCommand, Guid>
 {
 	private readonly IBikeRepository _bikeRepository;
 	private readonly ICurrentUserService _currentUserService;
@@ -28,12 +28,12 @@ public sealed class CreateBikeCommandHandler
 		_unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 	}
 
-	public async Task<Result<Bike>> Handle(CreateBikeCommand request, CancellationToken cancellationToken)
+	public async Task<Result<Guid>> Handle(CreateBikeCommand request, CancellationToken cancellationToken)
 	{
 		Guid userId = this._currentUserService.GetCurrentUserId();
 		if (userId == Guid.Empty)
 		{
-			return Result.Failure<Bike>(
+			return Result.Failure<Guid>(
 				DomainErrors.UnauthorizedAccess(
 					nameof(CreateBikeCommand)));
 		}
@@ -48,12 +48,12 @@ public sealed class CreateBikeCommandHandler
 			userId);
 		if (bikeResult.IsFailure) 
 		{
-			return Result.Failure<Bike>(bikeResult.Error);
+			return Result.Failure<Guid>(bikeResult.Error);
 		}
 		
 		var bike = bikeResult.Value;
 		_bikeRepository.Add(bike);
 		await _unitOfWork.SaveChangesAsync(cancellationToken);
-		return bike;
+		return bike.Id;
 	}
 }

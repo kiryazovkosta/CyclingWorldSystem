@@ -16,4 +16,13 @@
       <Folder Include="Areas\Manage\Models\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="wwwroot\js\confirm.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\js\cusom\confirm.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

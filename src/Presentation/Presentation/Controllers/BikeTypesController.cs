@@ -3,16 +3,19 @@ using Application.Entities.BikeTypes.Commands.CreateBikeType;
 using Application.Entities.BikeTypes.Commands.DeleteBikeType;
 using Application.Entities.BikeTypes.Commands.UpdateBikeType;
 using Application.Entities.BikeTypes.Models;
+using Application.Entities.BikeTypes.Queries.ExistsBikeTypeById;
 using Application.Entities.BikeTypes.Queries.GetAllBikeTypes;
 using FluentValidation;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+[Authorize]
 public class BikeTypesController : ApiController
 {
 	public BikeTypesController(ISender sender) 
@@ -78,4 +81,18 @@ public class BikeTypesController : ApiController
 		var result = await this.Sender.Send(command, cancellationToken);
 		return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
 	}
+
+
+    [HttpGet("Exists")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IResult> ExistsById(
+		[FromQuery] ExistsBikeTypeByIsQuery request,
+		CancellationToken cancellationToken)
+    {
+        var command = request.Adapt<ExistsBikeTypeByIsQuery>();
+        var result = await this.Sender.Send(command, cancellationToken);
+        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
+    }
+
 }

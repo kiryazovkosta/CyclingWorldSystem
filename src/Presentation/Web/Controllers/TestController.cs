@@ -27,7 +27,7 @@ namespace Web.Controllers
 			{
 				return RedirectToAction("LogIn", "Account");
 			}
-			var bikesResponse = await this.GetAsync<IEnumerable<BikeTypeResponse>>("/api/BikeTypes", token);
+			var bikesResponse = await this.GetAsync<IEnumerable<BikeTypeViewModel>>("/api/BikeTypes", token);
 			if (bikesResponse.IsFailure)
 			{
 				return View();

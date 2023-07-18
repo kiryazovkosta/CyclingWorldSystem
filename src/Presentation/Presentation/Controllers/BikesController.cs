@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 public sealed class BikesController : ApiController
 {
@@ -39,10 +38,10 @@ public sealed class BikesController : ApiController
 	[Authorize]
 	[ProducesResponseType(typeof(BikeResponse), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	public async Task<IActionResult> GetBikes(
-		CancellationToken cancellationToken)
+	public async Task<IActionResult> GetBikesByUser(
+        [FromQuery] GetBikesPerUserQuery query,
+        CancellationToken cancellationToken)
 	{
-		var query = new GetBikesQuery();
 		var result = await this.Sender.Send(query, cancellationToken);
 		return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
 	}

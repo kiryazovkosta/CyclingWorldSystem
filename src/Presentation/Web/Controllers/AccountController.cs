@@ -83,7 +83,7 @@ public class AccountController : AuthorizationController
             Secure = false,
             SameSite = SameSiteMode.Strict,
             Domain = "localhost",
-            Expires = DateTime.UtcNow.AddMinutes(15)
+            Expires = DateTime.UtcNow.AddMinutes(119)
         };
 
         var cookieName = base.Configuration["Backend:JwtTokenName"] ?? string.Empty;

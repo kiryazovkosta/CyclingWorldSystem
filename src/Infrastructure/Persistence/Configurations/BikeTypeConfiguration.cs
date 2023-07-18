@@ -23,5 +23,5 @@ public class BikeTypeConfiguration : IEntityTypeConfiguration<BikeType>
 			.WithOne(bike => bike.BikeType)
 			.HasForeignKey(bike => bike.BikeTypeId)
 			.IsRequired();
-	}
+    }
 }

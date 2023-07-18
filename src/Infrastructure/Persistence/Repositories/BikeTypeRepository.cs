@@ -47,7 +47,14 @@ public class BikeTypeRepository : IBikeTypeRepository
 			.AnyAsync(pt => pt.Name == name, cancellationToken);
 	}
 
-	public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await this._context
+			.Set<BikeType>()
+			.AnyAsync(pt => pt.Id == id, cancellationToken);
+    }
+
+    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
 	{
 		var bikeType = await GetByIdAsync(id, cancellationToken);
         if (bikeType is not null)

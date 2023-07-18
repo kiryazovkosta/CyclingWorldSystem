@@ -10,7 +10,10 @@ public interface IBikeTypeRepository
 
 	Task<bool> ExistsAsync(string name, CancellationToken cancellationToken = default);
 
-	Task<BikeType?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+	Task<bool> ExistsByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+
+    Task<BikeType?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
 	Task<IEnumerable<BikeType>> GetAllAsync(CancellationToken cancellationToken = default);
 

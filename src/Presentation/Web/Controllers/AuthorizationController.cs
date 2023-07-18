@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Security.Claims;
 using Web.Models.Response;
 
 namespace Web.Controllers
@@ -29,7 +31,9 @@ namespace Web.Controllers
 		public IHttpContextAccessor HttpContextAccessor => _httpContextAccessor;
 
         public async Task<EndpointResponse<TOutput>> GetAsync<TOutput>(
-			string endpoint, string? token = null)
+            string endpoint,
+            string? token = null,
+            Dictionary<string, string>? parameters = null)
         {
 			var response = new EndpointResponse<TOutput>();
 
@@ -39,6 +43,11 @@ namespace Web.Controllers
                 client.DefaultRequestHeaders.Authorization
                     = new AuthenticationHeaderValue("Bearer", token);
             }
+            if (parameters is not null && parameters.Any())
+            {
+                endpoint = QueryHelpers.AddQueryString(endpoint, parameters!);
+            }
+
             var httpResponse = await client.GetAsync(endpoint);
 			response.IsSuccess = httpResponse.IsSuccessStatusCode;
 			if (httpResponse.IsSuccessStatusCode)
@@ -77,6 +86,50 @@ namespace Web.Controllers
 			return response;
 		}
 
+
+        public async Task<EndpointResponse<Guid>> PutAsync<TInput>(
+            string endpoint, TInput model, string? token = null)
+        {
+            var response = new EndpointResponse<Guid>();
+            if (model is not null)
+            {
+                var client = this.HttpClientFactory.CreateClient("webApi");
+                if (token is not null)
+                {
+                    client.DefaultRequestHeaders.Authorization
+                        = new AuthenticationHeaderValue("Bearer", token);
+                }
+                var httpResponse = await client.PutAsJsonAsync<TInput>(endpoint, model!);
+                response.IsSuccess = httpResponse.IsSuccessStatusCode;
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    response.Error = await httpResponse.Content.ReadAsStringAsync();
+                }
+            }
+
+            return response;
+        }
+
+
+
+        public async Task DeleteAsync(
+            string endpoint, Guid id, string? token = null)
+        {
+            var response = new EndpointResponse<Guid>();
+            var client = this.HttpClientFactory.CreateClient("webApi");
+            if (token is not null)
+            {
+                client.DefaultRequestHeaders.Authorization
+                    = new AuthenticationHeaderValue("Bearer", token);
+            }
+            var httpResponse = await client.DeleteAsync(endpoint + id.ToString());
+            response.IsSuccess = httpResponse.IsSuccessStatusCode;
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                response.Error = await httpResponse.Content.ReadAsStringAsync();
+            }
+        }
+
         public async Task<EndpointResponse<TOutput>> PostMultipartAsync<TInput, TOutput>(
             string endpoint, TInput input, string? token = null)
         {
@@ -92,8 +145,6 @@ namespace Web.Controllers
 
             PropertyInfo[] properties = typeof(TInput)
 				.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            
-            //var files = new List<FormFile>();
 
 			using var content = new MultipartFormDataContent();
             foreach (var property in properties)
@@ -123,13 +174,6 @@ namespace Web.Controllers
                 }
             }
 
-            //foreach (var file in files)
-            //{
-            //    var stream = file.OpenReadStream();
-            //    fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-            //    content.Add(new StreamContent(stream), file.Name, file.FileName);
-            //}
-
             request.Content = content;
 
             var httpResponse = await client.SendAsync(request);
@@ -152,5 +196,14 @@ namespace Web.Controllers
             var jwtToken = this._httpContextAccessor.HttpContext?.Request?.Cookies[cookieName];
 			return jwtToken;
 		}
-	}
+
+        public string CurrentUserId()
+        {
+            string id =
+                this.HttpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)
+                ?? string.Empty;
+            return id;
+        }
+            
+    }
 }

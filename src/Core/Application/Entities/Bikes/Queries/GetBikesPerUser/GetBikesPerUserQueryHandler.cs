@@ -9,20 +9,20 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class GetBikesQueryHandler
-	: IQueryHandler<GetBikesQuery, List<SimpleBikeResponse>>
+public class GetBikesPerUserQueryHandler
+	: IQueryHandler<GetBikesPerUserQuery, List<BikeResponse>>
 {
 	private readonly IBikeRepository _bikeRepository;
 
-	public GetBikesQueryHandler(IBikeRepository bikeRepository)
+	public GetBikesPerUserQueryHandler(IBikeRepository bikeRepository)
 	{
 		_bikeRepository = bikeRepository ?? throw new ArgumentNullException(nameof(bikeRepository));
 	}
 
-	public async Task<Result<List<SimpleBikeResponse>>> Handle(GetBikesQuery request, CancellationToken cancellationToken)
+	public async Task<Result<List<BikeResponse>>> Handle(GetBikesPerUserQuery request, CancellationToken cancellationToken)
 	{
-		var bikes = await _bikeRepository.GetAllAsync(cancellationToken);
-		var response = bikes.Adapt<List<SimpleBikeResponse>>();
+		var bikes = await _bikeRepository.GetAllByUserAsync(request.UserId, cancellationToken);
+		var response = bikes.Adapt<List<BikeResponse>>();
 		return response;
 	}
 }

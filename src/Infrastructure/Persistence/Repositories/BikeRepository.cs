@@ -4,6 +4,8 @@ using Domain.Repositories;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using Domain.Entities.Dtos;
 
 public sealed class BikeRepository : IBikeRepository
 {
@@ -28,13 +30,19 @@ public sealed class BikeRepository : IBikeRepository
 			.FirstOrDefaultAsync(b => b.Id == id, cancellationToken);
 	}
 
-	public async Task<IEnumerable<Bike>> GetAllAsync(CancellationToken cancellationToken = default)
-	{
-		return await this._dbContext
+    public async Task<List<BikeResponseDto>> GetAllByUserAsync(
+		Guid userId, 
+		CancellationToken cancellationToken = default)
+    {
+        return await this._dbContext
 			.Set<Bike>()
 			.AsNoTracking()
+			.Include(b => b.BikeType)
+			.Where(b => b.UserId == userId)
+			.Select(b => 
+				new BikeResponseDto(b.Id, b.Name, b.BikeTypeId, b.BikeType.Name, b.Weight, b.Brand, b.Model, b.Notes, b.UserId))
 			.ToListAsync(cancellationToken);
-	}
+    }
 
 	public void Delete(Bike bike)
 	{

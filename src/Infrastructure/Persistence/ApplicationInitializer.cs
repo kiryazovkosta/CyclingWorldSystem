@@ -2,6 +2,7 @@
 using Domain.Identity;
 using Domain.Repositories.Abstractions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -106,9 +107,11 @@ public class ApplicationInitializer
 	{
 		await SeedRoles();
 		await SeedUsers();
+		//await SeedTestData();
 	}
 
-	private async Task SeedUsers()
+
+    private async Task SeedUsers()
 	{
 		foreach (var user in users)
 		{

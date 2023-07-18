@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Dtos;
 
 namespace Domain.Repositories;
 
@@ -8,7 +9,7 @@ public interface IBikeRepository
 
 	Task<Bike?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-	Task<IEnumerable<Bike>> GetAllAsync(CancellationToken cancellationToken = default);
+	Task<List<BikeResponseDto>> GetAllByUserAsync(Guid userId, CancellationToken cancellationToken = default);
 
 	void Update(Bike bike);
 
