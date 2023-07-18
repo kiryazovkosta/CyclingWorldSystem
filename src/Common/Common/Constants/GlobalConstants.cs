@@ -24,9 +24,9 @@ public static class GlobalConstants
 		public const string DefaultPassword = "P@ssw0rd";
 		public const string DefaultEmailDomain = "@example.com";
 
-		public static readonly string FailedToLogInMessage = "Failed to login";
-		public static string EmailIsNotConfirmed = "User is not confirmed";
-	}
+		public const string FailedToLogInMessage = "Failed to login";
+		public const string EmailIsNotConfirmed = "User is not confirmed";
+    }
 
 	public static class Role
 	{
