@@ -97,17 +97,30 @@ public class BikeRepositoryTests : IDisposable
     }
     
     [Fact]
-    public void Delete_ShouldDeleteBikeToDbContext()
+    public async Task Delete_ShouldDeleteBikeToDbContext()
     {
         // Arrange
         var repository = new BikeRepository(this._context);
-        var bike = this._context.Set<Bike>().First();
+        var bikeId = this._context.Set<Bike>().First().Id;
         
         // Act
-        repository.Delete(bike);
+        var result = await repository.DeleteAsync(bikeId, CancellationToken.None);
 
         // Assert
-        Assert.NotNull(bike);
+        Assert.True(result);
+    }
+    
+    [Fact]
+    public async Task Delete_ShouldNotDeleteBikeToDbContext()
+    {
+        // Arrange
+        var repository = new BikeRepository(this._context);
+
+        // Act
+        var result = await repository.DeleteAsync(Guid.NewGuid(), CancellationToken.None);
+
+        // Assert
+        Assert.False(result);
     }
     
     [Fact]

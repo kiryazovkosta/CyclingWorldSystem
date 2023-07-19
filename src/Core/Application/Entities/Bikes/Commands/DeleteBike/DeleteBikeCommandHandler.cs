@@ -1,6 +1,6 @@
 ﻿namespace Application.Entities.Bikes.Commands.DeleteBike;
 
-using Application.Abstractions.Messaging;
+using Abstractions.Messaging;
 using Domain.Repositories;
 using Domain.Errors;
 using Domain.Repositories.Abstractions;
@@ -23,14 +23,13 @@ public class DeleteBikeCommandHandler
 		DeleteBikeCommand request, 
 		CancellationToken cancellationToken)
 	{
-		var bike = await _bikeRepository.GetByIdAsync(request.Id, cancellationToken);
-		if (bike is null)
+		var deleteResult = await this._bikeRepository.DeleteAsync(request.Id, cancellationToken);
+		if (!deleteResult)
 		{
 			return Result.Failure<Unit>(DomainErrors.Bike.BikeDoesNotExists(request.Id));
 		}
-
-		_bikeRepository.Delete(bike);
-		await _unitOfWork.SaveChangesAsync(cancellationToken);
+		
+		await this._unitOfWork.SaveChangesAsync(cancellationToken);
 		return Result.Success();
 	}
 }

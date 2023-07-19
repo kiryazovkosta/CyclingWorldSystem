@@ -44,11 +44,19 @@ public sealed class BikeRepository : IBikeRepository
 			.ToListAsync(cancellationToken);
     }
 
-	public void Delete(Bike bike)
+	public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
 	{
+		var bike = await this.GetByIdAsync(id, cancellationToken);
+		if (bike is null)
+		{
+			return false;
+		}
+		
 		this._dbContext
 			.Set<Bike>()
 			.Remove(bike);
+		return true;
+
 	}
 
 	public void Update(Bike bike)

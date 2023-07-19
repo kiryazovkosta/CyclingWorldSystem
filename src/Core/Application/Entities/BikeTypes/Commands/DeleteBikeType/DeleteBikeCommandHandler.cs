@@ -7,23 +7,24 @@ using Domain.Repositories.Abstractions;
 using Domain.Shared;
 using System;
 using System.Threading.Tasks;
+using Bikes.Commands.DeleteBike;
 
-public class DeleteBikeCommandHandler : ICommandHandler<DeleteBikeTypeCommand>
+public class DeleteBikeCommandHandler : ICommandHandler<DeleteBikeCommand>
 {
-	private readonly IBikeTypeRepository _productTypeRepository;
+	private readonly IBikeRepository _bikeRepository;
 	private readonly IUnitOfWork _unitOfWork;
 
 	public DeleteBikeCommandHandler(
-		IBikeTypeRepository productTypeRepository, 
+		IBikeRepository bikeRepository, 
 		IUnitOfWork unitOfWork)
 	{
-		_productTypeRepository = productTypeRepository ?? throw new ArgumentNullException(nameof(productTypeRepository));
+		_bikeRepository = bikeRepository ?? throw new ArgumentNullException(nameof(bikeRepository));
 		_unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 	}
 
-	public async Task<Result> Handle(DeleteBikeTypeCommand request, CancellationToken cancellationToken)
+	public async Task<Result> Handle(DeleteBikeCommand request, CancellationToken cancellationToken)
 	{
-		var result = await _productTypeRepository.DeleteAsync(request.Id, cancellationToken);
+		var result = await _bikeRepository.DeleteAsync(request.Id, cancellationToken);
 		if (!result)
 		{
 			return Result.Failure(DomainErrors.DeleteOperationFailed(request.Id, "DeleteBikeCommandHandler"));

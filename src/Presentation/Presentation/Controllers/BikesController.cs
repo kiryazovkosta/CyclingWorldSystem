@@ -5,7 +5,7 @@ using Application.Entities.Bikes.Commands.DeleteBike;
 using Application.Entities.Bikes.Commands.UpdateBike;
 using Application.Entities.Bikes.Models;
 using Application.Entities.Bikes.Queries.GetBikeById;
-using Application.Entities.Bikes.Queries.GetBikes;
+using Application.Entities.Bikes.Queries.GetBikesPerUser;
 using FluentValidation;
 using Mapster;
 using MediatR;

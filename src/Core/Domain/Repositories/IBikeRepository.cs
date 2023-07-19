@@ -13,5 +13,5 @@ public interface IBikeRepository
 
 	void Update(Bike bike);
 
-	void Delete(Bike bike);
+	Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 }

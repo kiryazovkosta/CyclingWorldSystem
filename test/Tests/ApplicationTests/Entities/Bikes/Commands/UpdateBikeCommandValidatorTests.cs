@@ -8,24 +8,26 @@
 
 namespace Tests.ApplicationTests.Entities.Bikes.Commands;
 
-using Application.Entities.Bikes.Commands.CreateBike;
+using Application.Entities.Bikes.Commands.UpdateBike;
 
-public class CreateBikeCommandValidatorTests
+public class UpdateBikeCommandValidatorTests
 {
-    private readonly CreateBikeCommandValidator _validator;
+    private readonly UpdateBikeCommandValidator _validator;
+    private readonly Guid bikeId;
 
-    public CreateBikeCommandValidatorTests()
+    public UpdateBikeCommandValidatorTests()
     {
-        this._validator = new CreateBikeCommandValidator();
+        this._validator = new UpdateBikeCommandValidator();
+        this.bikeId = Guid.NewGuid();
     }
 
     [Fact]
-    public void CreateBikeCommandValidator_Should_NoValidationErrorsWhenInputIsValid()
+    public void UpdateBikeCommandValidator_Should_NoValidationErrorsWhenInputIsValid()
     {
         // Arrange
         var type = Guid.NewGuid();
         var user = TestsContants.UserUserId;
-        var command = new CreateBikeCommand("Name", type, 8.5m, "Brand", "Model", "Notes");
+        var command = new UpdateBikeCommand(bikeId, "Name", type, 8.5m, "Brand", "Model", "Notes");
         
         // Act
         var errors = this._validator.Validate(command).Errors;
@@ -38,13 +40,13 @@ public class CreateBikeCommandValidatorTests
     [InlineData("", "NotEmptyValidator")]
     [InlineData("aa", "MinimumLengthValidator")]
     [InlineData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "MaximumLengthValidator")]
-    public void CreateBikeCommandValidator_Should_WhenNameIsInvalid(
+    public void UpdateBikeCommandValidator_Should_WhenNameIsInvalid(
         string name, 
         string message)
     {
         // Arrange
         var type = Guid.NewGuid();
-        var command = new CreateBikeCommand(name, type, 8.5m, "Brand", "Model", "Notes");
+        var command = new UpdateBikeCommand(bikeId, name, type, 8.5m, "Brand", "Model", "Notes");
 
         // Act
         var errors = this._validator.Validate(command).Errors;
@@ -56,11 +58,11 @@ public class CreateBikeCommandValidatorTests
     }
     
     [Fact]
-    public void CreateBikeCommandValidator_Should_WhenBikeTypeIsInvalid()
+    public void UpdateBikeCommandValidator_Should_WhenBikeTypeIsInvalid()
     {
         // Arrange
         var type = Guid.Empty;
-        var command = new CreateBikeCommand("name", type, 8.5m, "Brand", "Model", "Notes");
+        var command = new UpdateBikeCommand(bikeId,"name", type, 8.5m, "Brand", "Model", "Notes");
 
         // Act
         var errors = this._validator.Validate(command).Errors;
@@ -78,14 +80,14 @@ public class CreateBikeCommandValidatorTests
     [Theory]
     [InlineData("-0.1", "GreaterThanOrEqualValidator")]
     [InlineData("100.0", "LessThanOrEqualValidator")]
-    public void CreateBikeCommandValidator_Should_HaveErrorWhenWeightIsInvalid(
+    public void UpdateBikeCommandValidator_Should_HaveErrorWhenWeightIsInvalid(
         string number, 
         string message)
     {
         // Arrange
         var weight = Convert.ToDecimal(number);
         var type = Guid.NewGuid();
-        var command = new CreateBikeCommand("name", type, weight, "Brand", "Model", "Notes");
+        var command = new UpdateBikeCommand(bikeId,"name", type, weight, "Brand", "Model", "Notes");
 
         // Act
         var errors = this._validator.Validate(command).Errors;
@@ -100,13 +102,13 @@ public class CreateBikeCommandValidatorTests
     [InlineData("", "NotEmptyValidator")]
     [InlineData("a", "MinimumLengthValidator")]
     [InlineData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "MaximumLengthValidator")]
-    public void CreateBikeCommandValidator_Should_ReturnsErrorWhenBrandIsInvalid(
+    public void UpdateBikeCommandValidator_Should_ReturnsErrorWhenBrandIsInvalid(
         string brand, 
         string message)
     {
         // Arrange
         var type = Guid.NewGuid();
-        var command = new CreateBikeCommand("name", type, 8.5m, brand, "Model", "Notes");
+        var command = new UpdateBikeCommand(bikeId,"name", type, 8.5m, brand, "Model", "Notes");
 
         // Act
         var errors = this._validator.Validate(command).Errors;
@@ -121,13 +123,13 @@ public class CreateBikeCommandValidatorTests
     [InlineData("", "NotEmptyValidator")]
     [InlineData("a", "MinimumLengthValidator")]
     [InlineData("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "MaximumLengthValidator")]
-    public void CreateBikeCommandValidator_Should_ReturnsErrorWhenModelIsInvalid(
+    public void UpdateBikeCommandValidator_Should_ReturnsErrorWhenModelIsInvalid(
         string model, 
         string message)
     {
         // Arrange
         var type = Guid.NewGuid();
-        var command = new CreateBikeCommand("name", type, 8.5m, "brand", model, "Notes");
+        var command = new UpdateBikeCommand(bikeId,"name", type, 8.5m, "brand", model, "Notes");
 
         // Act
         var errors = this._validator.Validate(command).Errors;

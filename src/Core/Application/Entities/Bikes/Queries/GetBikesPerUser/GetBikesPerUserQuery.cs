@@ -1,6 +1,6 @@
-﻿using Application.Abstractions.Messaging;
-using Application.Entities.Bikes.Models;
+﻿namespace Application.Entities.Bikes.Queries.GetBikesPerUser;
 
-namespace Application.Entities.Bikes.Queries.GetBikes;
+using Application.Abstractions.Messaging;
+using Application.Entities.Bikes.Models;
 
 public sealed record GetBikesPerUserQuery(Guid UserId) : IQuery<List<BikeResponse>>;

@@ -3,7 +3,6 @@
 namespace Presentation.Controllers;
 
 using Application.Entities.Bikes.Models;
-using Application.Entities.Bikes.Queries.GetBikes;
 using Application.Entities.GpxFiles.Commands.ParseGpxFile;
 using Application.Entities.GpxFiles.Models;
 using Application.Services;
