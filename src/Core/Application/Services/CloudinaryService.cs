@@ -89,4 +89,16 @@ public class CloudinaryService : ICloudinaryService
 
         return url;
     }
+    
+    public async Task<List<string>> UploadMultiAsync(List<IFormFile> files)
+    {
+        var result = new List<string>();
+        foreach (var file in files)
+        {
+            var url = await this.UploadAsync(file);
+            result.Add(url);
+        }
+
+        return result;
+    } 
 }

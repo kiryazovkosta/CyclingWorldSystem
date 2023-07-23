@@ -3,4 +3,4 @@
 using Application.Abstractions.Messaging;
 using Application.Entities.GpxFiles.Models;
 
-public sealed record ParseGpxFileCommand(string Xml) : ICommand<GpxFileResponse>;
+public sealed record ParseGpxFileCommand(string GpxFile) : ICommand<GpxFileResponse>;

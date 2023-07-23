@@ -54,6 +54,7 @@ namespace Web.Controllers
 
             var bikeModel = new BikeInputModel() 
             { 
+                Id = Guid.Empty.ToString(),
                 UserId = this.CurrentUserId(), 
                 BikeTypes = bikeTypes.Value!
             };
@@ -90,7 +91,7 @@ namespace Web.Controllers
                 return View();
             }
 
-            await this.PostAsync<BikeInputModel,Guid>("/api/Bikes", bikeModel, token);
+            await this.PostAsync<BikeInputModel, Guid>("/api/Bikes", bikeModel, token);
             return RedirectToAction("All", "Bikes");
         }
 
@@ -137,7 +138,7 @@ namespace Web.Controllers
             }
 
             var result = await this.PutAsync<BikeInputModel>("/api/Bikes", bikeModel, token);
-            return RedirectToAction("All", "Bike");
+            return RedirectToAction("All", "Bikes");
         }
 
         [HttpPost]
@@ -150,7 +151,7 @@ namespace Web.Controllers
             }
 
             await this.DeleteAsync("/api/Bikes/", Guid.Parse(id), token);
-            return RedirectToAction("All", "Bike");
+            return RedirectToAction("All", "Bikes");
         }
     }
 }

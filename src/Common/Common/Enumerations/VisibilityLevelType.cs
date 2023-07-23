@@ -1,5 +1,6 @@
 ﻿namespace Common.Enumerations;
 
+[Flags]
 public enum VisibilityLevelType
 {
 	All = 0,

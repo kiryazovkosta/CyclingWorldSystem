@@ -1,21 +1,29 @@
 using Application;
-using FluentValidation;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
-using Persistence.Interseptors;
 using Serilog;
-using System.Diagnostics;
+using System.IO.Compression;
 using System.Text;
 using WebApi.Extensions;
-using WebApi.Middlewares;
 using WebApi.OptionsSetup;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddResponseCompression(options =>
+{
+	//options.MimeTypes = new[] { "application/json" };
+	options.Providers.Add<GzipCompressionProvider>();
+});
+
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.SmallestSize;
+});
 
 builder.Services.RegisterMapsterConfiguration();
 
@@ -84,6 +92,8 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddCloudinary(builder.Configuration);
 
 WebApplication app = builder.Build();
+
+app.UseResponseCompression();
 
 if (app.Environment.IsDevelopment())
 {

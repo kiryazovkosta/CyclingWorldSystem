@@ -33,9 +33,8 @@ public class WaypointConfiguration : IEntityTypeConfiguration<Waypoint>
 
 		// Indexes
 		builder
-			.HasIndex(w => new{ w.ActivityId, w.OrderIndex})
-			.HasDatabaseName("UX_Waypoints_ActivityOrderIndex")
-			.IsUnique();
+			.HasIndex(w => new { w.ActivityId, w.OrderIndex })
+			.HasDatabaseName("UX_Waypoints_ActivityOrderIndex");
 
 		// Relations
 		builder

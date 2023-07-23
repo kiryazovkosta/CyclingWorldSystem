@@ -1,16 +1,13 @@
 ﻿namespace Persistence;
 
+using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-//public abstract class ApplicationDbContextFactory
-//	: IDesignTimeDbContextFactory<ApplicationDbContext>
-//{
-//	public ApplicationDbContext CreateDbContext(string[] args)
-//	{
-//		var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-//		optionsBuilder.UseSqlServer("Server=.;Database=CyclingWorldSystemDb;Integrated Security=true;MultipleActiveResultSets=true;Encrypt=False;TrustServerCertificate=True");
-
-//		return new ApplicationDbContext(optionsBuilder.Options);
-//	}
-//}
+public class ApplicationDbContextFactory : DesignTimeDbContextFactoryBase<ApplicationDbContext>
+{
+	protected override ApplicationDbContext CreateNewInstance(DbContextOptions<ApplicationDbContext> options)
+	{
+		return new ApplicationDbContext(options);
+	}
+}

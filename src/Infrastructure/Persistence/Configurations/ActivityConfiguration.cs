@@ -11,6 +11,8 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
 	{
 		builder
 			.ToTable(GlobalConstants.Activity.TableName);
+		
+		builder.HasQueryFilter(activity => !activity.IsDeleted);
 
 		builder
 			.HasKey(x => x.Id);
@@ -41,8 +43,7 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
 			.HasMany(a => a.Waypoints)
 			.WithOne(w => w.Activity)
 			.HasForeignKey(w => w.ActivityId)
-			.IsRequired()
-			.OnDelete(DeleteBehavior.Restrict);
+			.OnDelete(DeleteBehavior.Cascade);
 
 		builder
 			.HasMany(a => a.Images)

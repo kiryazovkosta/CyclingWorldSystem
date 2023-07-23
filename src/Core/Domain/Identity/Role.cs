@@ -1,6 +1,6 @@
 ﻿namespace Domain.Identity;
 
-using Domain.Primitives;
+using Primitives;
 using Microsoft.AspNetCore.Identity;
 
 public class Role : IdentityRole<Guid>, IAuditableEntity, IDeletableEntity

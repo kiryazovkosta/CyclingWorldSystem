@@ -14,19 +14,21 @@
     <ItemGroup>
       <Folder Include="Areas\Manage\Data\" />
       <Folder Include="Areas\Manage\Models\" />
+      <Folder Include="wwwroot\images\" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Update="wwwroot\js\confirm.js">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Update="wwwroot\js\cusom\confirm.js">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\Common\Common.csproj" />
     </ItemGroup>
 
 </Project>

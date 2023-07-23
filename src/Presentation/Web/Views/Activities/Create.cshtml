@@ -1,0 +1,16 @@
+﻿@model ActivityInputModel
+@{
+    ViewBag.Title = "Add Activity";
+}
+
+@await Html.PartialAsync("_SpinnerModalDialog")
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<partial name="_ActivityInputPartial" model="@Model" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @await Html.PartialAsync("_ActivityProcessDataScriptsPartial")
+}

@@ -2,4 +2,4 @@
 
 namespace Application.Entities.GpxFiles.Models;
 
-public sealed record GpxFileRequest(IEnumerable<IFormFile> Files);
+public sealed record GpxFileRequest(string GpxFile);

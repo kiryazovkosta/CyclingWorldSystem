@@ -49,9 +49,6 @@ namespace Persistence.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<int>("Elevation")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -379,7 +376,7 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ActivityId")
+                    b.Property<Guid?>("ActivityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
@@ -388,8 +385,11 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Elevation")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Elevation")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("GpxId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("HeartRate")
                         .HasColumnType("int");
@@ -414,12 +414,13 @@ namespace Persistence.Migrations
                     b.Property<int?>("Power")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Speed")
+                    b.Property<decimal?>("Speed")
+                        .IsRequired()
                         .HasPrecision(12, 3)
                         .HasColumnType("decimal(12,3)");
 
-                    b.Property<int>("Temperature")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Temperature")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
@@ -427,7 +428,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ActivityId", "OrderIndex")
-                        .IsUnique()
                         .HasDatabaseName("UX_Waypoints_ActivityOrderIndex");
 
                     b.ToTable("Waypoints", (string)null);
@@ -664,12 +664,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -690,12 +688,10 @@ namespace Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -833,8 +829,7 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Entities.Activity", "Activity")
                         .WithMany("Waypoints")
                         .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Activity");
                 });

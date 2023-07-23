@@ -17,4 +17,6 @@ public interface ICloudinaryService
     Task<string> UploadAsync(IFormFile? file);
 
     Task<string> UploadArrayAsync(byte[] file);
+
+    Task<List<string>> UploadMultiAsync(List<IFormFile> files);
 }

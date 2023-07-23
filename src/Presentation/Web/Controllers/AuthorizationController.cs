@@ -8,7 +8,10 @@ using Web.Models.Response;
 
 namespace Web.Controllers
 {
-	public class AuthorizationController : Controller
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Models;
+
+    public class AuthorizationController : Controller
 	{
 		private readonly IHttpContextAccessor _httpContextAccessor;
 		private readonly IHttpClientFactory _httpClientFactory;
@@ -168,7 +171,7 @@ namespace Web.Controllers
                         {
                             var streamContent = new StreamContent(file.OpenReadStream());
                             streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                            content.Add(streamContent, file.Name, file.FileName);
+                            content.Add(streamContent, property.Name, file.FileName);
                         }
                     }
                 }
@@ -187,6 +190,43 @@ namespace Web.Controllers
                 response.Error = await httpResponse.Content.ReadAsStringAsync();
             }
 
+            return response;
+        }
+        
+        public async Task<EndpointResponse<List<string>>> PostOnlyFilesAsync(
+            string endpoint, PicturesInputModel input, string? token = null)
+        {
+            var response = new EndpointResponse<List<string>>();
+            var client = this.HttpClientFactory.CreateClient("webApi");
+            if (token is not null)
+            {
+                client.DefaultRequestHeaders.Authorization
+                    = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
+			using var content = new MultipartFormDataContent();
+            foreach (var file in input.Files)
+            {
+                var streamContent = new StreamContent(file.OpenReadStream());
+                streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                content.Add(streamContent, "Files", file.FileName);
+            }
+            
+            request.Content = content;
+
+            var httpResponse = await client.SendAsync(request);
+            response.IsSuccess = httpResponse.IsSuccessStatusCode;
+            
+            var resultREsponse = await httpResponse.Content.ReadAsStringAsync();
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                response.Value = await httpResponse.Content.ReadFromJsonAsync<List<string>>();
+            }
+            else
+            {
+                response.Error = await httpResponse.Content.ReadAsStringAsync();
+            }
             return response;
         }
 

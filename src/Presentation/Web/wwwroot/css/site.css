@@ -20,3 +20,37 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.spinner-modal {
+    position: fixed;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: Black;
+    opacity: 0.6;
+}
+
+.spinner-center {
+    z-index: 1000;
+    margin: 10px auto;
+    padding: 10px;
+    width: 105px;
+    background-color: White;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.spinner-center img {
+    height: 100px;
+    width: 100px;
+}
+
+input.form-control[type="file"] {
+    margin-bottom: 16px;
+}
+
+div#pictures-list {
+    margin-right: 10px;
+}

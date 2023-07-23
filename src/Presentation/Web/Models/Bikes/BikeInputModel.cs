@@ -4,7 +4,8 @@ namespace Web.Models.Bikes;
 
 public class BikeInputModel
 {
-    public string Id { get; set; } = null!;
+    public string? Id { get; set; }
+
     public string Name { get; set; } = null!;
 
     public decimal Weight { get; set; }
