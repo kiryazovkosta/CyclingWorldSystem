@@ -69,6 +69,44 @@ public class RolesController : AuthorizationController
         return RedirectToAction("All", "Roles");
     }
     
+    [HttpGet]
+    public async Task<IActionResult> Edit(string id)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        var userModel = await this.GetAsync<RoleInputModel>($"/api/Roles/{id}", token);
+        if (userModel.IsFailure)
+        {
+            return View();
+        }
+
+        var role = userModel.Value!;
+        role.UserId = this.CurrentUserId();
+        return View(role);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(RoleInputModel roleModel)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        if (!ModelState.IsValid)
+        { 
+            return View(roleModel);
+        }
+        
+        var result = await this.PutAsync<RoleInputModel>("/api/Roles", roleModel, token);
+        return RedirectToAction("All", "Roles");
+    }
+    
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {

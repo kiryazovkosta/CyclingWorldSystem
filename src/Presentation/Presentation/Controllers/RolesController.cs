@@ -2,6 +2,7 @@
 
 using Application.Identity.Roles.Commands.CreateRole;
 using Application.Identity.Roles.Commands.DeleteRole;
+using Application.Identity.Roles.Commands.UpdateRole;
 using Application.Identity.Roles.Models;
 using Application.Identity.Roles.Queries.GetAllRoles;
 using Application.Identity.Roles.Queries.GetRoleById;
@@ -59,18 +60,18 @@ public class RolesController : ApiController
     }
 
 
-    // [HttpPut]
-    // [Authorize]
-    // [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    // public async Task<IActionResult> UpdateBike(
-    //     [FromBody] UpdateUserRequest request, 
-    //     CancellationToken cancellationToken)
-    // {
-    //     var command = request.Adapt<UpdateUserCommand>();
-    //     var result = await this.Sender.Send(command, cancellationToken);
-    //     return result.IsSuccess ? NoContent() : BadRequest(result.Error);
-    // }
+    [HttpPut]
+    [Authorize]
+    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateBike(
+        [FromBody] UpdateRoleRequest request, 
+        CancellationToken cancellationToken)
+    {
+        var command = request.Adapt<UpdateRoleCommand>();
+        var result = await this.Sender.Send(command, cancellationToken);
+        return result.IsSuccess ? NoContent() : BadRequest(result.Error);
+    }
     
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
