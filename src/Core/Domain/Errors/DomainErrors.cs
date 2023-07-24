@@ -53,6 +53,10 @@ public static class DomainErrors
 		public static Error FailedToCreate => new(
 			"CreateRoleCommand.RoleName",
 			GlobalMessages.GlobalError);
+
+		public static Error NonEmptyRole => new(
+			"DeleteRoleCommand.RoleId",
+			GlobalMessages.Role.RoleHasAssociatedUsers);
 	}
 
 	public static class Image

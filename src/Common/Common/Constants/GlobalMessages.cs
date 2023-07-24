@@ -51,4 +51,9 @@ public static class GlobalMessages
 		public const string FailedToUpdate = "Failed to update user";
 		public static readonly string FailedToUpdatePassword = "Failed to change user password";
 	}
+	
+	public static class Role
+	{
+		public const string RoleHasAssociatedUsers = "The are users who are associated with this role";
+	}
 }

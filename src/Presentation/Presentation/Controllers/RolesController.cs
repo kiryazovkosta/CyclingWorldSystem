@@ -1,6 +1,7 @@
 ﻿namespace Presentation.Controllers;
 
 using Application.Identity.Roles.Commands.CreateRole;
+using Application.Identity.Roles.Commands.DeleteRole;
 using Application.Identity.Roles.Models;
 using Application.Identity.Roles.Queries.GetAllRoles;
 using Application.Identity.Roles.Queries.GetRoleById;
@@ -43,7 +44,7 @@ public class RolesController : ApiController
         var result = await this.Sender.Send(query, cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
     }
-    
+
     [HttpPost]
     [Authorize]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
@@ -56,6 +57,8 @@ public class RolesController : ApiController
         var result = await this.Sender.Send(command, cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
     }
+
+
     // [HttpPut]
     // [Authorize]
     // [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
@@ -68,17 +71,16 @@ public class RolesController : ApiController
     //     var result = await this.Sender.Send(command, cancellationToken);
     //     return result.IsSuccess ? NoContent() : BadRequest(result.Error);
     // }
-    //
-    // [HttpDelete("{id:guid}")]
-    // [Authorize(Roles="Administrator")]
-    // [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
-    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    // public async Task<IResult> DeleteBike(
-    //     Guid id,
-    //     CancellationToken cancellationToken)
-    // {
-    //     var command = new DeleteUserCommand(id);
-    //     var result = await this.Sender.Send(command, cancellationToken);
-    //     return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
-    // }
+    
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IResult> DeleteRole(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var command = new DeleteRoleCommand(id);
+        var result = await this.Sender.Send(command, cancellationToken);
+        return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
+    }
 }

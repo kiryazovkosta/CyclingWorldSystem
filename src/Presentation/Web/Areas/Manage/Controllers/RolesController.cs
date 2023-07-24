@@ -68,5 +68,18 @@ public class RolesController : AuthorizationController
         await this.PostAsync<RoleInputModel, Guid>("/api/Roles", roleModel, token);
         return RedirectToAction("All", "Roles");
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        await this.DeleteAsync("/api/Roles/", Guid.Parse(id), token);
+        return RedirectToAction("All", "Roles");
+    }
 
 }
