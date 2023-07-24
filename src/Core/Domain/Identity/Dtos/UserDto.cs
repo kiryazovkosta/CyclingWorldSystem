@@ -17,5 +17,5 @@ public sealed class UserDto
     public string FirstName { get; init; } = null!;
     public string LastName { get; init; } = null!;
     public string ImageUrl { get; init; } = null!;
-    public List<string> Roles { get; init; } = null!;
+    public List<string?> Roles { get; init; } = null!;
 }

@@ -1,0 +1,22 @@
+﻿@model RoleFullViewModel
+
+<tr>
+<td>@Model.Name</td>
+<td>
+    @if (@Model.Users.Any())
+    {
+        <ul>
+            @foreach (var user in Model.Users)
+            {
+                <li>@user</li>
+            }
+        </ul>
+    }
+</td>
+<td>
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a asp-controller="Bikes" asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger" 
+           data-bs-toggle="modal" data-bs-target="#deleteModal" onclick='setId("@Model?.Id")'>Delete</a>
+    </form>
+</td>

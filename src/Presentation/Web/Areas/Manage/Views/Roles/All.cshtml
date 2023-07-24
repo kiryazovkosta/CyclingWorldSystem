@@ -1,1 +1,25 @@
-﻿
+﻿@model IEnumerable<RoleFullViewModel>
+
+<h1>Roles list</h1>
+
+@await Html.PartialAsync("_ConfirmDialogs")
+
+<hr />
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <th>RoleName</th>
+    <th>Users</th>
+    <th>Operations</th>
+    </thead>
+    <tbody class="table-striped">
+    @foreach (var role in Model)
+    {
+        <partial name="_RoleViewPartial" model="@role" />
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/confirm.js" asp-append-version="true"></script>
+}
