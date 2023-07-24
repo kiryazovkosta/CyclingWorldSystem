@@ -12,7 +12,7 @@ public static class TempDataHelper
 
     public static T Get<T>(this ITempDataDictionary tempData, string key) where T : class
     {
-        tempData.TryGetValue(key, out object o);
-        return o == null ? null : JsonSerializer.Deserialize<T>((string)o);
+        tempData.TryGetValue(key, out object? o);
+        return (o == null ? null : JsonSerializer.Deserialize<T>((string)o))!;
     }
 }

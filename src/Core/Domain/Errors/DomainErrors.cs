@@ -39,6 +39,21 @@ public static class DomainErrors
 			"EditUserCommand.UserId",
 			GlobalMessages.User.FailedToUpdatePassword);
 	}
+	
+	public static class Role
+	{
+		public static Error NonExistsRole => new(
+			"GetRoleByIdQuery.RoleId",
+			GlobalMessages.NonExistRecordError);
+		
+		public static Error RoleAlreadyExists => new(
+			"CreateRoleCommand.RoleName",
+			GlobalMessages.AlreadyExists);
+		
+		public static Error FailedToCreate => new(
+			"CreateRoleCommand.RoleName",
+			GlobalMessages.GlobalError);
+	}
 
 	public static class Image
 	{

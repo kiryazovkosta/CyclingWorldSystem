@@ -32,4 +32,41 @@ public class RolesController : AuthorizationController
         
         return View(rolesResponse.Value);
     }
+    
+    [HttpGet]
+    public IActionResult Create()
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        var roleModel = new RoleInputModel() { UserId = this.CurrentUserId() };
+        return View(roleModel);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Create(RoleInputModel roleModel)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+    
+        if (!ModelState.IsValid)
+        { 
+            return View(roleModel);
+        }
+    
+        if (roleModel.UserId != this.CurrentUserId())
+        {
+            return View();
+        }
+    
+        await this.PostAsync<RoleInputModel, Guid>("/api/Roles", roleModel, token);
+        return RedirectToAction("All", "Roles");
+    }
+
 }

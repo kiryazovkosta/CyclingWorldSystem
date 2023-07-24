@@ -5,6 +5,7 @@ public static class GlobalMessages
 	public const string UniqueIdentifierIsNullOrDefault = "The provided Identificator cloud not be null or defaul.";
 	public const string GlobalError = "An unexpected error occurred during request execution.!";
 	public const string NonExistRecordError = "A record with provided Id does not exists!";
+	public const string AlreadyExists = "A record with provided parameters already exists!";
 
 	public static class Cloudinary
 	{
