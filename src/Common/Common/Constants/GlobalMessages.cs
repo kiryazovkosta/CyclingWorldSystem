@@ -4,6 +4,7 @@ public static class GlobalMessages
 {
 	public const string UniqueIdentifierIsNullOrDefault = "The provided Identificator cloud not be null or defaul.";
 	public const string GlobalError = "An unexpected error occurred during request execution.!";
+	public const string NonExistRecordError = "A record with provided Id does not exists!";
 
 	public static class Cloudinary
 	{
@@ -42,6 +43,11 @@ public static class GlobalMessages
 		public static readonly string ModelLengthIsInvalid = "The provided Model must have length between {0} and {1}";
 
 		public static readonly string NotesLengthIsInvalid = "When provide Notes the maximum lenght must be {0}";
-		
+	}
+
+	public static class User
+	{
+		public const string FailedToUpdate = "Failed to update user";
+		public static readonly string FailedToUpdatePassword = "Failed to change user password";
 	}
 }

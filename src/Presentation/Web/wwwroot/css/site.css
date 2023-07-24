@@ -54,3 +54,8 @@ input.form-control[type="file"] {
 div#pictures-list {
     margin-right: 10px;
 }
+
+
+.manage-header {
+    text-align: center;
+}

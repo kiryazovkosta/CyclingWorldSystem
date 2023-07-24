@@ -28,7 +28,6 @@
     <Folder Include="Entities\Activities\Queries\" />
     <Folder Include="Entities\GpxFiles\Queries\" />
     <Folder Include="Entities\Images\Query\" />
-    <Folder Include="Identity\Users\Queries\" />
   </ItemGroup>
 
 </Project>

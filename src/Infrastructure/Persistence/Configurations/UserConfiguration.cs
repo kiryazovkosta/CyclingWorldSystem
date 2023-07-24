@@ -10,6 +10,8 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 	public void Configure(EntityTypeBuilder<User> builder)
 	{
 		builder.HasKey(x => x.Id);
+		
+		builder.HasQueryFilter(bikeType => !bikeType.IsDeleted);
 
 		builder.Property(user => user.FirstName)
 			.HasMaxLength(GlobalConstants.User.FirstNameMaxLength)
@@ -18,5 +20,7 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
 		builder.Property(user => user.LastName)
 			.HasMaxLength(GlobalConstants.User.LastNameMaxLength)
 			.IsRequired();
+
+		builder.Ignore(user => user.FullName);
 	}
 }

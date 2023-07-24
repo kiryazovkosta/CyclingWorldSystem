@@ -1,1 +1,17 @@
-﻿<h1>Administration of Identity and Nomenclatures</h1>
+﻿<div class="management-container">
+    <p>Navigation menu</p>
+    <div>
+        <a asp-area="Manage" asp-controller="Users" asp-action="All" >Users</a>
+    </div>
+    <div>
+        <a asp-area="Manage" asp-controller="Roles" asp-action="All" >Roles</a>
+    </div>
+    <div>
+        <ul> <span>Nomenclatures</span>
+            <li>
+                <a asp-area="Manage" asp-controller="BikeTypes" asp-action="All">Bike Types</a>
+            </li>
+        </ul>
+        
+    </div>
+</div>

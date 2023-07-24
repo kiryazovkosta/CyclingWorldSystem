@@ -26,6 +26,18 @@ public static class DomainErrors
 		public static Error EmailIsNotConfirmed => new(
 			"LogInUserCommand",
 			GlobalConstants.User.EmailIsNotConfirmed);
+		
+		public static Error NonExistsUser => new(
+			"EditUserCommand.UserId",
+			GlobalMessages.NonExistRecordError);
+		
+		public static Error FailedToUpdateUser => new(
+			"EditUserCommand.UserId",
+			GlobalMessages.User.FailedToUpdate);
+		
+		public static Error FailedToUpdatePassword => new(
+			"EditUserCommand.UserId",
+			GlobalMessages.User.FailedToUpdatePassword);
 	}
 
 	public static class Image

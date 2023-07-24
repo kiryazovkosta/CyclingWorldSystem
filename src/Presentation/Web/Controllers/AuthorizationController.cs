@@ -133,7 +133,7 @@ namespace Web.Controllers
             }
         }
 
-        public async Task<EndpointResponse<TOutput>> PostMultipartAsync<TInput, TOutput>(
+        protected async Task<EndpointResponse<TOutput>> PostMultipartAsync<TInput, TOutput>(
             string endpoint, TInput input, string? token = null)
         {
             var response = new EndpointResponse<TOutput>();
@@ -218,7 +218,6 @@ namespace Web.Controllers
             var httpResponse = await client.SendAsync(request);
             response.IsSuccess = httpResponse.IsSuccessStatusCode;
             
-            var resultREsponse = await httpResponse.Content.ReadAsStringAsync();
             if (httpResponse.IsSuccessStatusCode)
             {
                 response.Value = await httpResponse.Content.ReadFromJsonAsync<List<string>>();

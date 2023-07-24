@@ -4,7 +4,7 @@ namespace Web.Areas.Manage.Controllers
 {
     public class BikeTypesController : Controller
     {
-        public IActionResult Index()
+        public IActionResult All()
         {
             return View();
         }

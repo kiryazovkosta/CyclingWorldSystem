@@ -1,0 +1,27 @@
+﻿@model UserViewModel
+
+<tr>
+<td>@Model.UserName</td>
+<td>@Model.Email</td>
+<td>@Model.FirstName</td>
+<td>@Model.LastName</td>
+@if(@Model.EmailConfirmed) { <td>Yes</td> } else { <td>No</td> }
+<td>
+    @if (@Model.Roles.Any())
+    {
+        <ul>
+            @foreach (var role in Model.Roles)
+            {
+                <li>@role</li>
+            }
+        </ul>
+    }
+</td>
+<td><img src="@Model.ImageUrl" alt="profile" width="26px" height="26px" /></td>
+<td>
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a asp-controller="Bikes" asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger" 
+           data-bs-toggle="modal" data-bs-target="#deleteModal" onclick='setId("@Model?.Id")'>Delete</a>
+    </form>
+</td>

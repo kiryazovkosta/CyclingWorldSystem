@@ -4,12 +4,13 @@ using Common.Constants;
 using Domain.Entities;
 using Domain.Primitives;
 using Microsoft.AspNetCore.Identity;
+using Shared;
 
 public class User : IdentityUser<Guid>, IAuditableEntity, IDeletableEntity
 {
-    public string FirstName { get; init; } = null!;
+    public string FirstName { get; set; } = null!;
 
-    public string LastName { get; init; } = null!;
+    public string LastName { get; set; } = null!;
 
 	public string ImageUrl { get; set; } = GlobalConstants.Cloudinary.DefaultAvatar;
 
@@ -29,4 +30,16 @@ public class User : IdentityUser<Guid>, IAuditableEntity, IDeletableEntity
 	public DateTime? DeletedOn { get; set; }
 
 	public ICollection<UserRole> UserRoles { get; set; }
+
+	public string FullName => $"{this.FirstName} {this.LastName}";
+
+	public Result Update(string userName, string email, bool isConfirmed, string firstName, string lastName)
+	{
+		this.UserName = userName;
+		this.Email = email;
+		this.EmailConfirmed = isConfirmed;
+		this.FirstName = firstName;
+		this.LastName = lastName;
+		return Result.Success();
+	}
 }
