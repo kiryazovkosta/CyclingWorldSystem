@@ -32,6 +32,15 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
 			.Property(a => a.Distance)
 			.HasPrecision(GlobalConstants.Activity.DistancePrecision, GlobalConstants.Activity.DistanceScale)
 			.IsRequired();
+		builder
+			.Property(a => a.PositiveElevation)
+			.HasPrecision(GlobalConstants.Activity.ElevationPrecision, GlobalConstants.Activity.ElevationScale);
+		builder
+			.Property(a => a.NegativeElevation)
+			.HasPrecision(GlobalConstants.Activity.ElevationPrecision, GlobalConstants.Activity.ElevationScale);
+
+		builder.Property(a => a.StartDateTime)
+			.HasDefaultValue(DateTime.UtcNow);
 
 		builder
 			.HasOne(a => a.Bike)

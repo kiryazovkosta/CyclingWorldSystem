@@ -27,7 +27,7 @@ public class UpdateBikeCommandHandlerTests : IDisposable
 
     public UpdateBikeCommandHandlerTests()
     {
-        this._context = ApplicationDbContextFactory.Create();
+        this._context = ApplicationDbContextTestFactory.Create();
         this.bikeRepository = new Mock<IBikeRepository>();
         this.currentUserService = new Mock<ICurrentUserService>();
         this.unitOfWork = new Mock<IUnitOfWork>();
@@ -88,7 +88,7 @@ public class UpdateBikeCommandHandlerTests : IDisposable
         this.bikeRepository.Setup(br => br.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(fakeBike));
         this.currentUserService.Setup(cpr => cpr.GetCurrentUserId())
-            .Returns(fakeBike.UserId);
+            .Returns(fakeBike!.UserId);
         var command = new UpdateBikeCommand(fakeBike.Id, "New name", fakeBike.BikeTypeId, 8.00m, "New brand",
             "New model", "New notes");
         var handler = new UpdateBikeCommandHandler(
@@ -186,7 +186,7 @@ public class UpdateBikeCommandHandlerTests : IDisposable
         this.bikeRepository.Setup(br => br.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(fakeBike));
         this.currentUserService.Setup(cpr => cpr.GetCurrentUserId())
-            .Returns(fakeBike.UserId);
+            .Returns(fakeBike!.UserId);
         var command = new UpdateBikeCommand(fakeBike.Id, "", fakeBike.BikeTypeId, 8.00m, "New brand",
             "New model", "New notes");
         var handler = new UpdateBikeCommandHandler(

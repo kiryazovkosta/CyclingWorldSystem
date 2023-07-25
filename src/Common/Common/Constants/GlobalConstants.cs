@@ -50,6 +50,9 @@ public static class GlobalConstants
 
 		public const int DistancePrecision = 7;
 		public const int DistanceScale = 3;
+		
+		public const int ElevationPrecision = 7;
+		public const int ElevationScale = 3;
 	}
 
 	public static class ActivityLike

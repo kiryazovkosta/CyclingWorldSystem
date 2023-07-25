@@ -25,7 +25,7 @@ public class CreateBikeCommandHandlerTests : IDisposable
 
     public CreateBikeCommandHandlerTests()
     {
-        this._context = ApplicationDbContextFactory.Create();
+        this._context = ApplicationDbContextTestFactory.Create();
         this.bikeRepository = new Mock<IBikeRepository>();
         this.currentUserService = new Mock<ICurrentUserService>();
         this.unitOfWork = new Mock<IUnitOfWork>();

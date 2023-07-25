@@ -10,6 +10,7 @@ namespace Presentation.Controllers;
 
 using Application.Entities.Activities.Commands.CreateActivity;
 using Application.Entities.Activities.Models;
+using Application.Entities.Activities.Queries.GetAll;
 using Base;
 using Mapster;
 using MediatR;
@@ -21,6 +22,17 @@ public class ActivitiesController: ApiController
 {
     public ActivitiesController(ISender sender) : base(sender)
     {
+    }
+    
+    [HttpGet]
+    [Authorize]
+    [ProducesResponseType(typeof(SimplyActivityResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetBikesByUser(
+        CancellationToken cancellationToken)
+    {
+        var result = await this.Sender.Send(new GetAllActivitiesQuery(), cancellationToken);
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
     }
     
     [HttpPost]

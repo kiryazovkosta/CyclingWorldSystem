@@ -14,7 +14,7 @@ using Domain.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-public static class ApplicationDbContextFactory
+public static class ApplicationDbContextTestFactory
 {
     public static ApplicationDbContext Create()
     {

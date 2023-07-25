@@ -49,7 +49,7 @@ public class CreateActivityCommandHandler
 
         var activityResult = Activity.Create(request.Title, request.Description, request.PrivateNotes,
             request.Distance, request.Duration, request.PositiveElevation, request.NegativeElevation,
-            request.VisibilityLevel, request.BikeId, userId);
+            request.VisibilityLevel, request.StartDateTime, request.BikeId, userId);
         if (activityResult.IsFailure)
         {
             return Result.Failure<Guid>(activityResult.Error);

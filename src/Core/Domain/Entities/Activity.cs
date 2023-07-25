@@ -17,7 +17,7 @@ public class Activity : DeletableEntity
 
     private Activity(string title, string description, string? privateNotes, decimal distance, 
 	    TimeSpan duration, decimal? positiveElevation, decimal? negativeElevation,  
-	    VisibilityLevelType visibilityLevel, Guid bikeId, Guid userId)
+	    VisibilityLevelType visibilityLevel, DateTime startDateTime, Guid bikeId, Guid userId)
 		: this()
     {
 	    Title = title;
@@ -28,6 +28,7 @@ public class Activity : DeletableEntity
 	    PositiveElevation = positiveElevation;
 	    NegativeElevation = negativeElevation;
 	    VisibilityLevel = visibilityLevel;
+	    StartDateTime = startDateTime;
 	    BikeId = bikeId;
 	    UserId = userId;
     }
@@ -37,9 +38,11 @@ public class Activity : DeletableEntity
     public string? PrivateNotes { get; set; }
     public decimal Distance { get; set; }
     public TimeSpan Duration { get; set; }
-    decimal? PositiveElevation { get; set; }
-    decimal? NegativeElevation { get; set; }
+    public decimal? PositiveElevation { get; set; }
+    public decimal? NegativeElevation { get; set; }
     public VisibilityLevelType VisibilityLevel { get; set; }
+    
+    public DateTime StartDateTime { get; set; }
     public Guid BikeId { get; set; }
 	public Bike Bike { get; set; } = null!;
 	public Guid UserId { get; set; }
@@ -51,10 +54,10 @@ public class Activity : DeletableEntity
 
 	public static Result<Activity> Create(string title, string description, string? privateNotes, 
 		decimal distance, TimeSpan duration, decimal? positiveElevation, decimal? negativeElevation, 
-		VisibilityLevelType visibilityLevel, Guid bikeId, Guid userId)
+		VisibilityLevelType visibilityLevel, DateTime startDateTime, Guid bikeId, Guid userId)
 	{
 		var activity = new Activity(title, description, privateNotes, distance, duration, positiveElevation,
-			negativeElevation, visibilityLevel, bikeId, userId);
+			negativeElevation, visibilityLevel, startDateTime, bikeId, userId);
 		return activity;
 	}
 

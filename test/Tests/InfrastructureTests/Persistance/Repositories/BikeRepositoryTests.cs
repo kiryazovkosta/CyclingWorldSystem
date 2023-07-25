@@ -23,7 +23,7 @@ public class BikeRepositoryTests : IDisposable
 
     public BikeRepositoryTests()
     {
-        this._context = ApplicationDbContextFactory.Create();
+        this._context = ApplicationDbContextTestFactory.Create();
     }
     
     public void Dispose()

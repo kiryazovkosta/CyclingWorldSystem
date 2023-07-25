@@ -16,7 +16,7 @@ public class TestApplicationContext : IDisposable
 
     protected TestApplicationContext()
     {
-        this._context = ApplicationDbContextFactory.Create();
+        this._context = ApplicationDbContextTestFactory.Create();
     }
 
     public void Dispose()
@@ -24,5 +24,5 @@ public class TestApplicationContext : IDisposable
         this._context.Dispose();
     }
 
-    public ApplicationDbContext Context => this._context;
+    protected ApplicationDbContext Context => this._context;
 }

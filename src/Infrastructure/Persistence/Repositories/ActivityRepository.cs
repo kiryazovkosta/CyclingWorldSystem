@@ -10,6 +10,7 @@ namespace Persistence.Repositories;
 
 using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 public class ActivityRepository : IActivityRepository
 {
@@ -23,5 +24,17 @@ public class ActivityRepository : IActivityRepository
     public void Add(Activity activity)
     {
         this._context.Set<Activity>().Add(activity);
+    }
+
+    public async Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await this._context
+            .Set<Activity>()
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<Activity> GetByIdAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
     }
 }
