@@ -38,6 +38,15 @@ public static class DomainErrors
 		public static Error FailedToUpdatePassword => new(
 			"EditUserCommand.UserId",
 			GlobalMessages.User.FailedToUpdatePassword);
+		
+		public static Error FailedToRemoveUserRoles => new(
+			"UpdateUserRolesCommand.UserId",
+			GlobalMessages.User.FailedToRemoveUserRoles);
+		
+		public static Error FailedToAssignUserRoles => new(
+			"UpdateUserRolesCommand.UserId",
+			GlobalMessages.User.FailedToAssignUserRoles);
+		
 	}
 	
 	public static class Role

@@ -49,7 +49,9 @@ public static class GlobalMessages
 	public static class User
 	{
 		public const string FailedToUpdate = "Failed to update user";
-		public static readonly string FailedToUpdatePassword = "Failed to change user password";
+		public const string FailedToUpdatePassword = "Failed to change user password";
+		public const string FailedToRemoveUserRoles = "Failed to remove roles of user";
+		public const string FailedToAssignUserRoles = "Failed to asiign roles to user";
 	}
 	
 	public static class Role

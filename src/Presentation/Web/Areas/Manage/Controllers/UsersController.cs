@@ -95,4 +95,49 @@ public class UsersController : AuthorizationController
         await this.DeleteAsync("/api/Users/", Guid.Parse(id), token);
         return RedirectToAction("All", "Users");
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> AssignToRole(string id)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        Guid userId = Guid.Parse(id);
+
+        var userRolesResponse = await this.GetAsync<IEnumerable<string>>(
+            "api/Users/GetRoles/" + userId.ToString(), token);
+        IEnumerable<string> userRoles = userRolesResponse.Value!.ToList();
+        
+        var allRolesResponse = await this.GetAsync<IEnumerable<RoleFullViewModel>>(
+            "api/Roles", token);
+        IEnumerable<string> allRoles = allRolesResponse.Value!.Select(r => r.Name).ToList();
+        
+        var model = new UserAssignedRoles()
+        {
+            UserId = userId,
+            UserName = this.User?.Identity?.Name ?? string.Empty,
+            MemberOfRoles = userRoles.ToList().ToList(),
+            NotMemberOfRoles = allRoles.Except(userRoles, StringComparer.OrdinalIgnoreCase).ToList()
+        };
+        
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AssignToRole(UserWithRolesInputModel model)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        var result = 
+            await this.PostAsync<UserWithRolesInputModel, Guid>("api/Users/AssignRoles", model, token);
+
+        return RedirectToAction("All", "Users");
+    }
 }
