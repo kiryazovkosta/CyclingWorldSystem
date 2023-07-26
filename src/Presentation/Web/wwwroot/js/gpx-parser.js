@@ -85,7 +85,7 @@
             }).fail(function (data) {
                 console.log("Failure");
                 console.log(data);
-                alert("The is an error with processing of GPX file!");
+                alert("The is an error with processing of images file!");
             }).always(function () {
                 $(".spinner-modal").hide();
             });

@@ -96,3 +96,12 @@ div#pictures-list {
     margin-right: auto;
     width: 90%;
 }
+
+#map {
+    position: relative;
+    top: 10px;
+    left: 2%;
+    width: 90%;
+    height: 400px;
+
+}
