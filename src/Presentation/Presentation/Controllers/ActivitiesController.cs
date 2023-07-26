@@ -10,6 +10,7 @@ namespace Presentation.Controllers;
 
 using Application.Entities.Activities.Commands.CreateActivity;
 using Application.Entities.Activities.Models;
+using Application.Entities.Activities.Queries.GetActivityById;
 using Application.Entities.Activities.Queries.GetAll;
 using Base;
 using Mapster;
@@ -24,11 +25,24 @@ public class ActivitiesController: ApiController
     {
     }
     
+    [HttpGet("{id:guid}")]
+    [Authorize]
+    [ProducesResponseType(typeof(ActivityResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IResult> GetActivityById(
+        Guid id, 
+        CancellationToken cancellationToken)
+    {
+        var query = new GetActivityByIdQuery(id);
+        var result = await this.Sender.Send(query, cancellationToken);
+        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
+    }
+    
     [HttpGet]
     [Authorize]
     [ProducesResponseType(typeof(SimplyActivityResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetBikesByUser(
+    public async Task<IActionResult> GetAllActivities(
         CancellationToken cancellationToken)
     {
         var result = await this.Sender.Send(new GetAllActivitiesQuery(), cancellationToken);

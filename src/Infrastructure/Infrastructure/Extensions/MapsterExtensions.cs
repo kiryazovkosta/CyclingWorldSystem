@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Extensions;
 
+using Application.Entities.Activities.Models;
+using Domain.Entities;
+
 public static class MapsterExtensions
 {
 	public static void RegisterMapsterConfiguration(this IServiceCollection services)
@@ -37,7 +40,25 @@ public static class MapsterExtensions
 			.NewConfig()
 			.Ignore(dest => dest.ImageUrl);
 
-        TypeAdapterConfig.GlobalSettings.Scan(
+		TypeAdapterConfig<Activity, SimplyActivityResponse>
+			.NewConfig()
+			.Map(dest => dest.FirstPicture, 
+				src => src.Images.FirstOrDefault()!.Url,
+				srcOpt => srcOpt.Images.Any() && srcOpt.Images.FirstOrDefault() != null)
+			.Map(dest => dest.UserName, src => src.User.FullName)
+			.Map(dest => dest.Avatar, src => src.User.ImageUrl);
+
+		TypeAdapterConfig<Activity, ActivityResponse>
+			.NewConfig()
+			.Map(dest => dest.Images,
+				src => src.Images.Select(i => i.Url),
+				srcOpt => srcOpt.Images.Any())
+			.Map(dest => dest.UserName, src => src.User.FullName)
+			.Map(dest => dest.Avatar, src => src.User.ImageUrl)
+			.Map(dest => dest.Bike, src => src.Bike.Name);
+
+
+		TypeAdapterConfig.GlobalSettings.Scan(
 			Application.AssemblyReference.Assembly,
 			Domain.AssemblyReference.Assembly);
 	}

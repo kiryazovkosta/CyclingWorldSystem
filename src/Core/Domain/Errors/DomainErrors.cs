@@ -142,4 +142,11 @@ public static class DomainErrors
 			"Bike.Id",
 			$"The bike with provided Id {id} does not exists.");
 	}
+
+	public static class Activity
+	{
+		public static Error ActivityDoesNotExists(Guid id) => new(
+			"Activity.Id",
+			$"The activity with provided Id {id} does not exists.");
+	}
 }

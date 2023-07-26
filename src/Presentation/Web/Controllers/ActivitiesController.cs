@@ -19,9 +19,42 @@ namespace Web.Controllers
         {
         }
 
-        public IActionResult All()
+        [HttpGet]
+        public async Task<IActionResult> All()
         {
-            return View();
+            var token = this.GetJwtToken();
+            if (token is null)
+            {
+                return RedirectToAction("LogIn", "Account");
+            }
+
+            var activitiesResponse = 
+                await this.GetAsync<IEnumerable<SimpleActivityViewModel>>("api/Activities", token);
+            if (activitiesResponse.IsFailure)
+            {
+                return View();
+            }
+            
+            return View(activitiesResponse.Value!);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> Get(string id)
+        {
+            var token = this.GetJwtToken();
+            if (token is null)
+            {
+                return RedirectToAction("LogIn", "Account");
+            }
+
+            var activityResponse = await this.GetAsync<ActivityViewModel>($"api/Activities/{id}", token);
+            if (activityResponse.IsFailure)
+            {
+                 return View();
+            }
+
+            var model = activityResponse.Value!;
+            return View(model);
         }
 
         [HttpGet]

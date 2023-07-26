@@ -41,7 +41,6 @@ public class Activity : DeletableEntity
     public decimal? PositiveElevation { get; set; }
     public decimal? NegativeElevation { get; set; }
     public VisibilityLevelType VisibilityLevel { get; set; }
-    
     public DateTime StartDateTime { get; set; }
     public Guid BikeId { get; set; }
 	public Bike Bike { get; set; } = null!;

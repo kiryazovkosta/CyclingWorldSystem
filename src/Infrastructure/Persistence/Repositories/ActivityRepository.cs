@@ -1,12 +1,4 @@
-﻿// ------------------------------------------------------------------------------------------------
-//  <copyright file="ActivityRepository.cs" company="Business Management System Ltd.">
-//      Copyright "2023" (c), Business Management System Ltd.
-//      All rights reserved.
-//  </copyright>
-//  <author>Kosta.Kiryazov</author>
-// ------------------------------------------------------------------------------------------------
-
-namespace Persistence.Repositories;
+﻿namespace Persistence.Repositories;
 
 using Domain.Entities;
 using Domain.Repositories;
@@ -30,11 +22,18 @@ public class ActivityRepository : IActivityRepository
     {
         return await this._context
             .Set<Activity>()
+            .Include(a => a.User)
+            .Include(a => a.Images)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Activity> GetByIdAsync(CancellationToken cancellationToken = default)
+    public async Task<Activity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await this._context
+            .Set<Activity>()
+            .Include(a => a.User)
+            .Include(a => a.Bike)
+            .Include(a => a.Images)
+            .FirstOrDefaultAsync(a => a.Id == id, cancellationToken: cancellationToken);
     }
 }

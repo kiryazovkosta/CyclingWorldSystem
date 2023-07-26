@@ -1,6 +1,17 @@
-﻿<h2>Last activities</h2>
+﻿@model IEnumerable<SimpleActivityViewModel>;
 
-<p>
-    <h3>Count</h3>
-    <a asp-area="" asp-controller="Activities" asp-action="Create" class="btn btn-primary">Create new activity</a>
-</p>
+<h2>Last activities</h2>
+
+
+<h3>Total activities: @Model.Count()</h3>
+<a asp-area="" asp-controller="Activities" asp-action="Create" class="btn btn-primary">Create new activity</a>
+
+<div class="activities">
+    @foreach (var activity in Model)
+    {
+        <partial name="_ActivityViewPartial" model="@activity" /> 
+    }
+</div>
+<div class="">
+    
+</div>

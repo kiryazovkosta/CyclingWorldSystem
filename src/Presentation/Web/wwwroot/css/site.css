@@ -55,7 +55,44 @@ div#pictures-list {
     margin-right: 10px;
 }
 
-
 .manage-header {
     text-align: center;
+}
+
+.activities {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.activities > * {
+    width: 31%;
+}
+
+.activity-display {
+    background-color: whitesmoke;
+    border: 1px solid papayawhip;
+    border-radius: 10px;
+}
+
+.activity-display > img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    border-radius: 6px;
+}
+
+.activity-display > table {
+    width: 90%;
+}
+
+.activity-display a {
+    margin-bottom: 10px;
+    vertical-align: bottom;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
 }

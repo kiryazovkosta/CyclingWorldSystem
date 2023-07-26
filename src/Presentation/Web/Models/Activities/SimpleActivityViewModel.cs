@@ -1,14 +1,14 @@
 ﻿// ------------------------------------------------------------------------------------------------
-//  <copyright file="SimplyActivityResponse.cs" company="Business Management System Ltd.">
+//  <copyright file="SimpleActivityViewModel.cs" company="Business Management System Ltd.">
 //      Copyright "2023" (c), Business Management System Ltd.
 //      All rights reserved.
 //  </copyright>
 //  <author>Kosta.Kiryazov</author>
 // ------------------------------------------------------------------------------------------------
 
-namespace Application.Entities.Activities.Models;
+namespace Web.Models.Activities;
 
-public sealed record SimplyActivityResponse(
+public sealed record SimpleActivityViewModel(
     Guid Id,
     string UserName,
     string Title,

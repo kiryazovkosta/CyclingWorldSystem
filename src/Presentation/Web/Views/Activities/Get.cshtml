@@ -1,0 +1,34 @@
+﻿@model ActivityViewModel
+
+<section>
+    <h2>@Model.Title</h2>
+    
+    <h3>@Model.Description</h3>
+    
+    <h3>@Model.PrivateNotes</h3>
+    
+    <h4>@Model.Distance</h4>
+    
+    <h4>@Model.Duration</h4>
+    
+    <h4>@Model.PositiveElevation</h4>
+    
+    <h4>@Model.NegativeElevation</h4>
+    
+    <h4>@Model.StartDateTime</h4>
+    
+    <div>
+        <img src="@Model.Avatar" alt="avatar" width="26px" height="26px"/>
+        <span>@Model.UserName</span>
+    </div>
+    
+    <h4>@Model.Bike</h4>
+    
+    <div>
+        @foreach (var imageUrl in @Model.Images)
+        {
+            <img src="@imageUrl" width="400" height="300" alt="activity-image" />
+        }
+    </div>
+    
+</section>

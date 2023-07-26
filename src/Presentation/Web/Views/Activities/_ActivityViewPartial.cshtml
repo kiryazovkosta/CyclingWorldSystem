@@ -1,0 +1,26 @@
+﻿@model SimpleActivityViewModel
+
+<article class="activity-display">
+    <div>
+        <img src="@Model.Avatar" alt="avatar" width="26px" height="26px"/>
+        <span>@Model.UserName</span>
+    </div>
+    <img src="@Model.FirstPicture" alt="activity-image" width="300px" height="200px"/>
+    <h4>@Model.Title</h4>
+    <h6>@Model.Description</h6>
+    <table>
+        <thead>
+        <th>Distance</th>
+        <th>Elevation</th>
+        <th>Duration</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>@Model.Distance</td>
+            <td>@Model.PositiveElevation</td>
+            <td>@Model.Duration</td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-info" asp-area="" asp-controller="Activities" asp-action="Get" asp-route-id="@Model.Id">Detail Information</a>
+</article> 
