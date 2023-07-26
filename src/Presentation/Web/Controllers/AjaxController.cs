@@ -23,7 +23,6 @@ public class AjaxController : AuthorizationController
     }
 
     [HttpPost]
-    // [Produces("application/json")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ProcessGps([FromForm] FilesListModel model)
     {
@@ -82,9 +81,30 @@ public class AjaxController : AuthorizationController
         {
             throw new ArgumentException(result.Error);
         }
-        
-        //this.TempData["Pictures"] = result.Value!;
+       
         return Ok(result.Value);
+    }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> GetCoordinates([FromForm] string activityId)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+        
+        var response = await this.GetAsync<IEnumerable<WaypointCoordinate>>(
+                $"api/Waypoints/Coordinates/{activityId}", 
+                token);
+        if (response.IsFailure)
+        {
+            throw new Exception("There is a problem with fetching track for activity");
+        }
+
+        var coordinates = response.Value!.ToArray();
+        return Ok(coordinates);
     }
 
     private static string EncodeTo64(string toEncode)

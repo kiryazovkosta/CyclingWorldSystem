@@ -27,6 +27,7 @@
   <ItemGroup>
     <Folder Include="Entities\GpxFiles\Queries\" />
     <Folder Include="Entities\Images\Query\" />
+    <Folder Include="Entities\Waypoints\Commands\" />
   </ItemGroup>
 
 </Project>
