@@ -19,6 +19,9 @@ using Domain.Entities;
 
 public static class MapsterExtensions
 {
+
+	
+
 	public static void RegisterMapsterConfiguration(this IServiceCollection services)
 	{
 		TypeAdapterConfig<GpxTrkTrkpt, WaypointResponse>
@@ -55,7 +58,9 @@ public static class MapsterExtensions
 				srcOpt => srcOpt.Images.Any())
 			.Map(dest => dest.UserName, src => src.User.FullName)
 			.Map(dest => dest.Avatar, src => src.User.ImageUrl)
-			.Map(dest => dest.Bike, src => src.Bike.Name);
+			.Map(dest => dest.Bike, src => src.Bike.Name)
+			.Map(dest => dest.LikeCount, src => src.Likes.Count())
+			.Ignore(dest => dest.IsLikedByMe);
 
 
 		TypeAdapterConfig.GlobalSettings.Scan(

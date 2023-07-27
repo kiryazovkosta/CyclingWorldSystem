@@ -5,7 +5,7 @@ window.onload = (event) => {
         container: 'map',
         style: 'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
         center: getStartCoordinate(),
-        zoom: 10
+        zoom: 11
     });
 
     map.on('load', function () {

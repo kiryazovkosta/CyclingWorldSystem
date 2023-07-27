@@ -3,37 +3,51 @@
 <section>
     <input type="hidden" asp-for="Id"/>
     
-    <h2>@Model.Title</h2>
-
-    <h3>@Model.Description</h3>
-
-    <h3>@Model.PrivateNotes</h3>
-
-    <h4>@Model.Distance</h4>
-
-    <h4>@Model.Duration</h4>
-
-    <h4>@Model.PositiveElevation</h4>
-
-    <h4>@Model.NegativeElevation</h4>
-
-    <h4>@Model.StartDateTime</h4>
-
     <div>
         <img src="@Model.Avatar" alt="avatar" width="26px" height="26px"/>
         <span>@Model.UserName</span>
     </div>
-
-    <h4>@Model.Bike</h4>
-
+    
     <div>
         @foreach (var imageUrl in @Model.Images)
         {
             <img src="@imageUrl" width="400" height="300" alt="activity-image"/>
         }
     </div>
+    
+    <div>
+        <h2>@Model.Title</h2>
+        <h5>@{Model.StartDateTime.ToString("MM/dd/yyyy");}</h5>
+        <h4>@Model.Bike</h4>
+    </div>
+
+    <h3>@Model.Description</h3>
+
+    <h3>@Model.PrivateNotes</h3>
+    
+    <table>
+        <thead>
+            <th>Distance</th>
+            <th>Duration</th>
+            <th>PositiveElevation</th>
+            <th>NegativeElevation</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><h5>@Model.Distance</h5></td>
+                <td><h5>@Model.Duration</h5></td>
+                <td><h5>@Model.PositiveElevation</h5></td>
+                <td><h5>@Model.NegativeElevation</h5></td>
+            </tr>
+        </tbody>
+    </table>
 
     <div id="map"></div>
+
+    <div>
+        <p>Number of peoples who likes this activity @Model.LikeCount </p>
+        <span>>@Model.IsLikedByMe</span>
+    </div>
     
     <form method="post"></form>
 

@@ -34,6 +34,9 @@ public class ActivityViewModel
     public string UserName { get; set; } = null!;
         
     public string Avatar { get; set; } = null!;
+
+    public int LikeCount { get; set; }
+    public bool IsLikedByMe { get; set; }
     
     public ICollection<string> Images { get; set; } = new List<string>();
 }
