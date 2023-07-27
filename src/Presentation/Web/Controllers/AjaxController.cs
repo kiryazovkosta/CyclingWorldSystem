@@ -106,6 +106,28 @@ public class AjaxController : AuthorizationController
         var coordinates = response.Value!.ToArray();
         return Ok(coordinates);
     }
+    
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> GetStartCoordinate([FromForm] string activityId)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+        
+        var response = await this.GetAsync<WaypointCenterCoordinate>(
+            $"api/Waypoints/Center/{activityId}", 
+            token);
+        if (response.IsFailure)
+        {
+            throw new Exception("There is a problem with fetching track for activity");
+        }
+
+        var coordinates = response.Value!;
+        return Ok(coordinates);
+    }
 
     private static string EncodeTo64(string toEncode)
     {

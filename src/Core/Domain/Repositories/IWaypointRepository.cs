@@ -17,4 +17,6 @@ public interface IWaypointRepository
     Task UpdateActivityAsync(Guid gpxId, Guid activityId, CancellationToken cancellationToken = default);
 
     Task<IEnumerable<WaypointCoordinateDto>> GetCoordinatesAsync(Guid id, CancellationToken cancellationToken = default);
+    
+    Task<CenterCoordinateDto> GetCenterCoordinateAsync(Guid id, CancellationToken cancellationToken = default);
 }

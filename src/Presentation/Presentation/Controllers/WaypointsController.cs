@@ -11,6 +11,7 @@ namespace Presentation.Controllers;
 using Application.Entities.Activities.Models;
 using Application.Entities.Activities.Queries.GetAll;
 using Application.Entities.Waypoints.Models;
+using Application.Entities.Waypoints.Queries.GetActivityCenterCoordinate;
 using Application.Entities.Waypoints.Queries.GetWaypointsByActivity;
 using Base;
 using MediatR;
@@ -34,6 +35,19 @@ public class WaypointsController: ApiController
         CancellationToken cancellationToken)
     {
         var query = new GetWaypointsByActivityQuery(id);
+        var result = await this.Sender.Send(query, cancellationToken);
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+    }
+    
+    [HttpGet("Center/{id:guid}")]
+    [Authorize]
+    [ProducesResponseType(typeof(CenterCoordinateResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetCenterCoordinate(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var query = new GetActivityCenterCoordinateQuery(id);
         var result = await this.Sender.Send(query, cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
     }

@@ -37,7 +37,31 @@ window.onload = (event) => {
     });
 
     function getStartCoordinate() {
-        return [23.2780016, 42.6547927];
+        let coordinate = [];
+        let activityId = document.getElementById('Id').value;
+        let formData = new FormData();
+        formData.append('activityId', activityId);
+        let verificationToken = $('input[name="__RequestVerificationToken"]').val();
+        console.log(verificationToken);
+        $.ajax({
+            "async": false,
+            "url": '/Ajax/GetStartCoordinate',
+            "method": "Post",
+            "headers": {
+                RequestVerificationToken: verificationToken
+            },
+            "processData": false,
+            "contentType": false,
+            "data": formData
+        }).done(function (response) {
+                coordinate.push(response.longitude, response.latitude);
+        }).fail(function (data) {
+            alert("There is an error with fetching tack for activity!");
+        }).always(function () {
+        });
+
+        console.log(coordinate);
+        return coordinate;
     }
 
     function getCoordinates() {

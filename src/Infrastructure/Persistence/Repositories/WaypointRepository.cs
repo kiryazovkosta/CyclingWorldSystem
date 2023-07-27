@@ -48,4 +48,17 @@ public class WaypointRepository : IWaypointRepository
             })
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<CenterCoordinateDto> GetCenterCoordinateAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await this._context
+            .Set<Waypoint>()
+            .Where(w => w.ActivityId == id)
+            .Select(w => new CenterCoordinateDto()
+            {
+                Longitude = w.Longitude,
+                Latitude = w.Latitude,
+            })
+            .FirstAsync(cancellationToken);
+    }
 }
