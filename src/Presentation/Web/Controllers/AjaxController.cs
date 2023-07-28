@@ -10,7 +10,9 @@ namespace Web.Controllers;
 
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Models;
+using Models.Likes;
 using Newtonsoft.Json;
+using NuGet.Protocol.Core.Types;
 
 public class AjaxController : AuthorizationController
 {
@@ -127,6 +129,27 @@ public class AjaxController : AuthorizationController
 
         var coordinates = response.Value!;
         return Ok(coordinates);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> LikeActivity([FromForm] string activityId)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        var like = new ActivityLikeModel(Guid.Parse(activityId), Guid.Parse(this.CurrentUserId()));
+        var response = await this.PostAsync<ActivityLikeModel, bool>("/api/ActivityLikes", like, token);
+        if (response.IsFailure)
+        {
+            throw new Exception("There is a problem when processing the selected Gpx file.");
+        }
+        
+        var result = new { IsSuccess = true};
+        return Ok(result);
     }
 
     private static string EncodeTo64(string toEncode)

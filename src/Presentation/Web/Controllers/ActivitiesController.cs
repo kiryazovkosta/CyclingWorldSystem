@@ -103,7 +103,5 @@ namespace Web.Controllers
             
             return RedirectToAction("All", "Activities");
         }
-
-
     }
 }

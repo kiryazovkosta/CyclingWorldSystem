@@ -92,6 +92,72 @@ window.onload = (event) => {
 
         return coordinates;
     }
+
+    const likeButton = document.getElementById('like-activity');
+    if (likeButton !== undefined && likeButton !== null) {
+        likeButton.addEventListener('click', async function likeActivity(){
+            let activityId = document.getElementById('Id').value;
+            let token = document.getElementsByName("__RequestVerificationToken")[0].value;
+            let formData = new FormData();
+            formData.append('activityId', activityId);
+            const fetchOptions = {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'RequestVerificationToken': token
+                }
+            };
+            const result = await request('/Ajax/LikeActivity', fetchOptions);
+            console.log(result);
+            if(result.isSuccess !== undefined && result.isSuccess === true) {
+                let span = document.getElementById('likes-count');
+                span.textContent = (Number(span.textContent) + 1) + '';
+                
+                let likeButton = document.getElementById('like-activity');
+                likeButton.remove();
+                
+            }
+        });
+    }
+
+    async function request(url, options) {
+
+        try {
+            const response = await fetch(url, options);
+
+            if (response.ok === false) {
+                const error = await response.json();
+                console.log(error);
+            }
+
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                return response.json();
+            }
+
+        } catch (err) {
+            console.log(err.message);
+            throw err;
+        }
+    }
+
+    function createOptions(method = 'get', data) {
+        const options = {
+            method,
+            headers: {}
+        };
+
+        if (data) {
+            options.headers['Content-Type'] = 'application/json';
+            options.body = data;
+        }
+
+        options.headers['RequestVerificationToken'] = 
+            document.getElementsByName("__RequestVerificationToken")[0].value;
+        return options;
+    }
 };
 
 

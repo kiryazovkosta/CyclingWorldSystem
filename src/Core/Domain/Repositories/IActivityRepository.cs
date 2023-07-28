@@ -9,4 +9,6 @@ public interface IActivityRepository
     Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken = default);
     
     Task<Activity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+    Task<bool> Exists(Guid id, CancellationToken cancellationToken = default);
 }
