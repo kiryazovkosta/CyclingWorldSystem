@@ -145,7 +145,28 @@ public class AjaxController : AuthorizationController
         var response = await this.PostAsync<ActivityLikeModel, bool>("/api/ActivityLikes", like, token);
         if (response.IsFailure)
         {
-            throw new Exception("There is a problem when processing the selected Gpx file.");
+            throw new Exception("There is a problem when like the selected activity!");
+        }
+        
+        var result = new { IsSuccess = true};
+        return Ok(result);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DislikeActivity([FromForm] string activityId)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        var dislike = new ActivityDislikeModel(Guid.Parse(activityId), Guid.Parse(this.CurrentUserId()));
+        var response = await this.PostAsync<ActivityDislikeModel, bool>("/api/ActivityLikes/Dislike", dislike, token);
+        if (response.IsFailure)
+        {
+            throw new Exception(response.Error);
         }
         
         var result = new { IsSuccess = true};
@@ -154,9 +175,7 @@ public class AjaxController : AuthorizationController
 
     private static string EncodeTo64(string toEncode)
     {
-
-        byte[] toEncodeAsBytes = UTF8Encoding.UTF8.GetBytes(toEncode);
-        string returnValue = System.Convert.ToBase64String(toEncodeAsBytes);
-        return returnValue;
+        return Convert.ToBase64String(
+        Encoding.UTF8.GetBytes(toEncode));
     }
 }

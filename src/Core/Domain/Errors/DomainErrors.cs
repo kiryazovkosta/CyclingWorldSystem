@@ -7,7 +7,7 @@ public static class DomainErrors
 {
 	public static Error DeleteOperationFailed(Guid id, string command) => new(
 		command,
-		string.Format("There is a error with deleting entity with Id {0}", id));
+		$"There is a error with deleting entity with Id {id}");
 
 	public static Error UnauthorizedAccess(string command) => new(
 		command,
@@ -149,4 +149,12 @@ public static class DomainErrors
 			"Activity.Id",
 			$"The activity with provided Id {id} does not exists.");
 	}
+
+	public static class ActivityLike
+	{
+		public static Error LikeDoesNotExists(Guid id) => new(
+			"ActivityLike.GetById.Id",
+			$"The like for activity with provided Id {id} and user does not exists.");
+	}
+
 }

@@ -113,8 +113,6 @@ namespace Web.Controllers
             return response;
         }
 
-
-
         public async Task DeleteAsync(
             string endpoint, Guid id, string? token = null)
         {

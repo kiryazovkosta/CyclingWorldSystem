@@ -15,6 +15,8 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
 		builder
 			.HasKey(x => x.Id);
 
+		builder.HasQueryFilter(comment => !comment.IsDeleted);
+
 		builder.Property(c => c.Content)
 			.HasMaxLength(GlobalConstants.Comment.ContentMaxLength)
 			.IsRequired();

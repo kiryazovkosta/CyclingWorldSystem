@@ -10,6 +10,7 @@ namespace Persistence.Repositories;
 
 using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 public class ActivityLikeRepository : IActivityLikeRepository
 {
@@ -23,5 +24,22 @@ public class ActivityLikeRepository : IActivityLikeRepository
     public void Add(ActivityLike activityLike)
     {
         this._context.Set<ActivityLike>().Add(activityLike);
+    }
+
+    public void Remove(ActivityLike activityLike)
+    {
+        this._context.Set<ActivityLike>().Remove(activityLike);
+    }
+
+    public async Task<ActivityLike?> GetByIdAsync(
+        Guid activityId, 
+        Guid userId, 
+        CancellationToken cancellationToken)
+    {
+        return await this._context
+            .Set<ActivityLike>()
+            .FirstOrDefaultAsync(al => al.ActivityId == activityId 
+                                    && al.UserId == userId, 
+                                cancellationToken);
     }
 }

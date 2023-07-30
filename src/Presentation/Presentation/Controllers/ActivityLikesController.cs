@@ -8,6 +8,7 @@
 
 namespace Presentation.Controllers;
 
+using Application.Entities.Likes.Commands.CreateActivityDislike;
 using Application.Entities.Likes.Commands.CreateActivityLike;
 using Application.Entities.Likes.Models;
 using Base;
@@ -33,6 +34,19 @@ public class ActivityLikesController : ApiController
         CancellationToken cancellationToken)
     {
         var command = request.Adapt<CreateActivityLikeCommand>();
+        var result = await this.Sender.Send(command, cancellationToken);
+        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
+    }
+
+    [HttpPost("Dislike")]
+    [Authorize]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IResult> Like(
+        [FromBody] CreateActivityDislikeRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = request.Adapt<CreateActivityDislikeCommand>();
         var result = await this.Sender.Send(command, cancellationToken);
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
     }

@@ -26,6 +26,7 @@ public class ActivityLikeConfiguration : IEntityTypeConfiguration<ActivityLike>
 		builder
 			.HasOne(al => al.Activity)
 			.WithMany(a => a.Likes)
-			.HasForeignKey(al => al.ActivityId);
+			.HasForeignKey(al => al.ActivityId)
+			.OnDelete(DeleteBehavior.Restrict);
 	}
 }

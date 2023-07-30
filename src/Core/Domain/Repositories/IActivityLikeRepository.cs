@@ -13,4 +13,8 @@ using Entities;
 public interface IActivityLikeRepository
 {
     void Add(ActivityLike activityLike);
+
+    void Remove(ActivityLike activityLike);
+    Task<ActivityLike?> GetByIdAsync(
+        Guid requestActivityId, Guid requestUserId, CancellationToken cancellationToken);
 }

@@ -38,7 +38,7 @@ public class ActivityRepository : IActivityRepository
             .FirstOrDefaultAsync(a => a.Id == id, cancellationToken: cancellationToken);
     }
 
-    public async Task<bool> Exists(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await this._context.Set<Activity>()
             .AnyAsync(a => a.Id == id, cancellationToken);

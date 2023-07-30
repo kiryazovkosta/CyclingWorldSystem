@@ -3,7 +3,7 @@
 using Domain.Identity;
 using Domain.Primitives;
 
-public class ActivityLike : DeletableEntity
+public class ActivityLike
 {
 	public Guid ActivityId { get; set; }
 	public Activity Activity { get; set; } = null!;
