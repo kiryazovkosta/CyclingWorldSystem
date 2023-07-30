@@ -1,0 +1,13 @@
+﻿@model CommentInputModel
+
+<form method="post">
+    <input type="hidden" asp-for="@Model.ActivityId" />
+
+    <div class="form-group">
+        <label asp-for="Content"></label>
+        <textarea asp-for="Content" rows="10" class="form-control" placeholder="Write your comment..."></textarea>
+        <span asp-validation-for="Content" class="small text-danger"></span>
+    </div>
+    
+    <button type="submit">Create Comment</button>
+</form>

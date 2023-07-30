@@ -2,6 +2,7 @@
 
 <section>
     <input type="hidden" asp-for="Id"/>
+    <input type="hidden" asp-for="UserId"/>
     
     <div>
         <img src="@Model.Avatar" alt="avatar" width="26px" height="26px"/>
@@ -17,7 +18,7 @@
     
     <div>
         <h2>@Model.Title</h2>
-        <h5>@{Model.StartDateTime.ToString("MM/dd/yyyy");}</h5>
+        <h5>@Model.StartDateTime</h5>
         <h4>@Model.Bike</h4>
     </div>
 
@@ -44,18 +45,23 @@
 
     <div id="map"></div>
 
-    <div>
-        <p>Number of peoples who likes this activity <span id="likes-count">@Model.LikeCount</span></p>
-        <div>
-            @if(Model.IsLikedByMe) 
-            {
-                <a class="btn btn-secondary" id="dislike-activity">Dislike activity</a>
-            }
-            else 
-            {
-                <a class="btn btn-secondary" id="like-activity">Like activity</a>
-            }
-        </div>
+    <partial name="_ActivityLikesPartial" model="@Model" />
+
+    <div class="comments-list">
+        <a class="btn btn-warning" id="create-comment" asp-action="Create" asp-controller="Comments" asp-route-id="@Model?.Id" >Create comment</a>
+        @foreach(var comment in @Model.Comments) {
+            <article>
+                <p>Comment by @comment.UserName</p>
+                <p>Comment at @comment.CreatedOn</p>
+                <p>Comment @comment.Content</p>
+                @if(comment.IsMine) 
+                {
+                    <a class="btn btn-primary" id="update-comment" asp-action="Update" asp-controller="Comments" asp-route-id="@comment.Id" >Update</a>
+                    <a class="btn btn-secondary" id="delete-comment" asp-action="Remove" asp-controller="Comments" asp-route-id="@comment.Id" >Delete</a>
+                }
+                <a class="btn btn-warning" id="quote-comment" asp-action="Quote" asp-controller="Comments" asp-route-id="@comment.Id" >Quote</a>
+            </article>
+        }
     </div>
     
     <form method="post"></form>

@@ -157,4 +157,15 @@ public static class DomainErrors
 			$"The like for activity with provided Id {id} and user does not exists.");
 	}
 
+	public static class Comments 
+	{
+		public static Error ContentIsEmptyOrNull => new(
+			"Comments.Create.Content",
+				"The content can not be null or empty string");
+
+		public static Error ContentInvalidLength => new(
+			"Comments.Create.Content",
+			$"The content length must be between {GlobalConstants.Comment.ContentMinLength} and {GlobalConstants.Comment.ContentMaxLength} symbols");
+	} 
+
 }

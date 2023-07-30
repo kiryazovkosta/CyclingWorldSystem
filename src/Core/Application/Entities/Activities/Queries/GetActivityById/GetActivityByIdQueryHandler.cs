@@ -1,6 +1,7 @@
 ﻿namespace Application.Entities.Activities.Queries.GetActivityById;
 
 using Abstractions.Messaging;
+using Comments.Models;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;
@@ -33,6 +34,17 @@ public class GetActivityByIdQueryHandler
 
         var response = activity.Adapt<ActivityResponse>();
         response.IsLikedByMe = activity.Likes.Any(l => l.UserId == this._currentUserService.GetCurrentUserId());
+        response.Comments = activity.Comments
+            .Select(c => new CommentResponse()
+            {
+                Id = c.Id, 
+                UserName = c.User.FullName, 
+                CreatedOn = c.CreatedOn, 
+                Content = c.Content,
+                IsMine = c.UserId == this._currentUserService.GetCurrentUserId()
+            })
+            .OrderBy(c => c.CreatedOn)
+            .ToList();
         return response;
     }
 }

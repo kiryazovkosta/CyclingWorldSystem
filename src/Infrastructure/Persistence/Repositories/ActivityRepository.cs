@@ -35,6 +35,8 @@ public class ActivityRepository : IActivityRepository
             .Include(a => a.Bike)
             .Include(a => a.Images)
             .Include(a => a.Likes)
+            .Include(a => a.Comments)
+            .ThenInclude(c => c.User)
             .FirstOrDefaultAsync(a => a.Id == id, cancellationToken: cancellationToken);
     }
 

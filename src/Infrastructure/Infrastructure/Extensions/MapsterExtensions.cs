@@ -60,7 +60,8 @@ public static class MapsterExtensions
 			.Map(dest => dest.Avatar, src => src.User.ImageUrl)
 			.Map(dest => dest.Bike, src => src.Bike.Name)
 			.Map(dest => dest.LikeCount, src => src.Likes.Count())
-			.Ignore(dest => dest.IsLikedByMe);
+			.Ignore(dest => dest.IsLikedByMe)
+			.Ignore(dest => dest.Comments);
 
 
 		TypeAdapterConfig.GlobalSettings.Scan(

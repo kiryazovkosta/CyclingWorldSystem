@@ -57,6 +57,7 @@ public static class DependencyInjection
 		services.AddScoped<IWaypointRepository, WaypointRepository>();
 		services.AddScoped<IActivityRepository, ActivityRepository>();
 		services.AddScoped<IActivityLikeRepository, ActivityLikeRepository>();
+		services.AddScoped<ICommentRepository, CommentRepository>();
 
 		return services;
 	}

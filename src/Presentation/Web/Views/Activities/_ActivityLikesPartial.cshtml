@@ -1,0 +1,16 @@
+﻿@model ActivityViewModel
+
+
+<div>
+    <p>Number of peoples who likes this activity <span id="likes-count">@Model.LikeCount</span></p>
+    <div>
+        @if(Model.IsLikedByMe) 
+        {
+            <a class="btn btn-secondary" id="dislike-activity">Dislike activity</a>
+        }
+        else 
+        {
+            <a class="btn btn-secondary" id="like-activity">Like activity</a>
+        }
+    </div>
+</div>
