@@ -8,7 +8,7 @@
 
 namespace Application.Entities.Comments.Queries.GetCommentById;
 
-public class GetCommentByIdQuery
-{
-    
-}
+using Abstractions.Messaging;
+using Models;
+
+public sealed record GetCommentByIdQuery(Guid Id) : IQuery<CommentResponse>;

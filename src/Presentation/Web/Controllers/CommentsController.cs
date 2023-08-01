@@ -54,4 +54,63 @@ public class CommentsController : AuthorizationController
         }
         return RedirectToAction("Get", "Activities", new { id = model.ActivityId} );
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Update(string id)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        var commentResult = await this.GetAsync<CommentInputModel>($"/api/Comments/{id}", token);
+        if (commentResult.IsFailure)
+        {
+            return View();
+        }
+
+        var commentModel = commentResult.Value;
+        if (commentModel is null) 
+        {
+            return View();
+        }
+        
+        return View(commentModel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Update(CommentInputModel model)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        var createResponse = await this.PutAsync("/api/Comments", model, token);
+        if (createResponse.IsFailure)
+        {
+            return View(model);
+        }
+
+        return RedirectToAction("Get", "Activities", new { id = model.ActivityId} );
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Remove(string id)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+
+        var commentResult = await this.GetAsync<CommentInputModel>($"/api/Comments/{id}", token);
+        var commentModel = commentResult.Value;
+
+        await this.DeleteAsync("api/Comments/", Guid.Parse(id), token);
+
+        return RedirectToAction("Get", "Activities", new { id = commentModel?.ActivityId} );
+    }
 }

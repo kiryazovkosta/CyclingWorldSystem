@@ -166,6 +166,10 @@ public static class DomainErrors
 		public static Error ContentInvalidLength => new(
 			"Comments.Create.Content",
 			$"The content length must be between {GlobalConstants.Comment.ContentMinLength} and {GlobalConstants.Comment.ContentMaxLength} symbols");
+
+		public static Error CommentDoesNotExists(Guid id) => new(
+			"Comments.Create.Content",
+			$"The comment with provided Id {id} does not exists");
 	} 
 
 }

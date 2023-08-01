@@ -8,12 +8,12 @@
 
 namespace Presentation.Controllers;
 
-using Application.Entities.Bikes.Commands.CreateBike;
-using Application.Entities.Bikes.Models;
 using Application.Entities.Comments.Commands.CreateComment;
+using Application.Entities.Comments.Commands.DeleteComment;
+using Application.Entities.Comments.Commands.UpdateComment;
 using Application.Entities.Comments.Models;
+using Application.Entities.Comments.Queries.GetCommentById;
 using Base;
-using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +27,19 @@ public class CommentsController: ApiController
     {
     }
 
+    [HttpGet("{id:guid}")]
+    [Authorize]
+    [ProducesResponseType(typeof(CommentResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IResult> GetCommentById(
+        Guid id, 
+        CancellationToken cancellationToken)
+    {
+        var query = new GetCommentByIdQuery(id);
+        var result = await this.Sender.Send(query, cancellationToken);
+        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
+    }
+
     [HttpPost]
     [Authorize]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
@@ -38,5 +51,29 @@ public class CommentsController: ApiController
         var command = request.Adapt<CreateCommentCommand>();
         var result = await this.Sender.Send(command, cancellationToken);
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
+    }
+
+    [HttpPut]
+    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateBike(
+        [FromBody] UpdateCommentRequest request, 
+        CancellationToken cancellationToken)
+    {
+        var command = request.Adapt<UpdateCommentCommand>();
+        var result = await this.Sender.Send(command, cancellationToken);
+        return result.IsSuccess ? NoContent() : BadRequest(result.Error);
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IResult> DeleteComment(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var command = new DeleteCommentCommand(id);
+        var result = await this.Sender.Send(command, cancellationToken);
+        return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
     }
 }

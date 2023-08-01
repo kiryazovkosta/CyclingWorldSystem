@@ -8,7 +8,12 @@
 
 namespace Application.Entities.Comments.Commands.UpdateComment;
 
+using FluentValidation;
+
 public class UpdateCommentCommandValidator
+    : AbstractValidator<UpdateCommentCommand>
 {
-    
+    public UpdateCommentCommandValidator()
+    {
+    }  
 }

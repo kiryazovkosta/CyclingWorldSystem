@@ -44,4 +44,9 @@ public class Comment : DeletableEntity
 		var comment = new Comment(activityId, userId, content);
 		return comment; 
 	}
+
+	public void Update(string content)
+	{
+		this.Content = content;
+	}
 }

@@ -8,7 +8,4 @@
 
 namespace Application.Entities.Comments.Models;
 
-public class UpdateCommentRequest
-{
-    
-}
+public sealed record UpdateCommentRequest(Guid Id, string Content);

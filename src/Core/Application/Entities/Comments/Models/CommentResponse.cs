@@ -14,6 +14,7 @@ public sealed record CommentResponse
     public string UserName { get; init; } = null!;
     public DateTime CreatedOn { get; init; }
     public string Content { get; init; } = null!;
-
     public bool IsMine { get; set; }
+
+    public Guid ActivityId { get; init; }
 }

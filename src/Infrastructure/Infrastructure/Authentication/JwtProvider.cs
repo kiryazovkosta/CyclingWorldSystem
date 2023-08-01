@@ -52,6 +52,7 @@ public sealed class JwtProvider : IJwtProvider
 					new Claim("identifier", user.Id.ToString()),
 					new Claim("email", user.Email!),
 					new Claim("username", user.UserName!),
+					new Claim("fullname", user.FullName),
 				};
 			
 			foreach (var role in roles) 

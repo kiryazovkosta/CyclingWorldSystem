@@ -8,7 +8,6 @@
 
 namespace Application.Entities.Comments.Commands.UpdateComment;
 
-public class UpdateCommentCommand
-{
-    
-}
+using Abstractions.Messaging;
+
+public sealed record UpdateCommentCommand(Guid Id, string Content) : ICommand;

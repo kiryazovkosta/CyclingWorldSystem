@@ -98,7 +98,8 @@ public class AccountController : AuthorizationController
         {
             new Claim(ClaimTypes.Name, token.Claims.First(c => c.Type == "username").Value),
             new Claim("email", token.Claims.First(c => c.Type == "email").Value),
-            new Claim(ClaimTypes.NameIdentifier, token.Claims.First(c => c.Type == "identifier").Value)
+            new Claim(ClaimTypes.NameIdentifier, token.Claims.First(c => c.Type == "identifier").Value),
+            new Claim("fullname", token.Claims.First(c => c.Type == "fullname").Value)
         };
 
         var roles = token.Claims.Where(c => c.Type == "role").ToList();

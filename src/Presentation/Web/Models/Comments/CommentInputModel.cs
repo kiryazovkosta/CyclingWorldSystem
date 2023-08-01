@@ -10,6 +10,7 @@ namespace Web.Models.Comments;
 
 public class CommentInputModel
 {
+    public string? Id { get; set; }
     public Guid ActivityId { get; set; }
     public string Content { get; set; } = null!;
 }

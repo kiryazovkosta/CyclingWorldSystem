@@ -100,8 +100,8 @@ div#pictures-list {
 #map {
     position: relative;
     top: 10px;
-    left: 2%;
-    width: 90%;
+    left: 0;
+    width: 100%;
     height: 400px;
 
 }

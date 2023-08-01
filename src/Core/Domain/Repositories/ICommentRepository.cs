@@ -13,4 +13,6 @@ using Entities;
 public interface ICommentRepository
 {
     void Add(Comment comment);
+    Task<Comment?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken);
 }
