@@ -8,7 +8,7 @@ using Web.Models.Response;
 
 namespace Web.Controllers
 {
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using System.Text.Json;
     using Models;
 
     public class AuthorizationController : Controller
@@ -27,13 +27,13 @@ namespace Web.Controllers
 			_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 		}
 
-		public IHttpClientFactory HttpClientFactory => _httpClientFactory;
+        private IHttpClientFactory HttpClientFactory => _httpClientFactory;
 
-		public IConfiguration Configuration => _configuration;
+        protected IConfiguration Configuration => _configuration;
 
-		public IHttpContextAccessor HttpContextAccessor => _httpContextAccessor;
+        protected IHttpContextAccessor HttpContextAccessor => _httpContextAccessor;
 
-        public async Task<EndpointResponse<TOutput>> GetAsync<TOutput>(
+        protected async Task<EndpointResponse<TOutput>> GetAsync<TOutput>(
             string endpoint,
             string? token = null,
             Dictionary<string, string>? parameters = null)
@@ -59,13 +59,15 @@ namespace Web.Controllers
             }
 			else
 			{
-				response.Error = await httpResponse.Content.ReadAsStringAsync();
+                var errorMessage = await httpResponse.Content.ReadAsStringAsync();
+                var error = JsonSerializer.Deserialize<RestError>(errorMessage);
+                response.Error = error;
 			}
 
             return response;
         }
 
-        public async Task<EndpointResponse<TOutput>> PostAsync<TInput,TOutput>(
+        protected async Task<EndpointResponse<TOutput>> PostAsync<TInput,TOutput>(
 			string endpoint, TInput input, string? token = null)
 		{
 			var response = new EndpointResponse<TOutput>();
@@ -83,14 +85,15 @@ namespace Web.Controllers
 			}
 			else
 			{
-                response.Error = await httpResponse.Content.ReadAsStringAsync();
+                response.Error = GetError(
+                    await httpResponse.Content.ReadAsStringAsync());
             }
 
 			return response;
 		}
 
 
-        public async Task<EndpointResponse<Guid>> PutAsync<TInput>(
+        protected async Task<EndpointResponse<Guid>> PutAsync<TInput>(
             string endpoint, TInput model, string? token = null)
         {
             var response = new EndpointResponse<Guid>();
@@ -106,7 +109,8 @@ namespace Web.Controllers
                 response.IsSuccess = httpResponse.IsSuccessStatusCode;
                 if (!httpResponse.IsSuccessStatusCode)
                 {
-                    response.Error = await httpResponse.Content.ReadAsStringAsync();
+                    response.Error = GetError(
+                        await httpResponse.Content.ReadAsStringAsync());
                 }
             }
 
@@ -127,7 +131,8 @@ namespace Web.Controllers
             response.IsSuccess = httpResponse.IsSuccessStatusCode;
             if (!httpResponse.IsSuccessStatusCode)
             {
-                response.Error = await httpResponse.Content.ReadAsStringAsync();
+                response.Error = GetError(
+                    await httpResponse.Content.ReadAsStringAsync());
             }
         }
 
@@ -150,24 +155,21 @@ namespace Web.Controllers
 			using var content = new MultipartFormDataContent();
             foreach (var property in properties)
             {
-                if (property is not null)
+                if (property.PropertyType.Name == "String")
                 {
-                    if (property.PropertyType.Name == "String")
+                    var value = property.GetValue(input);
+                    if (value is not null) 
                     {
-                        var value = property.GetValue(input);
-                        if (value is not null) 
-                        {
-                            content.Add(new StringContent(value.ToString()!), property.Name);
-                        }
+                        content.Add(new StringContent(value.ToString()!), property.Name);
                     }
+                }
 
-                    if (property.PropertyType.Name == "IFormFile")
-                    {
-                        FormFile file = (property.GetValue(input) as FormFile)!;
-                        var streamContent = new StreamContent(file.OpenReadStream());
-                        streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                        content.Add(streamContent, property.Name, file.FileName);
-                    }
+                if (property.PropertyType.Name == "IFormFile")
+                {
+                    FormFile file = (property.GetValue(input) as FormFile)!;
+                    var streamContent = new StreamContent(file.OpenReadStream());
+                    streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                    content.Add(streamContent, property.Name, file.FileName);
                 }
             }
 
@@ -181,7 +183,8 @@ namespace Web.Controllers
             }
             else
             {
-                response.Error = await httpResponse.Content.ReadAsStringAsync();
+                response.Error = GetError(
+                    await httpResponse.Content.ReadAsStringAsync());
             }
 
             return response;
@@ -218,7 +221,8 @@ namespace Web.Controllers
             }
             else
             {
-                response.Error = await httpResponse.Content.ReadAsStringAsync();
+                response.Error = GetError(
+                    await httpResponse.Content.ReadAsStringAsync());
             }
             return response;
         }
@@ -236,6 +240,17 @@ namespace Web.Controllers
                 this.HttpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)
                 ?? string.Empty;
             return id;
+        }
+
+        private RestError GetError(string message) 
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var error = JsonSerializer.Deserialize<RestError>(message, options);
+            return error!;
         }
             
     }

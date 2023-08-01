@@ -4,13 +4,15 @@ using Web.Models;
 
 namespace Web.Controllers;
 
+using AspNetCoreHero.ToastNotification.Abstractions;
+
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
     {
-        _logger = logger;
+        this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public IActionResult Index()

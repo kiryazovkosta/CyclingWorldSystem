@@ -8,17 +8,24 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Common.Constants;
 using Web.Models.Authorization;
 
 [Authorize]
 public class AccountController : AuthorizationController
 {
+
+    private readonly INotyfService _notification;
+
     public AccountController(
-        IHttpContextAccessor httpContextAccessor,
+        IHttpContextAccessor httpContextAccessor, 
         IHttpClientFactory httpClientFactory,
-        IConfiguration configuration)
+        IConfiguration configuration, 
+        INotyfService notification) 
         : base(httpContextAccessor, httpClientFactory, configuration)
     {
+        this._notification = notification ?? throw new ArgumentNullException(nameof(notification));
     }
 
     [HttpGet]
@@ -38,6 +45,8 @@ public class AccountController : AuthorizationController
                 "api/Accounts/LogIn", model);
         if (result.IsFailure)
         {
+            var message = result?.Error?.Message ?? GlobalMessages.GlobalError;
+            this._notification.Error(message);
             return View();
         }
 

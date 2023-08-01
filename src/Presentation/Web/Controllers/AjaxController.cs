@@ -8,6 +8,7 @@ using Web.Models.Waypoints;
 
 namespace Web.Controllers;
 
+using Common.Constants;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Models;
 using Models.Likes;
@@ -81,7 +82,7 @@ public class AjaxController : AuthorizationController
             token);
         if (result.IsFailure)
         {
-            throw new ArgumentException(result.Error);
+            throw new ArgumentException(result?.Error?.Message ?? GlobalMessages.GlobalError);
         }
        
         return Ok(result.Value);
@@ -166,7 +167,7 @@ public class AjaxController : AuthorizationController
         var response = await this.PostAsync<ActivityDislikeModel, bool>("/api/ActivityLikes/Dislike", dislike, token);
         if (response.IsFailure)
         {
-            throw new Exception(response.Error);
+            throw new Exception(response?.Error?.Message ?? GlobalMessages.GlobalError);
         }
         
         var result = new { IsSuccess = true};
