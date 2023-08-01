@@ -10,6 +10,9 @@ public static class GlobalConstants
 		public const string DefaultAvatar =
 			@"http://res.cloudinary.com/dfn7thtsx/image/upload/v1689354492/mavwuuktroa19e3syh3i.png";
 
+		public const string AvatarBeginPath = @"http://res.cloudinary.com/dfn7thtsx/image/upload/";
+		public const string AvatarRoundedAlgorithm = "c_crop,g_face,h_400,w_400/r_max/c_scale,w_200/f_auto/";
+
     }
 
     public static class User

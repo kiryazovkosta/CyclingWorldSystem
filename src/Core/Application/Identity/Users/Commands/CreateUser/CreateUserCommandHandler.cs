@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Common.Constants;
 
 public sealed class CreateUserCommandHandler
 	: ICommandHandler<CreateUserCommand, Guid>
@@ -34,11 +35,6 @@ public sealed class CreateUserCommandHandler
 		CreateUserCommand request, 
 		CancellationToken cancellationToken)
 	{
-		if (request is null)
-		{
-			return Result.Failure<Guid>(Error.NullValue);
-		}
-
 		var dbUser = request.Adapt<User>();
 		if (dbUser is null)
 		{
@@ -48,7 +44,12 @@ public sealed class CreateUserCommandHandler
 		if (request.Avatar is not null)
 		{
 			var avatarUrl = await this._cloudinaryService.UploadAsync(request.Avatar);
-			dbUser.ImageUrl = avatarUrl;
+
+			var end = avatarUrl.Substring(
+			GlobalConstants.Cloudinary.AvatarBeginPath.Length, 
+				avatarUrl.Length - GlobalConstants.Cloudinary.AvatarBeginPath.Length );
+
+			dbUser.ImageUrl = $"{GlobalConstants.Cloudinary.AvatarBeginPath}{GlobalConstants.Cloudinary.AvatarRoundedAlgorithm}{end}";
 		}
 
 		var result = await _userManager.CreateAsync(dbUser, request.Password);
