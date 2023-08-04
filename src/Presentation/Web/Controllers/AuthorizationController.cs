@@ -167,9 +167,13 @@ namespace Web.Controllers
                 if (property.PropertyType.Name == "IFormFile")
                 {
                     FormFile file = (property.GetValue(input) as FormFile)!;
-                    var streamContent = new StreamContent(file.OpenReadStream());
-                    streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
-                    content.Add(streamContent, property.Name, file.FileName);
+                    if (file is not null)
+                    {
+                        var streamContent = new StreamContent(file.OpenReadStream());
+                        streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                        content.Add(streamContent, property.Name, file.FileName);
+                    }
+
                 }
             }
 

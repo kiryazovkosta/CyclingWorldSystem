@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
 using System.Reflection.Metadata.Ecma335;
+using Application.Identity.Users.Commands.ConfirmEmail;
 
 public sealed class AccountsController : ApiController
 {
@@ -35,6 +36,17 @@ public sealed class AccountsController : ApiController
 	[FromBody] LoginUserRequest request, CancellationToken cancellationToken)
 	{
 		var command = request.Adapt<LogInUserCommand>();
+		var token = await this.Sender.Send(command, cancellationToken);
+		return token.IsSuccess ? Ok(token.Value) : BadRequest(token.Error);
+	}
+
+	[HttpPost("ConfirmEmail")]
+	[ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<IActionResult> ConfirmEmail(
+		[FromBody] ConfirmEmailRequest request, CancellationToken cancellationToken)
+	{
+		var command = request.Adapt<ConfirmEmailCommand>();
 		var token = await this.Sender.Send(command, cancellationToken);
 		return token.IsSuccess ? Ok(token.Value) : BadRequest(token.Error);
 	}

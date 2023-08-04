@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Common.Constants;
+using Microsoft.AspNetCore.WebUtilities;
 using Web.Models.Authorization;
 
 [Authorize]
@@ -77,9 +79,59 @@ public class AccountController : AuthorizationController
         var result = await this.PostMultipartAsync<RegisterUserInputModel, Guid>("api/Accounts/Register", model);
         if (result.IsFailure)
         {
+            var message = result?.Error?.Message ?? GlobalMessages.GlobalError;
+            var encoded = HtmlEncoder.Default.Encode(message);
+            this._notification.Error(encoded);
             return View();
         }
+
         return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> ConfirmEmail([FromQuery] string UserId, [FromQuery] string Code)
+    {
+        var confirm = new ConfirmEmailInputModel(UserId, Code);
+        var result =
+             await this.PostAsync<ConfirmEmailInputModel, bool>("api/Accounts/ConfirmEmail", confirm);
+        if (result.IsFailure)
+        {
+            CookieOptions options = new CookieOptions() 
+            { 
+                Expires = DateTime.Now.AddHours(5), 
+                HttpOnly = true, 
+                IsEssential = true
+            };
+            Response.Cookies.Append("ErrorMessage", result?.Error?.Message ?? GlobalMessages.GlobalError, options);
+        }
+        else
+        {
+            CookieOptions options = new CookieOptions() 
+            { 
+                HttpOnly = true,
+                IsEssential = true,
+                Secure = false,
+                SameSite = SameSiteMode.None,
+                Domain = "localhost",
+                Expires = DateTime.UtcNow.AddDays(14)
+            };
+            Response.Cookies.Append("s-ss-sss", "Thank you for confirming your email.", options);
+        }
+        
+        return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet] 
+    public IActionResult ForgotPassword()
+    {
+        return View();
+    }
+
+    [HttpGet] 
+    public IActionResult ResetPassword()
+    {
+        return View();
     }
 
     private JwtSecurityToken GetJwtTokenData(LogInResponse? result)

@@ -10,28 +10,35 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Security.Policy;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Constants;
+using Microsoft.AspNetCore.WebUtilities;
 
 public sealed class CreateUserCommandHandler
 	: ICommandHandler<CreateUserCommand, Guid>
 {
 	private readonly UserManager<User> _userManager;
 	private readonly ICloudinaryService _cloudinaryService;
+	private readonly IEmailSender _emaiSender;
 	private readonly IUnitOfWork _context;
 
-    public CreateUserCommandHandler(
+	public CreateUserCommandHandler(
 		UserManager<User> userManager, 
-		ICloudinaryService cloudinaryService, 
+		ICloudinaryService cloudinaryService,
+		IEmailSender emaiSender, 
 		IUnitOfWork context)
-    {
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-        _cloudinaryService = cloudinaryService ?? throw new ArgumentNullException(nameof(cloudinaryService));
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+	{
+		this._userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+		this._cloudinaryService = cloudinaryService ?? throw new ArgumentNullException(nameof(cloudinaryService));
+		this._emaiSender = emaiSender ?? throw new ArgumentNullException(nameof(emaiSender));
+		this._context = context ?? throw new ArgumentNullException(nameof(context));
+	}
 
-    public async Task<Result<Guid>> Handle(
+	public async Task<Result<Guid>> Handle(
 		CreateUserCommand request, 
 		CancellationToken cancellationToken)
 	{
@@ -61,10 +68,22 @@ public sealed class CreateUserCommandHandler
 				return Result.Failure<Guid>(Error.NullValue);
 			}
 
-			await _context.SaveChangesAsync();
+			var userId = await this._userManager.GetUserIdAsync(user);
+			userId = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(userId));
+			var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
+			code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+			var confirmUrl = $"http://localhost:5268/Account/ConfirmEmail?code={code}&userId={userId}";
+			await this._emaiSender.SendEmailAsync(
+				request.Email, 
+				"Confirm your email", 
+				$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(confirmUrl)}'>clicking here</a>.");
+
+			await _context.SaveChangesAsync(cancellationToken);
 			return user.Id;
 		}
 
-		return Result.Failure<Guid>(Error.NullValue);
+		return Result.Failure<Guid>(
+			new Error("CreateUser", string.Join(". ", 
+				result.Errors.Select(e => e.Description))));
 	}
 }

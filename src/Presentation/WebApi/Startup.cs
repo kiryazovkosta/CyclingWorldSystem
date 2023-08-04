@@ -9,6 +9,7 @@ using Persistence;
 using Serilog;
 using System.IO.Compression;
 using System.Text;
+using Infrastructure.Email;
 using WebApi.Extensions;
 using WebApi.OptionsSetup;
 
@@ -57,6 +58,9 @@ builder.Services.AddSwaggerGen(option =>
 		}
 	});
 });
+
+// builder.Services.Configure<MailOptions>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.ConfigureOptions<MailOptionsSetup>();
 
 builder.Services.AddPersistence(builder.Configuration);
 
