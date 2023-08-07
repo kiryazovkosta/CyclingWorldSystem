@@ -10,11 +10,8 @@ namespace Web.Models.Authorization;
 
 public class ResetPasswordInputModel
 {
-    public string UserName { get; set; } = null!;
-
-    public string Password { get; set; } = null!;
-
-    public string ConfirmPassword { get; set; } = null!;
-
+    public string UserId { get; set; } = null!;
     public string Code { get; set; } = null!; 
+    public string Password { get; set; } = null!;
+    public string ConfirmPassword { get; set; } = null!;
 }

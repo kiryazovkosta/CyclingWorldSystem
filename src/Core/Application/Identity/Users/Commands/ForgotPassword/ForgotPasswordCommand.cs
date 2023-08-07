@@ -1,14 +1,13 @@
 ﻿// ------------------------------------------------------------------------------------------------
-//  <copyright file="ForgotPasswordInputModel.cs" company="Business Management System Ltd.">
+//  <copyright file="ForgotPasswordCommand.cs" company="Business Management System Ltd.">
 //      Copyright "2023" (c), Business Management System Ltd.
 //      All rights reserved.
 //  </copyright>
 //  <author>Kosta.Kiryazov</author>
 // ------------------------------------------------------------------------------------------------
 
-namespace Web.Models.Authorization;
+namespace Application.Identity.Users.Commands.ForgotPassword;
 
-public class ForgotPasswordInputModel
-{
-    public string UserName { get; init; } = null!;
-}
+using Abstractions.Messaging;
+
+public sealed record ForgotPasswordCommand(string UserName) : ICommand<bool>;

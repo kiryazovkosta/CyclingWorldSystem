@@ -138,16 +138,65 @@ public class AccountController : AuthorizationController
         return RedirectToAction("Index", "Home", responseModel);
     }
 
-    [HttpGet] 
+    [HttpGet]
+    [AllowAnonymous]
     public IActionResult ForgotPassword()
     {
         return View();
     }
 
-    [HttpGet] 
-    public IActionResult ResetPassword()
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPassword(string userName)
     {
-        return View();
+        var model = new ForgotPasswordInputModel() { UserName =  userName };
+        var result =
+            await this.PostAsync<ForgotPasswordInputModel, bool>("api/Accounts/ForgotPassword", model);
+
+        var responseModel = new ResultMessageModel();
+        if (result.IsFailure)
+        {
+            responseModel.Error = result?.Error?.Message ?? GlobalMessages.GlobalError;
+        }
+        else
+        {
+            responseModel.Success =  "Password reset verification email sent. Please check your email.";
+        }
+        
+        return RedirectToAction("Index", "Home", responseModel);
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult ResetPassword([FromQuery] string UserId, [FromQuery] string Code)
+    {
+        var model = new ResetPasswordInputModel() 
+        {
+            UserId = UserId,
+            Code = Code
+        };
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword(ResetPasswordInputModel model)
+    {
+        var result =
+            await this.PostAsync<ResetPasswordInputModel, bool>("api/Accounts/ResetPassword", model);
+
+        var responseModel = new ResultMessageModel();
+        if (result.IsFailure)
+        {
+            responseModel.Error = result?.Error?.Message ?? GlobalMessages.GlobalError;
+        }
+        else
+        {
+            responseModel.Success =  "Password is changed successfully.";
+        }
+        
+        return RedirectToAction("Index", "Home", responseModel);
     }
 
     private JwtSecurityToken GetJwtTokenData(LogInResponse? result)

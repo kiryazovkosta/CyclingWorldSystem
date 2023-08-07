@@ -26,6 +26,7 @@ public class ResendConfirmEmailCommandHandler
     private readonly IEmailSender _emailSender;
     private readonly IUnitOfWork _context;
 
+
     public ResendConfirmEmailCommandHandler(
         UserManager<User> userManager, 
         IEmailSender emailSender, 

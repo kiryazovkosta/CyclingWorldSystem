@@ -50,6 +50,10 @@ public static class DomainErrors
 		public static Error FailedToAssignUserRoles => new(
 			"UpdateUserRolesCommand.UserId",
 			GlobalMessages.User.FailedToAssignUserRoles);
+
+		public static Error PasswordsAreNotEqual => new(
+			"User.ResetPassword.Password",
+			GlobalMessages.User.PasswordsAreNotEqual);
 		
 	}
 	
