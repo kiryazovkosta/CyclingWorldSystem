@@ -53,6 +53,7 @@ public static class GlobalMessages
 		public const string FailedToRemoveUserRoles = "Failed to remove roles of user";
 		public const string FailedToAssignUserRoles = "Failed to asiign roles to user";
 		public const string PasswordsAreNotEqual = "Entered passwords are not equal";
+		public const string FailedToSignIn = "Failed to sign in with provided credentials";
 	}
 	
 	public static class Role

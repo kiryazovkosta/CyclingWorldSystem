@@ -54,6 +54,11 @@ public static class DomainErrors
 		public static Error PasswordsAreNotEqual => new(
 			"User.ResetPassword.Password",
 			GlobalMessages.User.PasswordsAreNotEqual);
+
+		public static Error FailedToSignIn => new(
+			"User.Profile.ChangePassword",
+			GlobalMessages.User.FailedToSignIn
+		);
 		
 	}
 	
