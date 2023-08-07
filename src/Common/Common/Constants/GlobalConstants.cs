@@ -29,6 +29,7 @@ public static class GlobalConstants
 
 		public const string FailedToLogInMessage = "Failed to login";
 		public const string EmailIsNotConfirmed = "User is not confirmed";
+		public const string EmailIsAlredyNotConfirmed = "User is already confirmed";
     }
 
 	public static class Role

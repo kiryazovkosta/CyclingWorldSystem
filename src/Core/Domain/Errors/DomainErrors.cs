@@ -26,6 +26,10 @@ public static class DomainErrors
 		public static Error EmailIsNotConfirmed => new(
 			"LogInUserCommand",
 			GlobalConstants.User.EmailIsNotConfirmed);
+
+		public static Error EmailIsAlreadyConfirmed => new(
+			"LogInUserCommand",
+			GlobalConstants.User.EmailIsAlredyNotConfirmed);
 		
 		public static Error NonExistsUser => new(
 			"EditUserCommand.UserId",

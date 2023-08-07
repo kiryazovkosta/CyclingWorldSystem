@@ -1,16 +1,15 @@
 ﻿namespace Presentation.Controllers;
 
 using Application.Identity.Users.Commands.CreateUser;
-using Application.Identity.Users.Commands.LoginUser;
 using Application.Identity.Users.Commands.LogInUser;
 using Application.Identity.Users.Models;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.Controllers.Base;
-using System.Reflection.Metadata.Ecma335;
+using Base;
 using Application.Identity.Users.Commands.ConfirmEmail;
+using Application.Identity.Users.Commands.ResendConfirmEmail;
 
 public sealed class AccountsController : ApiController
 {
@@ -47,6 +46,17 @@ public sealed class AccountsController : ApiController
 		[FromBody] ConfirmEmailRequest request, CancellationToken cancellationToken)
 	{
 		var command = request.Adapt<ConfirmEmailCommand>();
+		var token = await this.Sender.Send(command, cancellationToken);
+		return token.IsSuccess ? Ok(token.Value) : BadRequest(token.Error);
+	}
+
+	[HttpPost("ResendConfirmEmail")]
+	[ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<IActionResult> ConfirmEmail(
+		[FromBody] ResendConfirmEmailRequest request, CancellationToken cancellationToken)
+	{
+		var command = request.Adapt<ResendConfirmEmailCommand>();
 		var token = await this.Sender.Send(command, cancellationToken);
 		return token.IsSuccess ? Ok(token.Value) : BadRequest(token.Error);
 	}

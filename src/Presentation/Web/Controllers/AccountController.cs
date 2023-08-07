@@ -12,6 +12,7 @@ using System.Text.Encodings.Web;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Common.Constants;
 using Microsoft.AspNetCore.WebUtilities;
+using Models;
 using Web.Models.Authorization;
 
 [Authorize]
@@ -95,31 +96,46 @@ public class AccountController : AuthorizationController
         var confirm = new ConfirmEmailInputModel(UserId, Code);
         var result =
              await this.PostAsync<ConfirmEmailInputModel, bool>("api/Accounts/ConfirmEmail", confirm);
+
+        var responseModel = new ResultMessageModel();
         if (result.IsFailure)
         {
-            CookieOptions options = new CookieOptions() 
-            { 
-                Expires = DateTime.Now.AddHours(5), 
-                HttpOnly = true, 
-                IsEssential = true
-            };
-            Response.Cookies.Append("ErrorMessage", result?.Error?.Message ?? GlobalMessages.GlobalError, options);
+            responseModel.Error = result?.Error?.Message ?? GlobalMessages.GlobalError;
         }
         else
         {
-            CookieOptions options = new CookieOptions() 
-            { 
-                HttpOnly = true,
-                IsEssential = true,
-                Secure = false,
-                SameSite = SameSiteMode.None,
-                Domain = "localhost",
-                Expires = DateTime.UtcNow.AddDays(14)
-            };
-            Response.Cookies.Append("s-ss-sss", "Thank you for confirming your email.", options);
+            responseModel.Success =  "Thank you for confirming your email.";
         }
         
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("Index", "Home", responseModel);
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult ResendEmailConfirmation()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResendEmailConfirmation(string email)
+    {
+        var model = new ResendEmailConfirmationInputModel(email);
+        var result =
+            await this.PostAsync<ResendEmailConfirmationInputModel, bool>("api/Accounts/ResendConfirmEmail", model);
+
+        var responseModel = new ResultMessageModel();
+        if (result.IsFailure)
+        {
+            responseModel.Error = result?.Error?.Message ?? GlobalMessages.GlobalError;
+        }
+        else
+        {
+            responseModel.Success =  "Verification email sent. Please check your email.";
+        }
+        
+        return RedirectToAction("Index", "Home", responseModel);
     }
 
     [HttpGet] 

@@ -20,12 +20,9 @@ public class HomeController : Controller
         this._notification = notification ?? throw new ArgumentNullException(nameof(notification));
     }
 
-    public IActionResult Index()
+    public IActionResult Index(ResultMessageModel? model)
     {
-        string name = this._httpContextAccessor.HttpContext.Request.Cookies["s-ss-sss"];
-
-        
-        return View();
+        return View(model);
     }
 
     public IActionResult Privacy()
