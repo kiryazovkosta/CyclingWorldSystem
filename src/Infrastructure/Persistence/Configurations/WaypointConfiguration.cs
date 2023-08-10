@@ -32,12 +32,10 @@ public class WaypointConfiguration : IEntityTypeConfiguration<Waypoint>
 			.IsRequired();
 		builder
 			.Property(w => w.Elevation)
-			.HasPrecision(GlobalConstants.Waypoint.SpeedPrecision, GlobalConstants.Waypoint.SpeedScale)
-			.IsRequired();
+			.HasPrecision(GlobalConstants.Waypoint.SpeedPrecision, GlobalConstants.Waypoint.SpeedScale);
 		builder
 			.Property(w => w.Temperature)
-			.HasPrecision(GlobalConstants.Waypoint.SpeedPrecision, GlobalConstants.Waypoint.SpeedScale)
-			.IsRequired();
+			.HasPrecision(GlobalConstants.Waypoint.SpeedPrecision, GlobalConstants.Waypoint.SpeedScale);
 
 		// Indexes
 		builder

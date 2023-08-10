@@ -42,7 +42,6 @@ public class MailService : IEmailSender
         catch (Exception ex)
         {
             Console.WriteLine(ex);
-            throw;
         }
     }
 }
