@@ -13,6 +13,7 @@ using Application.Entities.Activities.Models;
 using Application.Entities.Activities.Queries.GetActivityById;
 using Application.Entities.Activities.Queries.GetAll;
 using Base;
+using Domain;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -43,9 +44,10 @@ public class ActivitiesController: ApiController
     [ProducesResponseType(typeof(SimplyActivityResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAllActivities(
+        [FromQuery] QueryParameter parameters,
         CancellationToken cancellationToken)
     {
-        var result = await this.Sender.Send(new GetAllActivitiesQuery(), cancellationToken);
+        var result = await this.Sender.Send(new GetAllActivitiesQuery(parameters), cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
     }
     

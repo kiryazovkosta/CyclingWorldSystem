@@ -11,7 +11,7 @@ namespace Persistence.Infrastructure;
 using Domain.Primitives;
 using Microsoft.EntityFrameworkCore;
 
-public class PagedList<T, TId>
+public class PagedList<T, TId> : IPagedList<T, TId>
     where T : Entity
     where TId : IEquatable<TId>
 {

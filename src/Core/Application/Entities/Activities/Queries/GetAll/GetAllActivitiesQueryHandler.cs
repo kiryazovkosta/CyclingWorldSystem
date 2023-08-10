@@ -15,7 +15,7 @@ using Mapster;
 using Models;
 
 public class GetAllActivitiesQueryHandler
-    : IQueryHandler<GetAllActivitiesQuery, IEnumerable<SimplyActivityResponse>>
+    : IQueryHandler<GetAllActivitiesQuery, PagedActivityDataResponse>
 {
     private readonly IActivityRepository activityRepository;
 
@@ -24,12 +24,13 @@ public class GetAllActivitiesQueryHandler
         this.activityRepository = activityRepository ?? throw new ArgumentNullException(nameof(activityRepository));
     }
 
-    public async Task<Result<IEnumerable<SimplyActivityResponse>>> Handle(
+    public async Task<Result<PagedActivityDataResponse>> Handle(
         GetAllActivitiesQuery request, 
         CancellationToken cancellationToken)
     {
-        var activities = await this.activityRepository.GetAllAsync(cancellationToken);
-        var response = activities.Adapt<IEnumerable<SimplyActivityResponse>>();
+        var activities = 
+            await this.activityRepository.GetAllAsync(request.Parameters, cancellationToken);
+        var response = activities.Adapt<PagedActivityDataResponse>();
         return Result.Success(response);
     }
 }

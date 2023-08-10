@@ -1,12 +1,13 @@
 ﻿namespace Domain.Repositories;
 
 using Entities;
+using Primitives;
 
 public interface IActivityRepository
 {
     void Add(Activity activity);
 
-    Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<IPagedList<Activity, Guid>>  GetAllAsync(QueryParameter parameters, CancellationToken cancellationToken = default);
     
     Task<Activity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 

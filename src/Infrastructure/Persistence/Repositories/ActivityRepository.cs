@@ -1,7 +1,10 @@
 ﻿namespace Persistence.Repositories;
 
+using Domain;
 using Domain.Entities;
+using Domain.Primitives;
 using Domain.Repositories;
+using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 public class ActivityRepository : IActivityRepository
@@ -18,13 +21,20 @@ public class ActivityRepository : IActivityRepository
         this._context.Set<Activity>().Add(activity);
     }
 
-    public async Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IPagedList<Activity, Guid>> GetAllAsync(
+        QueryParameter parameters,
+        CancellationToken cancellationToken = default)
     {
         return await this._context
             .Set<Activity>()
             .Include(a => a.User)
             .Include(a => a.Images)
-            .ToListAsync(cancellationToken);
+            .AsNoTracking()
+            .Sort("CreatedOn desc", null)
+            .ToPagedListAsync<Activity, Guid>(
+                parameters.PageNumber,
+                parameters.PageSize,
+                cancellationToken);
     }
 
     public async Task<Activity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)

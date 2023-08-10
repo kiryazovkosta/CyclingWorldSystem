@@ -20,7 +20,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int? pageSize, int? pageNumber)
         {
             var token = this.GetJwtToken();
             if (token is null)
@@ -28,13 +28,25 @@ namespace Web.Controllers
                 return RedirectToAction("LogIn", "Account");
             }
 
+            var inputModel = new ActivitiesQueryParameterInputModel()
+            {
+                PageSize = pageSize ?? 6,
+                PageNumber = pageNumber ?? 1
+            };
+
+            var parameters = new Dictionary<string, string>()
+            {
+                { "PageSize", inputModel.PageSize.ToString() },
+                { "PageNumber", inputModel.PageNumber.ToString() },
+            };
             var activitiesResponse = 
-                await this.GetAsync<IEnumerable<SimpleActivityViewModel>>("api/Activities", token);
+                await this.GetAsync<PagedActivityDataViewModel>("api/Activities", token, parameters);
             if (activitiesResponse.IsFailure)
             {
                 return View();
             }
             
+            //return View(activitiesResponse.Value!);
             return View(activitiesResponse.Value!);
         }
         

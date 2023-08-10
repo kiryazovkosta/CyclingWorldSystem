@@ -15,7 +15,7 @@ using Domain.Primitives;
 
 public static class QueryableExtensions
 {
-    public static async Task<PagedList<T, TId>> ToPagedListAsync<T, TId>
+    public static async Task<IPagedList<T, TId>> ToPagedListAsync<T, TId>
     (
         this IQueryable<T> source,
         int pageNumber,

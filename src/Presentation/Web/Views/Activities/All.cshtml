@@ -1,14 +1,44 @@
-﻿@model IEnumerable<SimpleActivityViewModel>;
+﻿@model PagedActivityDataViewModel;
 
-<h2>Last activities</h2>
+<h2>Activities</h2>
 
-
-<h3>Total activities: @Model.Count()</h3>
 <a asp-area="" asp-controller="Activities" asp-action="Create" class="btn btn-primary">Create new activity</a>
 
 <div class="activities">
-    @foreach (var activity in Model)
+    @if (Model.Items.Any())
     {
-        <partial name="_ActivityViewPartial" model="@activity" /> 
+        @foreach (var activity in Model.Items)
+        {
+            <partial name="_ActivityViewPartial" model="@activity" /> 
+        }
     }
 </div>
+
+<div class="paging-toolbar">
+    <p>
+        <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="1" asp-route-pageSize="6" class="btn btn-primary">First</a>
+        @if (Model.HasPrevious)
+        {
+            <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@(Model.CurrentPage - 1)" asp-route-pageSize="6" class="btn btn-primary">Prev</a>
+        }
+        else
+        {
+            <a asp-action="All" asp-controller="Activities" class="btn btn-primary disabled">Prev</a>
+        }
+        <a asp-action="All" asp-controller="Activities" class="btn btn-info disabled">Current</a>
+        @if (Model.HasNext)
+        {
+            <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@(Model.CurrentPage + 1)" asp-route-pageSize="6"  class="btn btn-info">Next</a>
+        }
+        else
+        {
+            <a asp-action="All" asp-controller="Activities" class="btn btn-info disabled">Next</a>
+        }
+        
+        <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@Model.TotalPages" asp-route-pageSize="6" asp- class="btn btn-danger">Last</a>
+        You are on page @Model.CurrentPage with @Model.PageSize activities from @Model.TotalItemsCount records.
+        Total page number is @Model.TotalPages
+    </p>
+</div>
+
+
