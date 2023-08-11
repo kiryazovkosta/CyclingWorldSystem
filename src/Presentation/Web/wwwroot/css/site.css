@@ -140,3 +140,16 @@ div.paging-toolbar {
     width: 90%;
     padding-top: 10px;
 }
+
+.activity-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.action-buttons {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}

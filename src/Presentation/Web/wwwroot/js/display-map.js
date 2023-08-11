@@ -99,9 +99,8 @@ window.onload = (event) => {
         if(result.isSuccess !== undefined && result.isSuccess === true) {
             let span = document.getElementById('likes-count');
             span.textContent = (Number(span.textContent) + 1) + '';
-
-            likeButton.removeEventListener('click', likeActivity);
-            likeButton.remove();
+            likeButton.style.display = 'none';
+            dislikeButton.style.display = 'block';
         }
     }
 
@@ -122,9 +121,8 @@ window.onload = (event) => {
         if(result.isSuccess !== undefined && result.isSuccess === true) {
             let span = document.getElementById('likes-count');
             span.textContent = (Number(span.textContent) - 1) + '';
-
-            dislikeButton.removeEventListener('click', dislikeActivity);
-            dislikeButton.remove();
+            likeButton.style.display = 'block';
+            dislikeButton.style.display = 'none';
         }
     }
 
