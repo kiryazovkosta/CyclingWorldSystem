@@ -1,0 +1,28 @@
+﻿@model PagedActivityDataViewModel;
+
+<div class="paging-toolbar">
+    <p>
+        <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="1" asp-route-pageSize="6" class="btn btn-primary">First</a>
+        @if (Model.HasPrevious)
+        {
+            <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@(Model.CurrentPage - 1)" asp-route-pageSize="6" class="btn btn-primary">Prev</a>
+        }
+        else
+        {
+            <a asp-action="All" asp-controller="Activities" class="btn btn-primary disabled">Prev</a>
+        }
+        <a asp-action="All" asp-controller="Activities" class="btn btn-info disabled">Current</a>
+        @if (Model.HasNext)
+        {
+            <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@(Model.CurrentPage + 1)" asp-route-pageSize="6"  class="btn btn-info">Next</a>
+        }
+        else
+        {
+            <a asp-action="All" asp-controller="Activities" class="btn btn-info disabled">Next</a>
+        }
+        
+        <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@Model.TotalPages" asp-route-pageSize="6" asp- class="btn btn-danger">Last</a>
+        You are on page @Model.CurrentPage with @Model.PageSize activities from @Model.TotalItemsCount records.
+        Total page number is @Model.TotalPages
+    </p>
+</div>

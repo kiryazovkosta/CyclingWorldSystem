@@ -31,4 +31,6 @@ public class ActivityViewModel
     public bool IsLikedByMe { get; set; }
     public ICollection<string> Images { get; set; } = new List<string>();
     public ICollection<CommentViewModel> Comments { get; set; } = new List<CommentViewModel>();
+
+    public Guid CurrentUserId { get; set; }
 }

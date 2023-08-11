@@ -5,28 +5,46 @@
     <input type="hidden" asp-for="UserId"/>
     
     <div>
-        <img src="@Model.Avatar" alt="avatar" width="26px" height="26px"/>
+        <img src="@Model.Avatar" alt="avatar" width="32px" height="32px"/>
         <span>@Model.UserName</span>
     </div>
     
-    <div>
+    <div class="activity-image-container">
         @foreach (var imageUrl in @Model.Images)
         {
-            <img src="@imageUrl" width="400" height="300" alt="activity-image"/>
+            <img src="@imageUrl" alt="activity-image"/>
         }
     </div>
     
-    <div>
-        <h2>@Model.Title</h2>
-        <h5>@Model.StartDateTime</h5>
-        <h4>@Model.Bike</h4>
+    <div class="card">
+        <h2 class="card-header">@Model.Title</h2>
+        <div class="card-body">
+            <p class="card-text">on @Model.StartDateTime with @Model.Bike</p>
+        </div>
     </div>
-
-    <h3>@Model.Description</h3>
-
-    <h3>@Model.PrivateNotes</h3>
     
-    <table>
+    <div class="card">
+        <h3 class="card-header">Description</h3>
+        <div class="card-body">
+            <p class="card-text">@Model.Description</p>
+        </div>
+    </div>
+    
+
+
+
+    @if (Model.CurrentUserId == Model.UserId)
+    {
+        <div class="card">
+            <h2 class="card-header">Private notes</h2>
+            <div class="card-body">
+                <p class="card-text">@Model.PrivateNotes</p>
+            </div>
+        </div>
+        <h3></h3>
+    }
+    
+    <table class="activity-data-table">
         <thead>
             <th>Distance</th>
             <th>Duration</th>

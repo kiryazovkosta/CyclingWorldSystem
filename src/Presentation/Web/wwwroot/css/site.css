@@ -170,3 +170,42 @@ div.paging-toolbar {
     padding: 16px;
     margin-bottom: 10px;
 }
+
+.activity-image-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.activity-image-container img {
+    flex: 0 0 calc(33.33% - 10px);
+    max-width: 33%;
+    height: 300px;
+    margin-bottom: 10px;
+}
+
+.activity-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.activity-data-table th,
+.activity-data-table td {
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.activity-data-table th {
+    text-align: center;
+    background-color: #f2f2f2;
+    color: black;
+}
+
+.activity-data-table td h5 {
+    margin: 0;
+    text-align: right;
+}

@@ -70,6 +70,7 @@ namespace Web.Controllers
             }
 
             var model = activityResponse.Value!;
+            model.CurrentUserId = Guid.Parse(this.CurrentUserId());
             return View(model);
         }
 
