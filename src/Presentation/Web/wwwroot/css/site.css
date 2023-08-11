@@ -59,6 +59,35 @@ div#pictures-list {
     text-align: center;
 }
 
+.activities-toolbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*border: 1px solid #ccc;*/
+    padding: 10px;
+}
+
+.activities-toolbox-left {
+    display: flex;
+    align-items: center;
+}
+.activities-toolbox-right {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.search-input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-input {
+    width: 400px;
+    display: inline-block;
+}
+
 .activities {
     width: 100%;
     display: flex;
@@ -68,7 +97,7 @@ div#pictures-list {
 }
 
 .activities > * {
-    width: 31%;
+    width: 32%;
 }
 
 .activity-display {

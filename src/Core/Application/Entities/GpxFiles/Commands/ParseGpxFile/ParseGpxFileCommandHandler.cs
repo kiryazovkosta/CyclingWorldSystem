@@ -61,7 +61,7 @@ public class ParseGpxFileCommandHandler
 
 		var waypoints = new HashSet<Waypoint>();
 
-		for (var i = 0; i < gpx.Trk.Trkseg.Length; i++)
+		for (var i = 0; i < gpx.Trk.Trkseg.Length; i+=5)
 		{
 			var current = gpx.Trk.Trkseg[i];
 			if (i > 0)

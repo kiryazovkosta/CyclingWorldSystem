@@ -6,4 +6,5 @@ public class QueryParameter
     public int PageNumber { get; init; }
     public string? OrderBy { get; init; }
     public string? FilterBy { get; init; }
+    public string? SearchBy { get; init; }
 }

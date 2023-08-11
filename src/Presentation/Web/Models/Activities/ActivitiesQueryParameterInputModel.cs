@@ -14,4 +14,5 @@ public class ActivitiesQueryParameterInputModel
     public int PageNumber { get; init; }
     public string? OrderBy { get; init; }
     public string? FilterBy { get; init; }
+    public string? SearchBy { get; init; }
 }

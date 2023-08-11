@@ -22,7 +22,6 @@ window.onload = (event) => {
                 'geometry': {
                     'type': 'LineString',
                     'coordinates': waypointsList
-                    //'coordinates': getCoordinates()
                 }
             }
         });
@@ -42,34 +41,6 @@ window.onload = (event) => {
         });
     });
 
-    // function getStartCoordinate() {
-    //     let coordinate = [];
-    //     let activityId = document.getElementById('Id').value;
-    //     let formData = new FormData();
-    //     formData.append('activityId', activityId);
-    //     let verificationToken = $('input[name="__RequestVerificationToken"]').val();
-    //     console.log(verificationToken);
-    //     $.ajax({
-    //         "async": false,
-    //         "url": '/Ajax/GetStartCoordinate',
-    //         "method": "Post",
-    //         "headers": {
-    //             RequestVerificationToken: verificationToken
-    //         },
-    //         "processData": false,
-    //         "contentType": false,
-    //         "data": formData
-    //     }).done(function (response) {
-    //             coordinate.push(response.longitude, response.latitude);
-    //     }).fail(function (data) {
-    //         alert("There is an error with fetching tack for activity!");
-    //     }).always(function () {
-    //     });
-    //
-    //     console.log(coordinate);
-    //     return coordinate;
-    // }
-
     function getCoordinates() {
         let coordinates = [];
         let activityId = document.getElementById('Id').value;
@@ -88,9 +59,11 @@ window.onload = (event) => {
             "contentType": false,
             "data": formData
         }).done(function (response) {
-            for (let i = 0; i < response.length; i+=5) {
+            console.log(response)
+            for (let i = 0; i < response.length; i++) {
                 coordinates.push([response[i].longitude, response[i].latitude]);
             }
+            console.log(coordinates);
         }).fail(function (data) {
             alert("There is an error with fetching tack for activity!");
         }).always(function () {
@@ -108,7 +81,7 @@ window.onload = (event) => {
     if (dislikeButton !== undefined && dislikeButton !== null) {
         dislikeButton.addEventListener('click', dislikeActivity);
     }
-
+    
     async function likeActivity(){
         let activityId = document.getElementById('Id').value;
         let token = document.getElementsByName("__RequestVerificationToken")[0].value;

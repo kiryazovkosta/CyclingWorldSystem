@@ -20,7 +20,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> All(int? pageSize, int? pageNumber)
+        public async Task<IActionResult> All(int? pageSize, int? pageNumber, string? searchString)
         {
             var token = this.GetJwtToken();
             if (token is null)
@@ -28,16 +28,20 @@ namespace Web.Controllers
                 return RedirectToAction("LogIn", "Account");
             }
 
+            var searchCriteria = ViewData["CurrentFilter"];
+
             var inputModel = new ActivitiesQueryParameterInputModel()
             {
                 PageSize = pageSize ?? 6,
-                PageNumber = pageNumber ?? 1
+                PageNumber = pageNumber ?? 1,
+                SearchBy = searchString
             };
 
             var parameters = new Dictionary<string, string>()
             {
                 { "PageSize", inputModel.PageSize.ToString() },
                 { "PageNumber", inputModel.PageNumber.ToString() },
+                { "SearchBy", inputModel.SearchBy ?? string.Empty }
             };
             var activitiesResponse = 
                 await this.GetAsync<PagedActivityDataViewModel>("api/Activities", token, parameters);

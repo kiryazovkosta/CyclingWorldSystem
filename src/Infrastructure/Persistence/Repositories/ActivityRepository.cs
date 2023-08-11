@@ -31,6 +31,8 @@ public class ActivityRepository : IActivityRepository
             .Include(a => a.Images)
             .AsNoTracking()
             .Sort("CreatedOn desc", null)
+            .Where(a => string.IsNullOrEmpty(parameters.SearchBy) || 
+                (a.Description.Contains(parameters.SearchBy) || a.Title.Contains(parameters.SearchBy)))
             .ToPagedListAsync<Activity, Guid>(
                 parameters.PageNumber,
                 parameters.PageSize,

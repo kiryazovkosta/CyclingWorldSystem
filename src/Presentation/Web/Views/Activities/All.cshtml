@@ -2,43 +2,61 @@
 
 <h2>Activities</h2>
 
-<a asp-area="" asp-controller="Activities" asp-action="Create" class="btn btn-primary">Create new activity</a>
+<div class="activities-toolbox">
+    <div class="activities-toolbox-left">
+        <a asp-area="" asp-controller="Activities" asp-action="Create" class="btn btn-primary">Create new activity</a>
+    </div>
+    <div class="activities-toolbox-right">
+        <form asp-action="All" method="get">
+            <input type="text" class="search-input form-control" placeholder="Search text.If text is not entered will be return all records. " name="searchString" />
+            <input type="submit" class="search-button btn btn-info" value="Search" />
+        </form>
+    </div>
+</div>
 
-<div class="activities">
-    @if (Model.Items.Any())
-    {
+
+@if (Model.Items.Any())
+{
+    <div class="activities">
         @foreach (var activity in Model.Items)
         {
             <partial name="_ActivityViewPartial" model="@activity" /> 
         }
-    }
-</div>
-
-<div class="paging-toolbar">
-    <p>
-        <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="1" asp-route-pageSize="6" class="btn btn-primary">First</a>
-        @if (Model.HasPrevious)
-        {
-            <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@(Model.CurrentPage - 1)" asp-route-pageSize="6" class="btn btn-primary">Prev</a>
-        }
-        else
-        {
-            <a asp-action="All" asp-controller="Activities" class="btn btn-primary disabled">Prev</a>
-        }
-        <a asp-action="All" asp-controller="Activities" class="btn btn-info disabled">Current</a>
-        @if (Model.HasNext)
-        {
-            <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@(Model.CurrentPage + 1)" asp-route-pageSize="6"  class="btn btn-info">Next</a>
-        }
-        else
-        {
-            <a asp-action="All" asp-controller="Activities" class="btn btn-info disabled">Next</a>
-        }
+    </div>
+    
+    <div class="paging-toolbar">
+        <p>
+            <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="1" asp-route-pageSize="6" class="btn btn-primary">First</a>
+            @if (Model.HasPrevious)
+            {
+                <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@(Model.CurrentPage - 1)" asp-route-pageSize="6" class="btn btn-primary">Prev</a>
+            }
+            else
+            {
+                <a asp-action="All" asp-controller="Activities" class="btn btn-primary disabled">Prev</a>
+            }
+            <a asp-action="All" asp-controller="Activities" class="btn btn-info disabled">Current</a>
+            @if (Model.HasNext)
+            {
+                <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@(Model.CurrentPage + 1)" asp-route-pageSize="6"  class="btn btn-info">Next</a>
+            }
+            else
+            {
+                <a asp-action="All" asp-controller="Activities" class="btn btn-info disabled">Next</a>
+            }
         
-        <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@Model.TotalPages" asp-route-pageSize="6" asp- class="btn btn-danger">Last</a>
-        You are on page @Model.CurrentPage with @Model.PageSize activities from @Model.TotalItemsCount records.
-        Total page number is @Model.TotalPages
-    </p>
-</div>
+            <a asp-action="All" asp-controller="Activities" asp-route-pageNumber="@Model.TotalPages" asp-route-pageSize="6" asp- class="btn btn-danger">Last</a>
+            You are on page @Model.CurrentPage with @Model.PageSize activities from @Model.TotalItemsCount records.
+            Total page number is @Model.TotalPages
+        </p>
+    </div>
+}
+else
+{
+    <h2>There are no activities by selected parameters.</h2>
+}
+
+
+
 
 
