@@ -1,18 +1,21 @@
 ﻿@model ActivityViewModel
 
-<div class="comments-list">
-    <a class="btn btn-warning" id="create-comment" asp-action="Create" asp-controller="Comments" asp-route-id="@Model?.Id" >Create comment</a>
-    @foreach(var comment in @Model.Comments) {
-        <article>
-            <p>Comment by @comment.UserName</p>
-            <p>Comment at @comment.CreatedOn</p>
-            <p>Comment @comment.Content</p>
-            
-            @if(comment.IsMine) 
-            {
-                <a class="btn btn-primary" id="update-comment" asp-action="Update" asp-controller="Comments" asp-route-id="@comment.Id" >Update</a>
-                <a class="btn btn-warning" id="quote-comment" asp-action="Remove" asp-controller="Comments" asp-route-id="@comment.Id" >Remove</a>
-            }
-        </article>
-    }
+<div class="card comments-list">
+    <h5 class="card-header">Comments</h5>
+    <div class="create-comment-container">
+        <a class="btn btn-warning create-comment-button" id="create-comment" asp-action="Create" asp-controller="Comments" asp-route-id="@Model?.Id">Create comment</a>
+    </div>
+    <div class="card-body">
+        @foreach(var comment in @Model.Comments) {
+            <article class="comment-view">
+                <h5 class="card-title">@comment.UserName on @comment.CreatedOn</h5>
+                <p class="card-text">@comment.Content</p>
+                @if(comment.IsMine) 
+                {
+                    <a class="btn btn-primary" id="update-comment" asp-action="Update" asp-controller="Comments" asp-route-id="@comment.Id" >Update</a>
+                    <a class="btn btn-danger" id="quote-comment" asp-action="Remove" asp-controller="Comments" asp-route-id="@comment.Id" >Remove</a>
+                }
+            </article>
+        }
+    </div>
 </div>
