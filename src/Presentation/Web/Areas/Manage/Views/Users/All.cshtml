@@ -11,22 +11,22 @@
     <th>
         <a asp-action="All" asp-controller="Users" asp-area="Manage" 
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
-           asp-route-orderBy="UserName" >UserName</a>
+           asp-route-orderBy="@ViewData["SoftParamUserName"]">UserName</a>
     </th>
     <th>
         <a asp-action="All" asp-controller="Users" asp-area="Manage" 
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
-           asp-route-orderBy="Email" >Email</a>
+           asp-route-orderBy="@ViewData["SoftParamEmail"]" >Email</a>
     </th>
     <th>        
         <a asp-action="All" asp-controller="Users" asp-area="Manage" 
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
-           asp-route-orderBy="FirstName" >FirstName</a>
+           asp-route-orderBy="@ViewData["SoftParamFirstName"]" >FirstName</a>
     </th>
     <th>
         <a asp-action="All" asp-controller="Users" asp-area="Manage" 
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
-           asp-route-orderBy="LastName" >LastName</a>
+           asp-route-orderBy="@ViewData["SoftParamLastName"]" >LastName</a>
     </th>
     <th>IsConfirmed</th>
     <th>Roles</th>

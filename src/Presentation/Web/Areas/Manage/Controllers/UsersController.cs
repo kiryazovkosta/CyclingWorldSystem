@@ -26,19 +26,13 @@ public class UsersController : AuthorizationController
         {
             return RedirectToAction("LogIn", "Account");
         }
-        
-        var inputModel = new QueryParameterInputModel()
-        {
-            PageSize = pageSize ?? 10,
-            PageNumber = pageNumber ?? 1,
-            OrderBy = orderBy
-        };
 
+        SetSortParam(orderBy);
         var parameters = new Dictionary<string, string>()
         {
-            { "PageSize", inputModel.PageSize.ToString() },
-            { "PageNumber", inputModel.PageNumber.ToString() },
-            { "OrderBy", inputModel.OrderBy ?? string.Empty }
+            { "PageSize", (pageSize ?? 10).ToString() },
+            { "PageNumber", (pageNumber ?? 1).ToString() },
+            { "OrderBy", orderBy ?? string.Empty }
         };
 
         var usersResponse = await this.GetAsync<PagedUsersDataViewModel>("api/Users", token, parameters);
@@ -49,7 +43,7 @@ public class UsersController : AuthorizationController
         
         return View(usersResponse.Value);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> Edit(string id)
     {
@@ -154,5 +148,41 @@ public class UsersController : AuthorizationController
             await this.PostAsync<UserWithRolesInputModel, Guid>("api/Users/AssignRoles", model, token);
 
         return RedirectToAction("All", "Users");
+    }
+    
+    private void SetSortParam(string? orderBy)
+    {
+        ViewData["SoftParamUserName"] = "UserName";
+        ViewData["SoftParamEmail"] = "Email";
+        ViewData["SoftParamFirstName"] = "FirstName";
+        ViewData["SoftParamLastName"] = "LastName";
+
+        switch (orderBy ?? string.Empty)
+        {
+            case "UserName desc":
+                ViewData["SoftParamUserName"] = "UserName";
+                break;
+            case "Email":
+                ViewData["SoftParamEmail"] = "Email desc";
+                break;
+            case "Email desc":
+                ViewData["SoftParamUserName"] = "Email";
+                break;
+            case "FirstName":
+                ViewData["SoftParamFirstName"] = "FirstName desc";
+                break;
+            case "FirstName desc":
+                ViewData["SoftParamFirstName"] = "FirstName";
+                break;
+            case "LastName":
+                ViewData["SoftParamLastName"] = "LastName desc";
+                break;
+            case "LastName desc":
+                ViewData["SoftParamLastName"] = "LastName";
+                break;
+            default:
+                ViewData["SoftParamUserName"] = "UserName desc";
+                break;
+        }
     }
 }
