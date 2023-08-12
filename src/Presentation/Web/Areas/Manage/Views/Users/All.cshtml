@@ -9,28 +9,33 @@
 <table class="table table-striped table-bordered">
     <thead>
     <th>
-        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
-           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
+        <i class="@ViewData["SoftIconUserName"]"></i>
+        <a asp-action="All" asp-controller="Users" asp-area="Manage"
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize"
            asp-route-orderBy="@ViewData["SoftParamUserName"]">UserName</a>
     </th>
     <th>
-        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
-           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
-           asp-route-orderBy="@ViewData["SoftParamEmail"]" >Email</a>
+        <i class="@ViewData["SoftIconEmail"]"></i>
+        <a asp-action="All" asp-controller="Users" asp-area="Manage"
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize"
+           asp-route-orderBy="@ViewData["SoftParamEmail"]">Email</a>
     </th>
-    <th>        
+    <th>    
+        <i class="@ViewData["SoftIconFirstName"]"></i>
         <a asp-action="All" asp-controller="Users" asp-area="Manage" 
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
-           asp-route-orderBy="@ViewData["SoftParamFirstName"]" >FirstName</a>
-    </th>
-    <th>
-        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
-           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
-           asp-route-orderBy="@ViewData["SoftParamLastName"]" >LastName</a>
+           asp-route-orderBy="@ViewData["SoftParamFirstName"]">FirstName</a>
     </th>
     <th>
-        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
-           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
+        <i class="@ViewData["SoftIconLastName"]"></i>
+        <a asp-action="All" asp-controller="Users" asp-area="Manage"
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize"
+           asp-route-orderBy="@ViewData["SoftParamLastName"]">LastName</a>
+    </th>
+    <th>
+        <i class="@ViewData["SoftIconIsConfirmed"]"></i>
+        <a asp-action="All" asp-controller="Users" asp-area="Manage"
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize"
            asp-route-orderBy="@ViewData["SoftParamIsConfirmed"]">IsConfirmed</a>
     </th>
     <th>Roles</th>

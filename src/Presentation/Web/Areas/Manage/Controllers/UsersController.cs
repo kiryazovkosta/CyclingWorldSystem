@@ -158,37 +158,53 @@ public class UsersController : AuthorizationController
         ViewData["SoftParamLastName"] = "LastName";
         ViewData["SoftParamIsConfirmed"] = "IsConfirmed";
 
+        ViewData["SoftIconUserName"] = "";
+        ViewData["SoftIconEmail"] = "";
+        ViewData["SoftIconFirstName"] = "";
+        ViewData["SoftIconLastName"] = "";
+        ViewData["SoftIconIsConfirmed"] = "";
+
         switch (orderBy ?? string.Empty)
         {
             case "UserName desc":
                 ViewData["SoftParamUserName"] = "UserName";
+                ViewData["SoftIconUserName"] = "fa-solid fa-arrow-up-wide-short";
                 break;
             case "Email":
                 ViewData["SoftParamEmail"] = "Email desc";
+                ViewData["SoftIconEmail"] = "fa-solid fa-arrow-up-short-wide";
                 break;
             case "Email desc":
-                ViewData["SoftParamUserName"] = "Email";
+                ViewData["SoftParamEmail"] = "Email";
+                ViewData["SoftIconEmail"] = "fa-solid fa-arrow-up-wide-short";
                 break;
             case "FirstName":
                 ViewData["SoftParamFirstName"] = "FirstName desc";
+                ViewData["SoftIconFirstName"] = "fa-solid fa-arrow-up-short-wide";
                 break;
             case "FirstName desc":
                 ViewData["SoftParamFirstName"] = "FirstName";
+                ViewData["SoftIconFirstName"] = "fa-solid fa-arrow-up-wide-short";
                 break;
             case "LastName":
                 ViewData["SoftParamLastName"] = "LastName desc";
+                ViewData["SoftIconLastName"] = "fa-solid fa-arrow-up-short-wide";
                 break;
             case "LastName desc":
                 ViewData["SoftParamLastName"] = "LastName";
+                ViewData["SoftIconLastName"] = "fa-solid fa-arrow-up-wide-short";
                 break;
             case "IsConfirmed":
                 ViewData["SoftParamIsConfirmed"] = "IsConfirmed desc";
+                ViewData["SoftIconIsConfirmed"] = "fa-solid fa-arrow-up-short-wide";
                 break;
             case "IsConfirmed desc":
                 ViewData["SoftParamIsConfirmed"] = "IsConfirmed";
+                ViewData["SoftIconIsConfirmed"] = "fa-solid fa-arrow-up-wide-short";
                 break;
             default:
                 ViewData["SoftParamUserName"] = "UserName desc";
+                ViewData["SoftIconUserName"] = "fa-solid fa-arrow-up-short-wide";
                 break;
         }
     }
