@@ -8,10 +8,26 @@
 
 <table class="table table-striped table-bordered">
     <thead>
-    <th>UserName</th>
-    <th>Email</th>
-    <th>FirstName</th>
-    <th>LastName</th>
+    <th>
+        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
+           asp-route-orderBy="UserName" >UserName</a>
+    </th>
+    <th>
+        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
+           asp-route-orderBy="Email" >Email</a>
+    </th>
+    <th>        
+        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
+           asp-route-orderBy="FirstName" >FirstName</a>
+    </th>
+    <th>
+        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
+           asp-route-orderBy="LastName" >LastName</a>
+    </th>
     <th>IsConfirmed</th>
     <th>Roles</th>
     <th>Avatar</th>

@@ -30,7 +30,7 @@ public class UserRepository : IUserRepository
         CancellationToken cancellationToken = default)
     {
         var users = await _userManager.Users
-            .OrderBy(user => user.CreatedOn)
+            .Sort(parameters.OrderBy, "CreatedOn")
             .Select(user => new UserDto()
             {
                 Id = user.Id,

@@ -16,6 +16,10 @@ public class PagedUsersDataResponse
     public int TotalItemsCount { get; init; }
     public bool HasPrevious { get; init; }
     public bool HasNext { get; init; }
+    
+    public string? OrderBy { get; set; }
+    public string? FilterBy { get; set; }
+    public string? SearchBy { get; set; }
 
     public List<UserResponse> Items { get; init; } = new List<UserResponse>();
 }

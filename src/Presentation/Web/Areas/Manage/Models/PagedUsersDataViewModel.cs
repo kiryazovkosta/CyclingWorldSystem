@@ -8,6 +8,9 @@ public class PagedUsersDataViewModel
     public int TotalItemsCount { get; init; }
     public bool HasPrevious { get; init; }
     public bool HasNext { get; init; }
-
+    
+    public string? OrderBy { get; init; }
+    public string? FilterBy { get; init; }
+    public string? SearchBy { get; init; }
     public List<UserViewModel> Items { get; init; } = new List<UserViewModel>();
 }

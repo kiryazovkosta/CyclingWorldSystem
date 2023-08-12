@@ -26,6 +26,9 @@ public class GetAllUsersQueryHandler
     {
         var users = await this._userRepository.GetUsers(request.Parameters, cancellationToken);
         var response = users.Adapt<PagedUsersDataResponse>();
+        response.OrderBy = request.Parameters.OrderBy;
+        response.FilterBy = request.Parameters.FilterBy;
+        response.SearchBy = request.Parameters.SearchBy;
         return response;
     }
 }

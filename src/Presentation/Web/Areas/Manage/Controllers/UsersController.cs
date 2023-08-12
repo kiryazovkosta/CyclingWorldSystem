@@ -19,7 +19,7 @@ public class UsersController : AuthorizationController
     }
 
     [HttpGet]
-    public async Task<IActionResult> All(int? pageSize, int? pageNumber)
+    public async Task<IActionResult> All(int? pageSize, int? pageNumber, string? orderBy)
     {
         var token = this.GetJwtToken();
         if (token is null)
@@ -30,13 +30,15 @@ public class UsersController : AuthorizationController
         var inputModel = new QueryParameterInputModel()
         {
             PageSize = pageSize ?? 10,
-            PageNumber = pageNumber ?? 1
+            PageNumber = pageNumber ?? 1,
+            OrderBy = orderBy
         };
 
         var parameters = new Dictionary<string, string>()
         {
             { "PageSize", inputModel.PageSize.ToString() },
-            { "PageNumber", inputModel.PageNumber.ToString() }
+            { "PageNumber", inputModel.PageNumber.ToString() },
+            { "OrderBy", inputModel.OrderBy ?? string.Empty }
         };
 
         var usersResponse = await this.GetAsync<PagedUsersDataViewModel>("api/Users", token, parameters);
