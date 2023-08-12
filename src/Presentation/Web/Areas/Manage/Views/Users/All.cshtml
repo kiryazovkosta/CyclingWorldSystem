@@ -75,12 +75,19 @@
         </tr>
     }
     </tbody>
+    @if (Model.Items.Any())
+    {
+        <tfoot>
+            <tr>
+                <td colspan="8" class="text-left">
+                    <partial name="_UsersPagingViewPartial" model="@Model"/>
+                </td>
+            </tr>
+        </tfoot>
+    }
 </table>
 
-@if (Model.Items.Any())
-{
-    <partial name="_UsersPagingViewPartial" model="@Model"/>
-}
+
 
 @section Scripts {
     <script src="~/js/confirm.js" asp-append-version="true"></script>

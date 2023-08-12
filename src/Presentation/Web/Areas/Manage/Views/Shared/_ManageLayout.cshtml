@@ -12,7 +12,15 @@
 <header>
     <h1 class="manage-header">Administration Panel</h1>
     <h3 class="manage-header">This is an area for manage users, roles and system nomenclatures</h3>
-    <a class="btn btn-info manage-header" asp-area="" asp-controller="Home" asp-action="Index">Go back to area for users</a>
+    <div class="text-center">
+        <a class="btn btn-info manage-header" asp-area="" asp-controller="Home" 
+           asp-action="Index">Go back to area for users</a>
+        <a class="btn btn-info manage-header" asp-area="Manage" asp-controller="Management" 
+           asp-action="Index">Go back to management root</a>
+        <a class="btn btn-info manage-header" asp-area="" asp-controller="Account" 
+           asp-action="Logout">Log off</a>
+    </div>
+    
     <hr/>
 </header>
 <div class="container">

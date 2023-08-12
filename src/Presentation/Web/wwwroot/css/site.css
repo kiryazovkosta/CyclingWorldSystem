@@ -209,3 +209,61 @@ div.paging-toolbar {
     margin: 0;
     text-align: right;
 }
+
+.cube-container {
+    perspective: 1000px; /* Adjust the perspective value for depth */
+}
+
+.cube-anchor {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-color: #3dd5f3;
+    color: white; /* Text color */
+    text-align: center;
+    line-height: 200px;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    transition: transform 0.3s;
+}
+
+.cube-anchor:hover {
+    transform: rotateX(-15deg) rotateY(15deg) rotateZ(0deg);
+}
+
+.circle-container {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.circle-anchor {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: darkgrey;
+    color: white; /* Text color */
+    text-align: center;
+    line-height: 100px;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.circle-text {
+    display: inline-block;
+    transform-origin: center;
+    transition: transform 0.3s;
+}
+
+.circle-anchor:hover {
+    transform: rotate(360deg);
+}
+
+.circle-anchor:hover .circle-text {
+    transform: rotate(-360deg);
+}

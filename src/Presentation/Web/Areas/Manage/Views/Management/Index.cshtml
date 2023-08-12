@@ -1,17 +1,21 @@
 ﻿<div class="management-container">
     <p>Navigation menu</p>
-    <div>
-        <a asp-area="Manage" asp-controller="Users" asp-action="All" >Users</a>
+    <div class="cube-container">
+        <a asp-area="Manage" asp-controller="Users" asp-action="All" class="cube-anchor">Users</a>
+        <a asp-area="Manage" asp-controller="Roles" asp-action="All" class="cube-anchor">Roles</a>
     </div>
-    <div>
-        <a asp-area="Manage" asp-controller="Roles" asp-action="All" >Roles</a>
-    </div>
-    <div>
-        <ul> <span>Nomenclatures</span>
-            <li>
-                <a asp-area="Manage" asp-controller="BikeTypes" asp-action="All">Bike Types</a>
-            </li>
-        </ul>
+    
+    <div class="circle-container">
+        <a asp-area="Manage" asp-controller="BikeTypes" asp-action="All" class="circle-anchor">
+            <span class="circle-text">Bike Types</span>
+        </a>
+        <a asp-area="Manage" asp-controller="BikeTypes" asp-action="All" class="circle-anchor">
+            <span class="circle-text">Bike Types</span>
+        </a>
+        <a asp-area="Manage" asp-controller="BikeTypes" asp-action="All" class="circle-anchor">
+            <span class="circle-text">Bike Types</span>
+        </a>
         
     </div>
+    
 </div>
