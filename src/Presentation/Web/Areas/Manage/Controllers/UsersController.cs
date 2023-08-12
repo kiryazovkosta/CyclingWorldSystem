@@ -1,5 +1,7 @@
 ﻿namespace Web.Areas.Manage.Controllers;
 
+using System.Text.Encodings.Web;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Common.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,16 +9,21 @@ using Models;
 using Web.Controllers;
 using Web.Models;
 using Web.Models.Activities;
+using Web.Models.Authorization;
 
 [Authorize(Roles = "Administrator")]
 public class UsersController : AuthorizationController
 {
+    private readonly INotyfService _notification;
+    
     public UsersController(
         IHttpContextAccessor httpContextAccessor, 
         IHttpClientFactory httpClientFactory, 
-        IConfiguration configuration) 
+        IConfiguration configuration,
+        INotyfService notification) 
         : base(httpContextAccessor, httpClientFactory, configuration)
     {
+        this._notification = notification ?? throw new ArgumentNullException(nameof(notification));
     }
 
     [HttpGet]
@@ -44,6 +51,40 @@ public class UsersController : AuthorizationController
         }
         
         return View(usersResponse.Value);
+    }
+    
+    [HttpGet]
+    public IActionResult Create()
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+        
+        var model = new RegisterUserInputModel();
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(RegisterUserInputModel model)
+    {
+        var token = this.GetJwtToken();
+        if (token is null)
+        {
+            return RedirectToAction("LogIn", "Account");
+        }
+        
+        var result = await this.PostMultipartAsync<RegisterUserInputModel, Guid>("api/Accounts/Register", model, token);
+        if (result.IsFailure)
+        {
+            var message = result?.Error?.Message ?? GlobalMessages.GlobalError;
+            var encoded = HtmlEncoder.Default.Encode(message);
+            this._notification.Error(encoded);
+            return View();
+        }
+
+        return RedirectToAction("All", "Users");
     }
 
     [HttpGet]
@@ -173,7 +214,6 @@ public class UsersController : AuthorizationController
                 sortedCollection.Update("Email", "Email", "fa-solid fa-arrow-up-wide-short");
                 break;
             case "FirstName":
-
                 sortedCollection.Update("FirstName", "FirstName desc", "fa-solid fa-arrow-up-short-wide");
                 break;
             case "FirstName desc":

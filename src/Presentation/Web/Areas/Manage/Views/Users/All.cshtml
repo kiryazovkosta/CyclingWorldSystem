@@ -10,6 +10,18 @@
 
 <hr />
 
+<div class="activities-toolbox">
+    <div class="activities-toolbox-left">
+        <a asp-area="Manage" asp-controller="Users" asp-action="Create" class="btn btn-primary">Create new user</a>
+    </div>
+    <div class="activities-toolbox-right">
+        <form asp-action="All" method="get">
+            <input type="text" class="search-input form-control" placeholder="Search text." name="searchBy" />
+            <input type="submit" class="search-button btn btn-info" value="Search" />
+        </form>
+    </div>
+</div>
+
 <table class="table table-striped table-bordered">
     <thead>
     <th>

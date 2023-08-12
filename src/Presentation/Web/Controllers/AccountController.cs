@@ -18,7 +18,6 @@ using Web.Models.Authorization;
 [Authorize]
 public class AccountController : AuthorizationController
 {
-
     private readonly INotyfService _notification;
 
     public AccountController(
