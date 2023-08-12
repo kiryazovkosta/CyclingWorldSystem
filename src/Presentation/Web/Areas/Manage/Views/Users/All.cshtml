@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserViewModel>
+﻿@model PagedUsersDataViewModel
 
 <h1>Users list</h1>
 
@@ -18,12 +18,28 @@
     <th>Operations</th>
     </thead>
     <tbody class="table-striped">
-    @foreach (var user in Model)
+    @if (Model.Items.Any())
     {
-        <partial name="_UserViewPartial" model="@user" />
+        @foreach (var user in Model.Items)
+        {
+            <partial name="_UserViewPartial" model="@user"/>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="8" class="text-center">
+                <h2>There are not users by provided parameters.</h2>
+            </td>
+        </tr>
     }
     </tbody>
 </table>
+
+@if (Model.Items.Any())
+{
+    <partial name="_UsersPagingViewPartial" model="@Model"/>
+}
 
 @section Scripts {
     <script src="~/js/confirm.js" asp-append-version="true"></script>

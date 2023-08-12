@@ -8,7 +8,7 @@
 
 namespace Web.Models.Activities;
 
-public class ActivitiesQueryParameterInputModel
+public class QueryParameterInputModel
 {
     public int PageSize { get; init; }
     public int PageNumber { get; init; }

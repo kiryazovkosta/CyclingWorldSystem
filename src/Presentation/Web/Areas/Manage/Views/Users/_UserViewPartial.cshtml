@@ -18,7 +18,7 @@
     }
 </td>
 <td><img src="@Model.ImageUrl" alt="profile" width="26px" height="26px" /></td>
-<td>
+<td class="text-center">
     <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
         <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
         <a asp-controller="Bikes" asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger" 

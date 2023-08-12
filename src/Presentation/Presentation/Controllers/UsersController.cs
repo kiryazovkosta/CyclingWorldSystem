@@ -8,6 +8,7 @@ using Application.Identity.Users.Queries.GetAllUsers;
 using Application.Identity.Users.Queries.GetUserById;
 using Application.Identity.Users.Queries.GetUserRoles;
 using Base;
+using Domain;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -39,9 +40,10 @@ public class UsersController : ApiController
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAllUsers(
+        [FromQuery] QueryParameter parameters,
         CancellationToken cancellationToken)
     {
-        var query = new GetAllUsersQuery();
+        var query = new GetAllUsersQuery(parameters);
         var result = await this.Sender.Send(query, cancellationToken);
         return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
     }

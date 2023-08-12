@@ -8,9 +8,10 @@
 
 namespace Domain.Identity.Dtos;
 
-public sealed class UserDto
+using Primitives;
+
+public sealed class UserDto : Entity
 {
-    public Guid Id { get; init; }
     public string UserName { get; init; } = null!;
     public string Email { get; init; } = null!;
     public bool EmailConfirmed { get; init; }

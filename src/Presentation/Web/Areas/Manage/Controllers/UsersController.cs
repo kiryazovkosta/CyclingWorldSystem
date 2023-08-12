@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Web.Controllers;
+using Web.Models.Activities;
 
 [Authorize(Roles = "Administrator")]
 public class UsersController : AuthorizationController
@@ -18,15 +19,27 @@ public class UsersController : AuthorizationController
     }
 
     [HttpGet]
-    public async Task<IActionResult> All()
+    public async Task<IActionResult> All(int? pageSize, int? pageNumber)
     {
         var token = this.GetJwtToken();
         if (token is null)
         {
             return RedirectToAction("LogIn", "Account");
         }
+        
+        var inputModel = new QueryParameterInputModel()
+        {
+            PageSize = pageSize ?? 10,
+            PageNumber = pageNumber ?? 1
+        };
 
-        var usersResponse = await this.GetAsync<IEnumerable<UserViewModel>>("api/Users", token);
+        var parameters = new Dictionary<string, string>()
+        {
+            { "PageSize", inputModel.PageSize.ToString() },
+            { "PageNumber", inputModel.PageNumber.ToString() }
+        };
+
+        var usersResponse = await this.GetAsync<PagedUsersDataViewModel>("api/Users", token, parameters);
         if (usersResponse.IsFailure)
         {
             return RedirectToAction("Index", "Management");

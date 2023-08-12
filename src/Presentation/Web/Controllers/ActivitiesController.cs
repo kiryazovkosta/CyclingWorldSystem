@@ -30,7 +30,7 @@ namespace Web.Controllers
 
             var searchCriteria = ViewData["CurrentFilter"];
 
-            var inputModel = new ActivitiesQueryParameterInputModel()
+            var inputModel = new QueryParameterInputModel()
             {
                 PageSize = pageSize ?? 6,
                 PageNumber = pageNumber ?? 1,

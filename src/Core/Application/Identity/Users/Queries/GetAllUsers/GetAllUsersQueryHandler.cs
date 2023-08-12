@@ -3,6 +3,7 @@
 using Abstractions.Messaging;
 using Domain.Identity;
 using Domain.Identity.Dtos;
+using Domain.Repositories;
 using Domain.Shared;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
@@ -10,35 +11,21 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 
 public class GetAllUsersQueryHandler
-    : IQueryHandler<GetAllUsersQuery, List<UserResponse>>
+    : IQueryHandler<GetAllUsersQuery, PagedUsersDataResponse>
 {
-    private readonly UserManager<User> userManager;
+    private readonly IUserRepository _userRepository;
 
-    public GetAllUsersQueryHandler(UserManager<User> userManager)
+    public GetAllUsersQueryHandler(IUserRepository userRepository)
     {
-        this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        this._userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
     }
 
-    public async Task<Result<List<UserResponse>>> Handle(
+    public async Task<Result<PagedUsersDataResponse>> Handle(
         GetAllUsersQuery request, 
         CancellationToken cancellationToken)
     {
-        var users = await this.userManager.Users.Select(user => new UserDto()
-        {
-            Id = user.Id,
-            UserName = user.UserName!,
-            Email = user.Email!,
-            EmailConfirmed = user.EmailConfirmed,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            ImageUrl = user.ImageUrl,
-            Roles = user.UserRoles.Select(ur => ur.Role.Name).ToList()
-            
-        })
-        .ToListAsync(cancellationToken);
-
-        var response = users.Adapt<List<UserResponse>>();
-
+        var users = await this._userRepository.GetUsers(request.Parameters, cancellationToken);
+        var response = users.Adapt<PagedUsersDataResponse>();
         return response;
     }
 }

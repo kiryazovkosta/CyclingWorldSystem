@@ -9,6 +9,8 @@
 namespace Application.Identity.Users.Queries.GetAllUsers;
 
 using Abstractions.Messaging;
+using Domain;
 using Models;
 
-public sealed record GetAllUsersQuery() : IQuery<List<UserResponse>>;
+public sealed record GetAllUsersQuery(QueryParameter Parameters) 
+    : IQuery<PagedUsersDataResponse>;
