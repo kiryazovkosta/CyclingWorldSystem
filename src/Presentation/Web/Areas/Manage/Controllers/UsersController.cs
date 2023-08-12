@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Web.Controllers;
+using Web.Models;
 using Web.Models.Activities;
 
 [Authorize(Roles = "Administrator")]
@@ -27,7 +28,8 @@ public class UsersController : AuthorizationController
             return RedirectToAction("LogIn", "Account");
         }
 
-        SetSortParam(orderBy);
+        var sortedCollection = SetSortParam(orderBy);
+        ViewData["SortedCollection"] = sortedCollection;
         var parameters = new Dictionary<string, string>()
         {
             { "PageSize", (pageSize ?? 10).ToString() },
@@ -150,62 +152,50 @@ public class UsersController : AuthorizationController
         return RedirectToAction("All", "Users");
     }
     
-    private void SetSortParam(string? orderBy)
+    private SortCollection SetSortParam(string? orderBy)
     {
-        ViewData["SoftParamUserName"] = "UserName";
-        ViewData["SoftParamEmail"] = "Email";
-        ViewData["SoftParamFirstName"] = "FirstName";
-        ViewData["SoftParamLastName"] = "LastName";
-        ViewData["SoftParamIsConfirmed"] = "IsConfirmed";
-
-        ViewData["SoftIconUserName"] = "";
-        ViewData["SoftIconEmail"] = "";
-        ViewData["SoftIconFirstName"] = "";
-        ViewData["SoftIconLastName"] = "";
-        ViewData["SoftIconIsConfirmed"] = "";
-
+        var sortedCollection = new SortCollection();
+        sortedCollection.AddColumn("UserName", "UserName desc");
+        sortedCollection.AddColumn("Email", "Email desc");
+        sortedCollection.AddColumn("FirstName", "FirstName desc");
+        sortedCollection.AddColumn("LastName", "LastName desc");
+        sortedCollection.AddColumn("IsConfirmed", "IsConfirmed desc");
+        
         switch (orderBy ?? string.Empty)
         {
             case "UserName desc":
-                ViewData["SoftParamUserName"] = "UserName";
-                ViewData["SoftIconUserName"] = "fa-solid fa-arrow-up-wide-short";
+                sortedCollection.Update("UserName", "UserName", "fa-solid fa-arrow-up-wide-short");
                 break;
             case "Email":
-                ViewData["SoftParamEmail"] = "Email desc";
-                ViewData["SoftIconEmail"] = "fa-solid fa-arrow-up-short-wide";
+                sortedCollection.Update("Email", "Email desc", "fa-solid fa-arrow-up-short-wide");
                 break;
             case "Email desc":
-                ViewData["SoftParamEmail"] = "Email";
-                ViewData["SoftIconEmail"] = "fa-solid fa-arrow-up-wide-short";
+                sortedCollection.Update("Email", "Email", "fa-solid fa-arrow-up-wide-short");
                 break;
             case "FirstName":
-                ViewData["SoftParamFirstName"] = "FirstName desc";
-                ViewData["SoftIconFirstName"] = "fa-solid fa-arrow-up-short-wide";
+
+                sortedCollection.Update("FirstName", "FirstName desc", "fa-solid fa-arrow-up-short-wide");
                 break;
             case "FirstName desc":
-                ViewData["SoftParamFirstName"] = "FirstName";
-                ViewData["SoftIconFirstName"] = "fa-solid fa-arrow-up-wide-short";
+                sortedCollection.Update("FirstName", "FirstName", "fa-solid fa-arrow-up-wide-short");
                 break;
             case "LastName":
-                ViewData["SoftParamLastName"] = "LastName desc";
-                ViewData["SoftIconLastName"] = "fa-solid fa-arrow-up-short-wide";
+                sortedCollection.Update("LastName", "LastName desc", "fa-solid fa-arrow-up-short-wide");
                 break;
             case "LastName desc":
-                ViewData["SoftParamLastName"] = "LastName";
-                ViewData["SoftIconLastName"] = "fa-solid fa-arrow-up-wide-short";
+                sortedCollection.Update("LastName", "LastName", "fa-solid fa-arrow-up-wide-short");
                 break;
             case "IsConfirmed":
-                ViewData["SoftParamIsConfirmed"] = "IsConfirmed desc";
-                ViewData["SoftIconIsConfirmed"] = "fa-solid fa-arrow-up-short-wide";
+                sortedCollection.Update("IsConfirmed", "IsConfirmed desc", "fa-solid fa-arrow-up-short-wide");
                 break;
             case "IsConfirmed desc":
-                ViewData["SoftParamIsConfirmed"] = "IsConfirmed";
-                ViewData["SoftIconIsConfirmed"] = "fa-solid fa-arrow-up-wide-short";
+                sortedCollection.Update("IsConfirmed", "IsConfirmed", "fa-solid fa-arrow-up-wide-short");
                 break;
             default:
-                ViewData["SoftParamUserName"] = "UserName desc";
-                ViewData["SoftIconUserName"] = "fa-solid fa-arrow-up-short-wide";
+                sortedCollection.Update("UserName", "UserName desc", "fa-solid fa-arrow-up-short-wide");
                 break;
         }
+
+        return sortedCollection;
     }
 }

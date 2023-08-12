@@ -1,5 +1,9 @@
 ﻿@model PagedUsersDataViewModel
 
+@{
+    var collection = (SortCollection)ViewData["SortedCollection"]!;
+}
+
 <h1>Users list</h1>
 
 @await Html.PartialAsync("_ConfirmDialogs")
@@ -9,34 +13,34 @@
 <table class="table table-striped table-bordered">
     <thead>
     <th>
-        <i class="@ViewData["SoftIconUserName"]"></i>
+        <i class="@collection.Get("UserName")?.Icon"></i>
         <a asp-action="All" asp-controller="Users" asp-area="Manage"
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize"
-           asp-route-orderBy="@ViewData["SoftParamUserName"]">UserName</a>
+           asp-route-orderBy="@collection.Get("UserName")?.Sort">UserName</a>
     </th>
     <th>
-        <i class="@ViewData["SoftIconEmail"]"></i>
+        <i class="@collection.Get("Email")?.Icon"></i>
         <a asp-action="All" asp-controller="Users" asp-area="Manage"
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize"
-           asp-route-orderBy="@ViewData["SoftParamEmail"]">Email</a>
+           asp-route-orderBy="@collection.Get("Email")?.Sort">Email</a>
     </th>
     <th>    
-        <i class="@ViewData["SoftIconFirstName"]"></i>
+        <i class="@collection.Get("FirstName")?.Icon"></i>
         <a asp-action="All" asp-controller="Users" asp-area="Manage" 
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
-           asp-route-orderBy="@ViewData["SoftParamFirstName"]">FirstName</a>
+           asp-route-orderBy="@collection.Get("FirstName")?.Sort">FirstName</a>
     </th>
     <th>
-        <i class="@ViewData["SoftIconLastName"]"></i>
+        <i class="@collection.Get("LastName")?.Icon"></i>
         <a asp-action="All" asp-controller="Users" asp-area="Manage"
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize"
-           asp-route-orderBy="@ViewData["SoftParamLastName"]">LastName</a>
+           asp-route-orderBy="@collection.Get("LastName")?.Sort">LastName</a>
     </th>
     <th>
-        <i class="@ViewData["SoftIconIsConfirmed"]"></i>
+        <i class="@collection.Get("IsConfirmed")?.Icon"></i>
         <a asp-action="All" asp-controller="Users" asp-area="Manage"
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize"
-           asp-route-orderBy="@ViewData["SoftParamIsConfirmed"]">IsConfirmed</a>
+           asp-route-orderBy="@collection.Get("IsConfirmed")?.Sort">IsConfirmed</a>
     </th>
     <th>Roles</th>
     <th>Avatar</th>
