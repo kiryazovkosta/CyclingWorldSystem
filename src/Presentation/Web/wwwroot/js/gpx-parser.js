@@ -81,6 +81,9 @@
                 $("#PicturesList").val(files.join(';'));
                 console.log("Success");
                 console.log(data);
+                
+                let picturesSection = document.getElementById('activity-pictures');
+                picturesSection.append('test');
 
             }).fail(function (data) {
                 console.log("Failure");
