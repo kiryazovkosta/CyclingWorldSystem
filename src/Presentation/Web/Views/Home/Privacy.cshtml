@@ -3,73 +3,32 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<div id="map"></div>
+<h2>This is a study project for the course "ASP.NET Advanced - June 2023" in SoftUni</h2>
 
-<script>
-    window.onload = (event) => {
-		console.log("page is fully loaded");
-		console.log(document.getElementById('map').textContent);
-      
-		let map = new maplibregl.Map({
-			container: 'map',
-			style:
-				'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL',
-			center: [-122.486052, 37.830348],
-			zoom: 15
-		});
-		console.log(map);
-		
-		map.on('load', function () {
-			map.addSource('route', {
-				'type': 'geojson',
-				'data': {
-					'type': 'Feature',
-					'properties': {},
-					'geometry': {
-						'type': 'LineString',
-						'coordinates': [
-							[-122.48369693756104, 37.83381888486939],
-							[-122.48348236083984, 37.83317489144141],
-							[-122.48339653015138, 37.83270036637107],
-							[-122.48356819152832, 37.832056363179625],
-							[-122.48404026031496, 37.83114119107971],
-							[-122.48404026031496, 37.83049717427869],
-							[-122.48348236083984, 37.829920943955045],
-							[-122.48356819152832, 37.82954808664175],
-							[-122.48507022857666, 37.82944639795659],
-							[-122.48610019683838, 37.82880236636284],
-							[-122.48695850372314, 37.82931081282506],
-							[-122.48700141906738, 37.83080223556934],
-							[-122.48751640319824, 37.83168351665737],
-							[-122.48803138732912, 37.832158048267786],
-							[-122.48888969421387, 37.83297152392784],
-							[-122.48987674713133, 37.83263257682617],
-							[-122.49043464660643, 37.832937629287755],
-							[-122.49125003814696, 37.832429207817725],
-							[-122.49163627624512, 37.832564787218985],
-							[-122.49223709106445, 37.83337825839438],
-							[-122.49378204345702, 37.83368330777276]
-						]
-					}
-				}
-			});
-			
-			map.addLayer({
-				'id': 'route',
-				'type': 'line',
-				'source': 'route',
-				'layout': {
-					'line-join': 'round',
-					'line-cap': 'round'
-				},
-				'paint': {
-					'line-color': '#888',
-					'line-width': 8
-				}
-			});
-		});
-		
-		console.log(document.getElementById('map').textContent);
-    };
+<h3>My account is <strong>kkiryazov</strong> with number <strong>600006283</strong> </h3>
 
-</script>
+<h4>Repository <a href="https://github.com/kiryazovkosta/CyclingWorldSystem" target="_blank">repo</a></h4>
+
+<h4>Some of features</h4>
+<ul>
+    <li>Create account with external data - real names and avatar</li>
+    <li>Confirm account through email</li>
+    <li>Self change password when user is logged in</li>
+    <li>Self change personal data when user is logged in</li>
+    <li>Recover forgotten password through email</li>
+    <li>Resend email confirmation to activate your account</li>
+    <li>Administration of users, roles and global nomenclatures</li>
+    <li>Assign users to roles as administrator</li>
+    <li>Filtering, pagination and sorting of users' administration</li>
+    <li>Create, update, delete of user's bike</li>
+    <li>Processing of Gpx file - parse data from xml structure file and load it into database </li>
+    <li>Create activity</li>
+    <li>Like/dislike activity</li>
+    <li>Create, Update or delete comments for your or other users' activities</li>
+    <li>Upload pictures to activity using cloudinary for data storage</li>
+    <li>View activities with pagination</li>
+    <li>Search inside activities' title or description</li>
+    <li>Display detailed information for activity</li>
+    <li>If user is owner of activity display private information</li>
+    <li>and more</li>
+</ul>
