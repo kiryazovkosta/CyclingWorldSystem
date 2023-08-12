@@ -28,7 +28,11 @@
            asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
            asp-route-orderBy="@ViewData["SoftParamLastName"]" >LastName</a>
     </th>
-    <th>IsConfirmed</th>
+    <th>
+        <a asp-action="All" asp-controller="Users" asp-area="Manage" 
+           asp-route-pageNumber="@Model.CurrentPage" asp-route-pageSize="@Model.PageSize" 
+           asp-route-orderBy="@ViewData["SoftParamIsConfirmed"]">IsConfirmed</a>
+    </th>
     <th>Roles</th>
     <th>Avatar</th>
     <th>Operations</th>

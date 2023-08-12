@@ -156,6 +156,7 @@ public class UsersController : AuthorizationController
         ViewData["SoftParamEmail"] = "Email";
         ViewData["SoftParamFirstName"] = "FirstName";
         ViewData["SoftParamLastName"] = "LastName";
+        ViewData["SoftParamIsConfirmed"] = "IsConfirmed";
 
         switch (orderBy ?? string.Empty)
         {
@@ -179,6 +180,12 @@ public class UsersController : AuthorizationController
                 break;
             case "LastName desc":
                 ViewData["SoftParamLastName"] = "LastName";
+                break;
+            case "IsConfirmed":
+                ViewData["SoftParamIsConfirmed"] = "IsConfirmed desc";
+                break;
+            case "IsConfirmed desc":
+                ViewData["SoftParamIsConfirmed"] = "IsConfirmed";
                 break;
             default:
                 ViewData["SoftParamUserName"] = "UserName desc";
