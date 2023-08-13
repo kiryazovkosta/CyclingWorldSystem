@@ -15,7 +15,7 @@ using System;
 using Application.Entities.Bikes.Commands.CreateBike;
 
 public class UpdateBikeCommandHandler
-	: ICommandHandler<UpdateBikeCommand>
+	: ICommandHandler<UpdateBikeCommand, bool>
 {
 	private readonly IBikeRepository _bikeRepository;
 	private readonly ICurrentUserService _currentUserService;
@@ -31,21 +31,20 @@ public class UpdateBikeCommandHandler
 		_unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 	}
 
-	public async Task<Result> Handle(
+	public async Task<Result<bool>> Handle(
 		UpdateBikeCommand request, 
 		CancellationToken cancellationToken)
 	{
 		Bike? bike = await this._bikeRepository.GetByIdAsync(request.Id, cancellationToken);
 		if (bike is null)
 		{
-			return Result.Failure(DomainErrors.Bike.BikeDoesNotExists(request.Id));
+			return Result.Failure<bool>(DomainErrors.Bike.BikeDoesNotExists(request.Id));
 		}
 
 		Guid userId = this._currentUserService.GetCurrentUserId();
 		if (userId == Guid.Empty || userId != bike.UserId)
 		{
-			return Result.Failure<Bike>(
-				DomainErrors.UnauthorizedAccess(nameof(UpdateBikeCommand)));
+			return Result.Failure<bool>(DomainErrors.UnauthorizedAccess(nameof(UpdateBikeCommand)));
 		}
 
 		var result = bike.Update(
@@ -58,11 +57,11 @@ public class UpdateBikeCommandHandler
 			userId);
 		if (result.IsFailure)
 		{
-			return Result.Failure(result.Error);
+			return Result.Failure<bool>(result.Error);
 		}
 
 		this._bikeRepository.Update(bike);
 		await this._unitOfWork.SaveChangesAsync(cancellationToken);
-		return Result.Success();
+		return Result.Success<bool>(true);
 	}
 }

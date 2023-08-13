@@ -59,7 +59,6 @@ public class BikeTypeRepository : IBikeTypeRepository
 		var bikeType = await GetByIdAsync(id, cancellationToken);
         if (bikeType is not null)
         {
-
 			this._context.Set<BikeType>().Remove(bikeType);
 			return true;
 		}

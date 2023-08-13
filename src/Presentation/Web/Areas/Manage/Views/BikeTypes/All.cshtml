@@ -1,0 +1,36 @@
+﻿@model IEnumerable<BikeTypeAdminViewModel>
+
+@{
+    ViewBag.Title = "All Bike Types";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@await Html.PartialAsync("_ConfirmDialogs")
+
+<div>
+    <a asp-area="Manage" asp-controller="BikeTypes" asp-action="Create" class="btn btn-primary">Create</a>
+</div>
+
+<table class="table table-hover mb-0">
+    <thead>
+    <tr class="table-active bg-white">
+        <th scope="col" class="text-center">Name</th>
+        <th scope="col" class="text-center">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Any())
+    {
+        foreach (var bikeType in Model)
+        {
+            <partial name="_BikeTypeViewPartial" model="@bikeType"/>
+        }
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/confirm.js" asp-append-version="true"></script>
+}

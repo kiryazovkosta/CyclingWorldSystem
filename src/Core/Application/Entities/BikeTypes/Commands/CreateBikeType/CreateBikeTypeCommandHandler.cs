@@ -11,7 +11,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class CreateBikeTypeCommandHandler : ICommandHandler<CreateBikeTypeCommand, SimpleBikeTypeResponse>
+public class CreateBikeTypeCommandHandler : ICommandHandler<CreateBikeTypeCommand, Guid>
 {
 	private readonly IBikeTypeRepository _bikeTypeRepository;
 	private readonly IUnitOfWork _unitOfWork;
@@ -22,7 +22,7 @@ public class CreateBikeTypeCommandHandler : ICommandHandler<CreateBikeTypeComman
 		_unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 	}
 
-	public async Task<Result<SimpleBikeTypeResponse>> Handle(
+	public async Task<Result<Guid>> Handle(
 		CreateBikeTypeCommand request, 
 		CancellationToken cancellationToken)
 	{
@@ -31,12 +31,12 @@ public class CreateBikeTypeCommandHandler : ICommandHandler<CreateBikeTypeComman
 		var result = BikeType.Create(request.Name, typeExists);
 		if (result.IsFailure)
 		{
-			return Result.Failure<SimpleBikeTypeResponse>(result.Error);
+			return Result.Failure<Guid>(result.Error);
 		}
 
 		var bikeType = result.Value;
 		_bikeTypeRepository.Add(bikeType);
 		await this._unitOfWork.SaveChangesAsync(cancellationToken);
-		return bikeType.Adapt<SimpleBikeTypeResponse>();
+		return bikeType.Id;
 	}
 }

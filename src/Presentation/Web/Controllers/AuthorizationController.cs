@@ -84,9 +84,9 @@ namespace Web.Controllers
                 response.Value = await httpResponse.Content.ReadFromJsonAsync<TOutput>();
 			}
 			else
-			{
-                response.Error = GetError(
-                    await httpResponse.Content.ReadAsStringAsync());
+            {
+                var message = await httpResponse.Content.ReadAsStringAsync();
+                response.Error = GetError(message);
             }
 
 			return response;

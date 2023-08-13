@@ -11,4 +11,4 @@ public sealed record UpdateBikeCommand(
 	string Brand,
 	string Model,
 	string? Notes) 
-	: ICommand;
+	: ICommand<bool>;

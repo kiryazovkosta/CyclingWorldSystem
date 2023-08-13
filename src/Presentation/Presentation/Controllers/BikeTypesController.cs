@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Base;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Entities.BikeTypes.Queries.GetBikeTypeById;
 
 [Authorize]
 public class BikeTypesController : ApiController
@@ -21,6 +22,19 @@ public class BikeTypesController : ApiController
 	public BikeTypesController(ISender sender) 
 		: base(sender)
 	{
+	}
+	
+	[HttpGet("{id:guid}")]
+	[Authorize]
+	[ProducesResponseType(typeof(SimpleBikeTypeResponse), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status400BadRequest)]
+	public async Task<IResult> GetBikeTypeById(
+		Guid id, 
+		CancellationToken cancellationToken)
+	{
+		var query = new GetBikeTypeByIdQuery(id);
+		var result = await this.Sender.Send(query, cancellationToken);
+		return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
 	}
 
 	[HttpGet]
@@ -73,7 +87,7 @@ public class BikeTypesController : ApiController
 	[HttpDelete("{id:guid}")]
 	[ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	public async Task<IResult> DeleteProductType(
+	public async Task<IResult> DeleteBikeType(
 		Guid id, 
 		CancellationToken cancellationToken)
 	{

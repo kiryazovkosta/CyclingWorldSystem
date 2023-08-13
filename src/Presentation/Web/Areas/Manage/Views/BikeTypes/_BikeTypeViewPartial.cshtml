@@ -1,0 +1,18 @@
+﻿@model BikeTypeAdminViewModel
+
+<tr class="table-info">
+    <td>@Model.Name</td>
+    <td class="text-center">
+    @if (!Model.IsDeleted)
+    {
+        <a asp-controller="BikeTypes" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">Edit</a>
+        <a asp-controller="BikeTypes" asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick='setId("@Model?.Id")'>Delete</a>
+    }
+    else
+    {
+        <a asp-action="Undelete" asp-route-id="@Model?.Id" class="btn btn-primary width-250"
+           data-bs-toggle="modal" data-bs-target="#undeleteModal"
+           onclick="setId(@Model?.Id)">Undelete</a>
+    }
+    </td>
+</tr>

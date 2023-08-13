@@ -21,7 +21,7 @@
 <td class="text-center">
     <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
         <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-        <a asp-controller="Bikes" asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger" 
+        <a asp-controller="Users" asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger" 
            data-bs-toggle="modal" data-bs-target="#deleteModal" onclick='setId("@Model?.Id")'>Delete</a>
         <a class="btn btn-info" asp-action="AssignToRole" asp-route-id="@Model?.Id">Assign</a>
     </form>
