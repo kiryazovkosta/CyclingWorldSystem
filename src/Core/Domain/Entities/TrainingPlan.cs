@@ -5,7 +5,7 @@ namespace Domain.Entities;
 
 public class TrainingPlan : DeletableEntity
 {
-    private TrainingPlan()
+    public TrainingPlan()
     {
 		Workouts = new HashSet<Workout>();
 		Users = new HashSet<UserTrainingPlan>();
