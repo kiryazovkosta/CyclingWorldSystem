@@ -34,7 +34,11 @@ public class UpdateCommentCommandHandler
             return Result.Failure(DomainErrors.Comments.CommentDoesNotExists(request.Id));
         }
 
-        comment.Update(request.Content);
+        var result = comment.Update(request.Content);
+        if (result.IsFailure)
+        {
+            return Result.Failure(result.Error);
+        }
         await this._unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Success();
     }

@@ -110,7 +110,7 @@ public class ParseGpxFileCommandHandler
 
 	}
 
-    static public string DecodeFrom64(string encodedData)
+	private static string DecodeFrom64(string encodedData)
     {
         byte[] encodedDataAsBytes = System.Convert.FromBase64String(encodedData);
         string returnValue = System.Text.UTF8Encoding.UTF8.GetString(encodedDataAsBytes);

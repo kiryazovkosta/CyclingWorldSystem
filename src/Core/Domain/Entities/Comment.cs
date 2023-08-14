@@ -45,8 +45,19 @@ public class Comment : DeletableEntity
 		return comment; 
 	}
 
-	public void Update(string content)
+	public Result Update(string content)
 	{
+		if (string.IsNullOrWhiteSpace(content))
+		{
+			return Result.Failure(DomainErrors.Comments.ContentIsEmptyOrNull);
+		}
+
+		if (content.Length is < GlobalConstants.Comment.ContentMinLength or > GlobalConstants.Comment.ContentMaxLength)
+		{
+			return Result.Failure(DomainErrors.Comments.ContentInvalidLength);
+		}
+		
 		this.Content = content;
+		return Result.Success();
 	}
 }

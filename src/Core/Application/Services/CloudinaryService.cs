@@ -62,33 +62,33 @@ public class CloudinaryService : ICloudinaryService
             };
             var result = await this.cloudinary.UploadAsync(uploadParams);
 
-            url = result.Url.AbsoluteUri;
+            url = result.Url?.AbsoluteUri ?? string.Empty;
         }
 
         return url;
     }
 
-    public async Task<string> UploadArrayAsync(byte[] file)
-    {
-        if (file == null || file.Length == 0)
-        {
-            throw new CloudinaryUploadException(GlobalMessages.Cloudinary.ExceptionMessage);
-        }
-
-        var bytes = file;
-        var url = " ";
-
-        using var uploadStream = new MemoryStream(bytes);
-        var uploadParams = new ImageUploadParams()
-        {
-            File = new FileDescription(file.ToString(), uploadStream),
-        };
-        var result = await this.cloudinary.UploadAsync(uploadParams);
-
-        url = result.Url.AbsoluteUri;
-
-        return url;
-    }
+    // public async Task<string> UploadArrayAsync(byte[] file)
+    // {
+    //     if (file == null || file.Length == 0)
+    //     {
+    //         throw new CloudinaryUploadException(GlobalMessages.Cloudinary.ExceptionMessage);
+    //     }
+    //
+    //     var bytes = file;
+    //     var url = " ";
+    //
+    //     using var uploadStream = new MemoryStream(bytes);
+    //     var uploadParams = new ImageUploadParams()
+    //     {
+    //         File = new FileDescription(file.ToString(), uploadStream),
+    //     };
+    //     var result = await this.cloudinary.UploadAsync(uploadParams);
+    //
+    //     url = result.Url.AbsoluteUri;
+    //
+    //     return url;
+    // }
     
     public async Task<List<string>> UploadMultiAsync(List<IFormFile> files)
     {

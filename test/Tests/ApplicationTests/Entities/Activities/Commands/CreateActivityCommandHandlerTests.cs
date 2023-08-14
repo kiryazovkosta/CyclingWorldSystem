@@ -20,7 +20,7 @@ using Mapster;
 using Moq;
 using Persistence;
 
-public class CreateActivityCommandHandlerTests: IDisposable
+public class CreateActivityCommandHandlerTests : IDisposable
 {
     private readonly ApplicationDbContext _context;
     private readonly Mock<IActivityRepository> activityRepository;
