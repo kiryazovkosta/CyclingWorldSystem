@@ -7,11 +7,19 @@ public static class FromFileExtensions
 {
     public static async Task<string> ReadAsStringAsync(this IFormFile file)
     {
+        if (file is null)
+        {
+            throw new ArgumentNullException(nameof(file));
+        }
+        
         var result = new StringBuilder();
         using (var reader = new StreamReader(file.OpenReadStream()))
         {
             while (reader.Peek() >= 0)
-                result.AppendLine(await reader.ReadLineAsync());
+            {
+                var line = await reader.ReadLineAsync();
+                result.Append(line);
+            }
         }
         return result.ToString();
     }

@@ -19,9 +19,6 @@ using Domain.Entities;
 
 public static class MapsterExtensions
 {
-
-	
-
 	public static void RegisterMapsterConfiguration(this IServiceCollection services)
 	{
 		TypeAdapterConfig<GpxTrkTrkpt, WaypointResponse>
