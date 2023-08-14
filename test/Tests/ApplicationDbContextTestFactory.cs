@@ -9,6 +9,8 @@
 namespace Tests;
 
 using System.Collections.Generic;
+using Common.Constants;
+using Common.Enumerations;
 using Domain.Entities;
 using Domain.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -78,11 +80,37 @@ public static class ApplicationDbContextTestFactory
             Bike.Create("name", types.Last().Id, 6.80m, "brand", "model", 
                 "notes", TestsContants.UserUserId).Value
         };
-        
+
+        var activities = new List<Activity>()
+        {
+            Activity.Create("Trip 1", "Description", "Private", 10.00M,
+                new TimeSpan(0, 1, 0, 0), 100m, 99m,
+                VisibilityLevelType.All, new DateTime(2023, 8, 5), bikes.First().Id, TestsContants.UserUserId).Value,
+            Activity.Create("Trip 2", "Description", null, 10.00M,
+                new TimeSpan(0, 1, 0, 0), 100m, 99m,
+                VisibilityLevelType.All, new DateTime(2023, 8, 6), bikes.First().Id, TestsContants.UserUserId).Value,
+            Activity.Create("Trip 3", "Description", "Private", 10.00M,
+                new TimeSpan(0, 1, 0, 0), 100m, 99m,
+                VisibilityLevelType.All, new DateTime(2023, 8, 7), bikes.First().Id, TestsContants.UserUserId).Value,
+            Activity.Create("Trip 4", "Description", "Private", 10.00M,
+                new TimeSpan(0, 1, 0, 0), 100m, 99m,
+                VisibilityLevelType.All, new DateTime(2023, 8, 1), bikes.First().Id, TestsContants.UserUserId).Value
+        };
+
+        var activityLike = new ActivityLike() { Activity = activities.First(), UserId = TestsContants.UserUserId };
+
+        var comments = new List<Comment>()
+        {
+            Comment.Create(activities.First().Id, TestsContants.UserUserId, "Comment content").Value,
+            Comment.Create(activities.First().Id, TestsContants.UserUserId, "Comment content").Value,
+        };
         
         context.Set<Role>().AddRange(roles);
         context.Set<BikeType>().AddRange(types);
         context.Set<Bike>().AddRange(bikes);
+        context.Set<Activity>().AddRange(activities);
+        context.Set<ActivityLike>().Add(activityLike);
+        context.Set<Comment>().AddRange(comments);
         context.Set<User>().AddRange(users);
         
         context.SaveChanges();

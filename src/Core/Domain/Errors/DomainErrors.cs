@@ -106,7 +106,7 @@ public static class DomainErrors
 
 		public static Error BikeTypeNameExists(string name) => new(
 			"BikeType.Name",
-			string.Format($"There is a bike type with name: {0}", name));
+			$"There is a bike type with name: {name}");
 
 		public static Error BikeTypeDoesNotExists => new(
 			"BikeType.Update",
@@ -161,6 +161,21 @@ public static class DomainErrors
 		public static Error ActivityDoesNotExists(Guid id) => new(
 			"Activity.Id",
 			$"The activity with provided Id {id} does not exists.");
+
+		public static Error TitleIsNullOrEmpty => new (
+			"Activity.Create.Title",
+			GlobalMessages.Bike.NameIsNullOrEmpty);
+
+		public static Error InvalidTitleLength => new (
+			"Activity.Create.Title.Length",
+			$"The length of title is between {GlobalConstants.Activity.TitleMinLength} and {GlobalConstants.Activity.TitleMaxLength} symbols");
+
+		public static Error DescriptionIsNullOrEmpty => new (
+			"Activity.Create.Description",
+			GlobalMessages.Bike.NameIsNullOrEmpty);
+		public static Error InvalidDescriptionLength => new (
+			"Activity.Create.Description.Length",
+			$"The length of title is between {GlobalConstants.Activity.DescriptionMinLength} and {GlobalConstants.Activity.DescriptionMaxLength} symbols");
 	}
 
 	public static class ActivityLike

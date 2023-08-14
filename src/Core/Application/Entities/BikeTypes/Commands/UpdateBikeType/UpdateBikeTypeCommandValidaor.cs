@@ -4,9 +4,9 @@ using Common.Constants;
 using FluentValidation;
 using System;
 
-public sealed class UpdateBikeTypeCommandValidaor : AbstractValidator<UpdateBikeTypeCommand>
+public sealed class UpdateBikeTypeCommandValidator : AbstractValidator<UpdateBikeTypeCommand>
 {
-	public UpdateBikeTypeCommandValidaor()
+	public UpdateBikeTypeCommandValidator()
 	{
 		this.RuleFor(bt => bt.Id)
 			.NotEmpty()

@@ -1,8 +1,10 @@
 ﻿namespace Domain.Entities;
 
+using Common.Constants;
 using Common.Enumerations;
 using Domain.Identity;
 using Domain.Primitives;
+using Errors;
 using Shared;
 
 public class Activity : DeletableEntity
@@ -55,6 +57,28 @@ public class Activity : DeletableEntity
 		decimal distance, TimeSpan duration, decimal? positiveElevation, decimal? negativeElevation, 
 		VisibilityLevelType visibilityLevel, DateTime startDateTime, Guid bikeId, Guid userId)
 	{
+		if (string.IsNullOrWhiteSpace(title))
+		{
+			return Result.Failure<Activity>(DomainErrors.Activity.TitleIsNullOrEmpty);
+		}
+		
+		if (title.Length < GlobalConstants.Activity.TitleMinLength ||
+		    title.Length > GlobalConstants.Activity.TitleMaxLength)
+		{
+			return Result.Failure<Activity>(DomainErrors.Activity.InvalidTitleLength);
+		}
+		
+		if (string.IsNullOrWhiteSpace(description))
+		{
+			return Result.Failure<Activity>(DomainErrors.Activity.DescriptionIsNullOrEmpty);
+		}
+		
+		if (description.Length < GlobalConstants.Activity.DescriptionMinLength ||
+		    description.Length > GlobalConstants.Activity.DescriptionMaxLength)
+		{
+			return Result.Failure<Activity>(DomainErrors.Activity.InvalidDescriptionLength);
+		}
+		
 		var activity = new Activity(title, description, privateNotes, distance, duration, positiveElevation,
 			negativeElevation, visibilityLevel, startDateTime, bikeId, userId);
 		return activity;

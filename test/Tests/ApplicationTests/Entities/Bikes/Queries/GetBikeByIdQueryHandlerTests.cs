@@ -50,6 +50,12 @@ public class GetBikeByIdQueryHandlerTests : TestApplicationContext
         Assert.False(result.IsFailure);
         var bikeResponse = result.Value;
         Assert.Equal(bike.Name, bikeResponse.Name);
+        Assert.Equal(bike.Brand, bikeResponse.Brand);
+        Assert.Equal(bike.Model, bikeResponse.Model);
+        Assert.Equal(bike.Weight, bikeResponse.Weight);
+        Assert.Equal(bike.Notes, bikeResponse.Notes);
+        Assert.Equal(bike.UserId, bikeResponse.UserId);
+        Assert.Equal(bike.BikeTypeId, bikeResponse.BikeTypeId);
     }
     
     [Fact]

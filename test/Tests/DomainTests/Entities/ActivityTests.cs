@@ -8,7 +8,7 @@ public class ActivityTests
     public void Activity_Constructors_InitializePropertiesAndCollections()
     {
         // Arrange & Act
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null, 
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null, 
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
 
         // Assert
@@ -29,7 +29,7 @@ public class ActivityTests
     public void Activity_Title_SetAndGet()
     {
         // Arrange
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null, 
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null, 
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
         var title = "Test Activity";
 
@@ -44,7 +44,7 @@ public class ActivityTests
     public void Activity_Description_SetAndGet()
     {
         // Arrange
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null, 
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null, 
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
         var description = "Test activity description.";
 
@@ -59,7 +59,7 @@ public class ActivityTests
     public void Activity_AddImages_NullOrEmptyPictures_Success()
     {
         // Arrange
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null,
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null,
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
         List<string>? pictures = null;
 
@@ -75,7 +75,7 @@ public class ActivityTests
     public void Activity_AddImages_AddsImagesToList()
     {
         // Arrange
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null,
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null,
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
         var pictures = new List<string> { "image1.jpg", "image2.jpg" };
 

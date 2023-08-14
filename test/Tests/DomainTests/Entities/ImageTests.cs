@@ -9,7 +9,7 @@ public class ImageTests
     {
         // Arrange
         var url = "https://example.com/image.jpg";
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null,
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null,
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
 
         // Act
@@ -27,7 +27,7 @@ public class ImageTests
     {
         // Arrange
         var url = "https://example.com/image.jpg";
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null,
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null,
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
         var image = Image.Create(url, activity).Value;
 
@@ -43,7 +43,7 @@ public class ImageTests
     {
         // Arrange
         var url = "https://example.com/image.jpg";
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null,
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null,
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
         var image = Image.Create(url, activity).Value;
         var activityId = Guid.NewGuid();
@@ -60,7 +60,7 @@ public class ImageTests
     {
         // Arrange
         var url = "https://example.com/image.jpg";
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null,
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null,
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
         var image = Image.Create(url, activity).Value;
 

@@ -18,9 +18,9 @@ public class GetAllBikeTypesQueryHandler
 {
 	private readonly IBikeTypeRepository _bikeTypeRepo;
 
-	public GetAllBikeTypesQueryHandler(IBikeTypeRepository bikeTypeRepo)
+	public GetAllBikeTypesQueryHandler(IBikeTypeRepository bikeTypeRepository)
 	{
-		this._bikeTypeRepo = bikeTypeRepo ?? throw new ArgumentNullException(nameof(bikeTypeRepo));
+		this._bikeTypeRepo = bikeTypeRepository ?? throw new ArgumentNullException(nameof(bikeTypeRepository));
 	}
 
 	public async Task<Result<IEnumerable<SimpleBikeTypeResponse>>> Handle(
@@ -28,12 +28,6 @@ public class GetAllBikeTypesQueryHandler
 		CancellationToken cancellationToken)
 	{
 		var bikeTypes = await this._bikeTypeRepo.GetAllAsync(cancellationToken);
-		if (bikeTypes is null) 
-		{
-			return Result.Failure<IEnumerable<SimpleBikeTypeResponse>>
-				(DomainErrors.BikeType.BikeTypesCollectionIsNull);
-		}
-
 		var response = bikeTypes.Adapt<IEnumerable<SimpleBikeTypeResponse>>();
 		return Result.Success(response);
 	}

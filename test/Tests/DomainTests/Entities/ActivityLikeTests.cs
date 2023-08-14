@@ -27,7 +27,7 @@ public class ActivityLikeTests
     {
         // Arrange
         var activityLike = new ActivityLike();
-        var activity = Activity.Create("title", "desc", null, 10m, new TimeSpan(10), null, null, 
+        var activity = Activity.Create("title", "description", null, 10m, new TimeSpan(10), null, null, 
             Common.Enumerations.VisibilityLevelType.All, DateTime.Now, Guid.NewGuid(), Guid.NewGuid()).Value;
 
         // Act

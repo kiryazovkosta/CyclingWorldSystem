@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public sealed class ApplicationDbContext : IdentityDbContext<User, Role, Guid,
+public class ApplicationDbContext : IdentityDbContext<User, Role, Guid,
 	IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,
 	IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
 {
