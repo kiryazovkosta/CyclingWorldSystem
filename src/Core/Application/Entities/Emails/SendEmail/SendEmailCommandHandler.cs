@@ -26,7 +26,7 @@ public class SendEmailCommandHandler
     {
         await this._emailSender.SendEmailAsync(
             "kosta.lkiryazov@gmail.com", 
-        "Send Email", "Send od a testing email");
+        "Send Email", "Send a testing email");
 
         return Result.Success();
     }

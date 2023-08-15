@@ -9,10 +9,12 @@
 namespace Tests.ApplicationTests.Entities.Bikes.Commands;
 
 using Application.Entities.Bikes.Commands.CreateBike;
+using Application.Entities.Bikes.Models;
 using Application.Interfaces;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Repositories.Abstractions;
+using Mapster;
 using Moq;
 using Persistence;
 
@@ -83,8 +85,9 @@ public class CreateBikeCommandHandlerTests : IDisposable
         //Arrange
         this.currentUserService.Setup(cpr => cpr.GetCurrentUserId())
             .Returns(Guid.NewGuid());
-        var command = new CreateBikeCommand("Name", Guid.NewGuid(), 10.00m, "Brand",
+        var request = new CreateBikeRequest("Name", Guid.NewGuid(), 10.00m, "Brand",
             "Model", "Notes");
+        var command = request.Adapt<CreateBikeCommand>();
         var handler = new CreateBikeCommandHandler(
             this.bikeRepository.Object,
             this.currentUserService.Object,

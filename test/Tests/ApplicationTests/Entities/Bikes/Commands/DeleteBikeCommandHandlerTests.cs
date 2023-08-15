@@ -1,9 +1,12 @@
 ﻿namespace Tests.ApplicationTests.Entities.Bikes.Commands;
 
 using Application.Entities.Bikes.Commands.DeleteBike;
+using Application.Entities.Bikes.Models;
+using Azure.Core;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Repositories.Abstractions;
+using Mapster;
 using Moq;
 using Persistence;
 
@@ -57,7 +60,8 @@ public class DeleteBikeCommandHandlerTests : IDisposable
         //Arrange
         this.bikeRepository.Setup(cpr => cpr.DeleteAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .Returns(Task.FromResult(true));
-        var command = new DeleteBikeCommand(Guid.NewGuid());
+        var request = new DeleteBikeRequest(Guid.NewGuid());
+        var command = request.Adapt<DeleteBikeCommand>();
         var handler = new DeleteBikeCommandHandler(
             this.bikeRepository.Object,
             this.unitOfWork.Object);

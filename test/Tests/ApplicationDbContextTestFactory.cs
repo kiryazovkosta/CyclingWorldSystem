@@ -104,6 +104,26 @@ public static class ApplicationDbContextTestFactory
             Comment.Create(activities.First().Id, TestsContants.UserUserId, "Comment content").Value,
             Comment.Create(activities.First().Id, TestsContants.UserUserId, "Comment content").Value,
         };
+
+        var gpxId = Guid.NewGuid();
+        var waypoints = new List<Waypoint>()
+        {
+            Waypoint.Create(activities.First().Id, 1, 10.20m, 30.30m, 19m,
+                new DateTime(2023, 8, 14, 10, 0, 0, 1), null, null,
+                null, 25.5m, gpxId).Value,
+            Waypoint.Create(activities.First().Id, 2, 10.30m, 30.20m, 19m,
+                new DateTime(2023, 8, 14, 10, 0, 0, 2), null, null,
+                null, 25.5m, gpxId).Value,
+            Waypoint.Create(activities.First().Id, 3, 10.40m, 30.10m, 19m,
+                new DateTime(2023, 8, 14, 10, 0, 0, 3), null, null,
+                null, 25.5m, gpxId).Value,
+            Waypoint.Create(activities.First().Id, 4, 10.50m, 30.00m, 19m,
+                new DateTime(2023, 8, 14, 10, 0, 0, 4), null, null,
+                null, 25.5m, gpxId).Value,
+            Waypoint.Create(activities.First().Id, 5, 10.60m, 29.90m, 19m,
+                new DateTime(2023, 8, 14, 10, 0, 0, 5), null, null,
+                null, 25.5m, gpxId).Value,
+        };
         
         context.Set<Role>().AddRange(roles);
         context.Set<BikeType>().AddRange(types);
@@ -111,6 +131,7 @@ public static class ApplicationDbContextTestFactory
         context.Set<Activity>().AddRange(activities);
         context.Set<ActivityLike>().Add(activityLike);
         context.Set<Comment>().AddRange(comments);
+        context.Set<Waypoint>().AddRange(waypoints);
         context.Set<User>().AddRange(users);
         
         context.SaveChanges();

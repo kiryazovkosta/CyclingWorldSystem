@@ -23,19 +23,19 @@ public sealed class CreateUserCommandHandler
 {
 	private readonly UserManager<User> _userManager;
 	private readonly ICloudinaryService _cloudinaryService;
-	private readonly IEmailSender _emaiSender;
+	private readonly IEmailSender _emailSender;
 	private readonly IUnitOfWork _context;
 
 	public CreateUserCommandHandler(
 		UserManager<User> userManager, 
 		ICloudinaryService cloudinaryService,
-		IEmailSender emaiSender, 
-		IUnitOfWork context)
+		IEmailSender emailSender, 
+		IUnitOfWork unitOfWork)
 	{
 		this._userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 		this._cloudinaryService = cloudinaryService ?? throw new ArgumentNullException(nameof(cloudinaryService));
-		this._emaiSender = emaiSender ?? throw new ArgumentNullException(nameof(emaiSender));
-		this._context = context ?? throw new ArgumentNullException(nameof(context));
+		this._emailSender = emailSender ?? throw new ArgumentNullException(nameof(emailSender));
+		this._context = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 	}
 
 	public async Task<Result<Guid>> Handle(
@@ -73,7 +73,7 @@ public sealed class CreateUserCommandHandler
 			var code = await this._userManager.GenerateEmailConfirmationTokenAsync(user);
 			code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 			var confirmUrl = $"http://localhost:5268/Account/ConfirmEmail?code={code}&userId={userId}";
-			await this._emaiSender.SendEmailAsync(
+			await this._emailSender.SendEmailAsync(
 				request.Email, 
 				"Confirm your email", 
 				$"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(confirmUrl)}'>clicking here</a>.");

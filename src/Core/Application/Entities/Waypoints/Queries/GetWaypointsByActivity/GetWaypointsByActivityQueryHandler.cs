@@ -19,9 +19,9 @@ public class GetWaypointsByActivityQueryHandler
 {
     private readonly IWaypointRepository _waypoints;
 
-    public GetWaypointsByActivityQueryHandler(IWaypointRepository waypoints)
+    public GetWaypointsByActivityQueryHandler(IWaypointRepository waypointRepository)
     {
-        this._waypoints = waypoints ?? throw new ArgumentNullException(nameof(waypoints));
+        this._waypoints = waypointRepository ?? throw new ArgumentNullException(nameof(waypointRepository));
     }
 
     public async Task<Result<IEnumerable<CoordinateResponse>>> Handle(

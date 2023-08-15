@@ -9,11 +9,13 @@
 namespace Tests.ApplicationTests.Entities.Bikes.Commands;
 
 using Application.Entities.Bikes.Commands.UpdateBike;
+using Application.Entities.Bikes.Models;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Repositories.Abstractions;
+using Mapster;
 using Moq;
 using Persistence;
 
@@ -89,8 +91,9 @@ public class UpdateBikeCommandHandlerTests : IDisposable
             .Returns(Task.FromResult(fakeBike));
         this.currentUserService.Setup(cpr => cpr.GetCurrentUserId())
             .Returns(fakeBike!.UserId);
-        var command = new UpdateBikeCommand(fakeBike.Id, "New name", fakeBike.BikeTypeId, 8.00m, "New brand",
+        var request = new UpdateBikeRequest(fakeBike.Id, "New name", fakeBike.BikeTypeId, 8.00m, "New brand",
             "New model", "New notes");
+        var command = request.Adapt<UpdateBikeCommand>();
         var handler = new UpdateBikeCommandHandler(
             this.bikeRepository.Object,
             this.currentUserService.Object,

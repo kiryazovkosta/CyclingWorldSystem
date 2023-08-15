@@ -32,6 +32,6 @@ public class CreateImageCommandHandler
         }
 
         var url = await cloudinaryService.UploadAsync(request.File);
-        return url;
+        return Result.Success(url);
     }
 }
