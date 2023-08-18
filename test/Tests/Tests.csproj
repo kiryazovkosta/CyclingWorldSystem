@@ -39,9 +39,5 @@
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ApplicationTests\Identity\Roles\Queries\" />
-	</ItemGroup>
   
 </Project>
