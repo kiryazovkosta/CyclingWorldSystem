@@ -6,17 +6,23 @@ using Web.Models.GpxFiles;
 
 namespace Web.Controllers
 {
+    using Microsoft.AspNetCore.SignalR;
     using Models.Bikes;
     using Models.Waypoints;
+    using Web.Hubs;
 
     public class ActivitiesController : AuthorizationController
     {
+        private readonly IHubContext<ActivityHub> _activityHub;
+
         public ActivitiesController(
             IHttpContextAccessor httpContextAccessor, 
             IHttpClientFactory httpClientFactory, 
-            IConfiguration configuration) 
+            IConfiguration configuration,
+            IHubContext<ActivityHub> activityHub) 
             : base(httpContextAccessor, httpClientFactory, configuration)
         {
+            _activityHub = activityHub;
         }
 
         [HttpGet]
@@ -50,7 +56,6 @@ namespace Web.Controllers
                 return View();
             }
             
-            //return View(activitiesResponse.Value!);
             return View(activitiesResponse.Value!);
         }
         
@@ -117,7 +122,13 @@ namespace Web.Controllers
 
             var response = await this.PostAsync<ActivityInputModel, Guid>(
                 "/api/Activities", model, token);
-            
+            if (response.IsFailure) 
+            {
+                return View();
+            }
+
+            var message = $"{this.User?.Identity?.Name} create activity with name {model.Title}";
+            await this._activityHub.Clients.All.SendAsync("NotifyActivityCreateAsync", message);
             return RedirectToAction("All", "Activities");
         }
     }

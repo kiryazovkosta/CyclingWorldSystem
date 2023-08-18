@@ -1,4 +1,6 @@
-﻿namespace Web.Configurations;
+﻿using Web.Hubs;
+
+namespace Web.Configurations;
 
 public static class UseEndPointsConfiguration
 {
@@ -15,9 +17,8 @@ public static class UseEndPointsConfiguration
                 name: "default", 
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            //endpoints.MapRazorPages();
+            endpoints.MapHub<ActivityHub>("/activityhub");
         });
-
         return app;
     }
 }
