@@ -23,6 +23,8 @@ After that you can  execure sql script https://github.com/kiryazovkosta/CyclingW
 - MediatR 
 - FluentValidator
 - Microsoft Identity
+- MapLibre GL JS - displaying map of activity
+- Cloudinary SDK for .Net Core
 - C#
 - Java Script
 - JQuery
