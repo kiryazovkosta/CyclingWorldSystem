@@ -28,5 +28,4 @@ public class MockUserManager : Mock<UserManager<User>>
             new Mock<ILogger<UserManager<User>>>().Object)
     {
     }
-
 }

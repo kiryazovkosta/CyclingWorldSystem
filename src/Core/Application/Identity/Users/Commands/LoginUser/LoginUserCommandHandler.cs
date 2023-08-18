@@ -1,4 +1,4 @@
-﻿namespace Application.Identity.Users.Commands.LoginUser;
+﻿namespace Application.Identity.Users.Commands.LogInUser;
 
 using Application.Abstractions;
 using Application.Abstractions.Messaging;
@@ -24,11 +24,11 @@ public class LoginUserCommandHandler
 	public LoginUserCommandHandler(
 		SignInManager<User> signInManager, 
 		UserManager<User> userManager, 
-		IJwtProvider jwkProvider)
+		IJwtProvider jwtProvider)
 	{
 		_signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
 		_userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-		_jwkProvider = jwkProvider ?? throw new ArgumentNullException(nameof(jwkProvider));
+		_jwkProvider = jwtProvider ?? throw new ArgumentNullException(nameof(jwtProvider));
 	}
 
 	public async Task<Result<LogInUserResponse>> Handle(

@@ -6,13 +6,13 @@
     <div class="action-buttons">
         @if(Model.IsLikedByMe) 
         {
-            <a class="btn btn-secondary" id="like-activity" style="display: none;">Like activity</a>
-            <a class="btn btn-danger" id="dislike-activity">Dislike activity</a>
+            <a class="btn btn-secondary" id="like-activity" style="display: none;"><i class="fa-solid fa-thumbs-up"></i>Like activity</a>
+            <a class="btn btn-danger" id="dislike-activity"><i class="fa-solid fa-thumbs-down"></i>Dislike activity</a>
         }
         else 
         {
-            <a class="btn btn-secondary" id="like-activity">Like activity</a>
-            <a class="btn btn-danger" id="dislike-activity" style="display: none;">Dislike activity</a>
+            <a class="btn btn-secondary" id="like-activity"><i class="fa-solid fa-thumbs-up"></i>Like activity</a>
+            <a class="btn btn-danger" id="dislike-activity" style="display: none;"><i class="fa-solid fa-thumbs-down"></i>Dislike activity</a>
         }
     </div>
 </div>
