@@ -10,5 +10,10 @@ This is simple ASP.NET Core system for logging cycling activities. It is based o
 - Web server to host Web frontend
   
 ## Initial data
+When first migration is applied the system provide 3 users with 3 roles
+- Admin with role Administrator and password P@ssw0rd
+- Manager with role Manager and password P@ssw0rd
+- User with role User and password P@ssw0rd.
+After that you can  execure sql script https://github.com/kiryazovkosta/CyclingWorldSystem/blob/main/CyclingWorldSystemInitialScript.sql to populate database with test data
 
 ## Used technologies
