@@ -26,6 +26,7 @@ After that you can  execure sql script https://github.com/kiryazovkosta/CyclingW
 - MapLibre GL JS - displaying map of activity
 - Cloudinary SDK for .Net Core
 - Cookie authentication
+- ToastNotification
 - C#
 - Java Script
 - JQuery
