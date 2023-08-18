@@ -17,3 +17,15 @@ When first migration is applied the system provide 3 users with 3 roles
 After that you can  execure sql script https://github.com/kiryazovkosta/CyclingWorldSystem/blob/main/CyclingWorldSystemInitialScript.sql to populate database with test data
 
 ## Used technologies
+- .Net Core
+- Entity Framework Core
+- CQRS pattern for backend
+- MediatR 
+- FluentValidator
+- Microsoft Identity
+- C#
+- Java Script
+- JQuery
+- Bootstrap
+- CSS
+- HTML
