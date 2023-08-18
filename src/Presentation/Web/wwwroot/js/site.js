@@ -5,10 +5,6 @@ setTimeout(function () {
     $('#alert').alert('close');
 }, 5000);
 
-setTimeout(function () {
-    $('#alert-dialog').alert('close');
-}, 5000);
-
 let connection = null;
 setupConnection = () => {
     connection = new signalR.HubConnectionBuilder()
@@ -26,6 +22,13 @@ setupConnection = () => {
             h3.innerText = message;
             alertContainer.appendChild(h3);
             messageContainer.appendChild(alertContainer);
+
+            setTimeout(() => {
+                let alertDialog = document.getElementById("alert-dialog");
+                if (alertDialog) {
+                    alertDialog.remove();
+                }
+            }, 10000);
         }
     });
 

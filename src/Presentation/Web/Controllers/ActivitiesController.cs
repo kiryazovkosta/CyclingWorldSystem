@@ -120,12 +120,12 @@ namespace Web.Controllers
                 model.Pictures = pictures;
             }
 
-            var response = await this.PostAsync<ActivityInputModel, Guid>(
-                "/api/Activities", model, token);
-            if (response.IsFailure) 
-            {
-                return View();
-            }
+            // var response = await this.PostAsync<ActivityInputModel, Guid>(
+            //     "/api/Activities", model, token);
+            // if (response.IsFailure) 
+            // {
+            //     return View();
+            // }
 
             var message = $"{this.User?.Identity?.Name} create activity with name {model.Title}";
             await this._activityHub.Clients.All.SendAsync("NotifyActivityCreateAsync", message);
