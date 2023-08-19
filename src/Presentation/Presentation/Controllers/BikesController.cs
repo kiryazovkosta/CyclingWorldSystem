@@ -69,13 +69,19 @@ public sealed class BikesController : ApiController
 	[HttpPut]
 	[ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	public async Task<IActionResult> UpdateBike(
-		[FromBody] UpdateBikeRequest request, 
+	public async Task<IResult> UpdateBike(
+		[FromBody] UpdateBikeRequest request,
+		IValidator<UpdateBikeCommand> validator,
 		CancellationToken cancellationToken)
 	{
 		var command = request.Adapt<UpdateBikeCommand>();
+		var validationResult = validator.Validate(command);
+		if (!validationResult.IsValid)
+		{
+			return Results.ValidationProblem(validationResult.ToDictionary());
+		}
 		var result = await this.Sender.Send(command, cancellationToken);
-		return result.IsSuccess ? NoContent() : BadRequest(result.Error);
+		return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
 	}
 
 	[HttpDelete("{id:guid}")]

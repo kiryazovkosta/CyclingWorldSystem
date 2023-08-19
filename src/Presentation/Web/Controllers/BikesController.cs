@@ -92,7 +92,7 @@ namespace Web.Controllers
             {
                 var errorMessage = GlobalMessages.CredentialsMismatch;
                 this._notification.Error(errorMessage);
-                return View();
+                return View(bikeModel);
             }
 
             var query = new Dictionary<string, string>() { { "Id", bikeModel.BikeTypeId } };
@@ -102,10 +102,20 @@ namespace Web.Controllers
             {
                 var errorMessage = bikeTypeExists?.Error?.Message ?? GlobalMessages.GlobalError;
                 this._notification.Error(errorMessage);
-                return View();
+                var bikeTypes = await this.GetAsync<IEnumerable<BikeTypeViewModel>>("/api/BikeTypes", token);
+                bikeModel.BikeTypes = bikeTypes.Value!;
+                return View(bikeModel);
             }
 
-            await this.PostAsync<BikeInputModel, Guid>("/api/Bikes", bikeModel, token);
+            var createResult =  await this.PostAsync<BikeInputModel, Guid>("/api/Bikes", bikeModel, token);
+            if (createResult.IsFailure)
+            {
+                var errorMessage = createResult?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(errorMessage);
+                var bikeTypes = await this.GetAsync<IEnumerable<BikeTypeViewModel>>("/api/BikeTypes", token);
+                bikeModel.BikeTypes = bikeTypes.Value!;
+                return View(bikeModel);
+            }
             return RedirectToAction("All", "Bikes");
         }
 
@@ -158,7 +168,9 @@ namespace Web.Controllers
             {
                 var errorMessage = bikeUpdateResponse?.Error?.Message ?? GlobalMessages.GlobalError;
                 this._notification.Error(errorMessage);
-                return View();
+                var types = await this.GetAsync<IEnumerable<BikeTypeViewModel>>("/api/BikeTypes", token);
+                bikeModel.BikeTypes = types.Value!;
+                return View(bikeModel);
             }
             
             return RedirectToAction("All", "Bikes");
