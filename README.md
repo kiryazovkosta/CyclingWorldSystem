@@ -23,9 +23,10 @@ After that you can  execure sql script https://github.com/kiryazovkosta/CyclingW
 - MediatR 
 - FluentValidator
 - SignalR
+- Blazor
 - MapLibre GL JS - displaying map of activity
 - Cloudinary SDK for .Net Core
-- Cookie authentication
+- JWT and Cookie authentication
 - ToastNotification
 - C#
 - Java Script
