@@ -31,15 +31,15 @@ namespace Web.Areas.Manage.Controllers
                 return RedirectToAction("LogIn", "Account");
             }
 
-            var rolesResponse = await this.GetAsync<IEnumerable<BikeTypeAdminViewModel>>("api/BikeTypes", token);
-            if (rolesResponse.IsFailure)
+            var bikeTypesResponse = await this.GetAsync<IEnumerable<BikeTypeAdminViewModel>>("api/BikeTypes", token);
+            if (bikeTypesResponse.IsFailure)
             {
-                var message = rolesResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                var message = bikeTypesResponse?.Error?.Message ?? GlobalMessages.GlobalError;
                 this._notification.Error(message);
                 return RedirectToAction("Index", "Management");
             }
         
-            return View(rolesResponse.Value);
+            return View(bikeTypesResponse.Value);
         }
 
         [HttpGet]

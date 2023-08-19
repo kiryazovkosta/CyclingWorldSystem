@@ -7,6 +7,7 @@ using Application.Identity.Roles.Models;
 using Application.Identity.Roles.Queries.GetAllRoles;
 using Application.Identity.Roles.Queries.GetRoleById;
 using Base;
+using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -50,13 +51,20 @@ public class RolesController : ApiController
     [Authorize]
     [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateRole(
+    public async Task<IResult> CreateRole(
         [FromBody] CreateRoleRequest request,
+        IValidator<CreateRoleCommand> validator,
         CancellationToken cancellationToken)
     {
         var command = request.Adapt<CreateRoleCommand>();
+        var validation = validator.Validate(command);
+        if (!validation.IsValid)
+        {
+            return Results.ValidationProblem(validation.ToDictionary());
+        }
+        
         var result = await this.Sender.Send(command, cancellationToken);
-        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+        return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
     }
 
 
@@ -64,13 +72,19 @@ public class RolesController : ApiController
     [Authorize]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateBike(
-        [FromBody] UpdateRoleRequest request, 
+    public async Task<IResult> UpdateBike(
+        [FromBody] UpdateRoleRequest request,
+        IValidator<UpdateRoleCommand> validator,
         CancellationToken cancellationToken)
     {
         var command = request.Adapt<UpdateRoleCommand>();
+        var validation = validator.Validate(command);
+        if (!validation.IsValid)
+        {
+            return Results.ValidationProblem(validation.ToDictionary());
+        }
         var result = await this.Sender.Send(command, cancellationToken);
-        return result.IsSuccess ? NoContent() : BadRequest(result.Error);
+        return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
     }
     
     [HttpDelete("{id:guid}")]

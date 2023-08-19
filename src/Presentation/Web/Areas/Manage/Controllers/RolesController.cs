@@ -1,5 +1,7 @@
 ﻿namespace Web.Areas.Manage.Controllers;
 
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Common.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -8,12 +10,15 @@ using Web.Controllers;
 [Authorize(Roles = "Administrator")]
 public class RolesController : AuthorizationController
 {
+    private readonly INotyfService _notification;
     public RolesController(
         IHttpContextAccessor httpContextAccessor, 
         IHttpClientFactory httpClientFactory, 
-        IConfiguration configuration) 
+        IConfiguration configuration,
+        INotyfService notification) 
         : base(httpContextAccessor, httpClientFactory, configuration)
     {
+        this._notification = notification ?? throw new ArgumentNullException(nameof(notification));
     }
 
     public async Task<IActionResult> All()
@@ -27,6 +32,8 @@ public class RolesController : AuthorizationController
         var rolesResponse = await this.GetAsync<IEnumerable<RoleFullViewModel>>("api/Roles", token);
         if (rolesResponse.IsFailure)
         {
+            var message = rolesResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+            this._notification.Error(message);
             return RedirectToAction("Index", "Management");
         }
         
@@ -62,10 +69,20 @@ public class RolesController : AuthorizationController
     
         if (roleModel.UserId != this.CurrentUserId())
         {
+            var message = GlobalMessages.CredentialsMismatch;
+            this._notification.Error(message);
             return View();
         }
     
-        await this.PostAsync<RoleInputModel, Guid>("/api/Roles", roleModel, token);
+        var createRoleResponse = 
+            await this.PostAsync<RoleInputModel, Guid>("/api/Roles", roleModel, token);
+        if (createRoleResponse.IsFailure)
+        {
+            var message = createRoleResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+            this._notification.Error(message);
+            return View(roleModel);
+        }
+        
         return RedirectToAction("All", "Roles");
     }
     
@@ -78,13 +95,15 @@ public class RolesController : AuthorizationController
             return RedirectToAction("LogIn", "Account");
         }
 
-        var userModel = await this.GetAsync<RoleInputModel>($"/api/Roles/{id}", token);
-        if (userModel.IsFailure)
+        var roleModelResponse = await this.GetAsync<RoleInputModel>($"/api/Roles/{id}", token);
+        if (roleModelResponse.IsFailure)
         {
+            var message = roleModelResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+            this._notification.Error(message);
             return View();
         }
 
-        var role = userModel.Value!;
+        var role = roleModelResponse.Value!;
         role.UserId = this.CurrentUserId();
         return View(role);
     }
@@ -103,7 +122,14 @@ public class RolesController : AuthorizationController
             return View(roleModel);
         }
         
-        var result = await this.PutAsync<RoleInputModel>("/api/Roles", roleModel, token);
+        var editRoleResponse = await this.PutAsync<RoleInputModel>("/api/Roles", roleModel, token);
+        if (editRoleResponse.IsFailure)
+        {
+            var message = editRoleResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+            this._notification.Error(message);
+            return View(roleModel);
+        }
+        
         return RedirectToAction("All", "Roles");
     }
     
