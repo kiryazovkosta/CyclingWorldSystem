@@ -5,6 +5,8 @@ using Web.Models;
 namespace Web.Controllers;
 
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Diagnostics;
+using NuGet.Protocol;
 
 public class HomeController : Controller
 {
@@ -31,8 +33,23 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(int statusCode)
     {
+        var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+        if (exceptionHandlerPathFeature is not null)
+        {
+            this._logger.LogError(exceptionHandlerPathFeature.Error, exceptionHandlerPathFeature.Path);
+        }
+        
+        if (statusCode == 400)
+        {
+            return View("BadRequestError");
+        }
+        if (statusCode == 401)
+        {
+            return View("UnauthorizedError");
+        }
+        
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
