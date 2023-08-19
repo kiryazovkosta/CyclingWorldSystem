@@ -22,9 +22,11 @@ After that you can  execure sql script https://github.com/kiryazovkosta/CyclingW
 - CQRS pattern for backend
 - MediatR 
 - FluentValidator
-- Microsoft Identity
+- SignalR
 - MapLibre GL JS - displaying map of activity
 - Cloudinary SDK for .Net Core
+- Cookie authentication
+- ToastNotification
 - C#
 - Java Script
 - JQuery
