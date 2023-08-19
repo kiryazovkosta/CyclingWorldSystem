@@ -22,7 +22,7 @@ public class CreateUserCommandValidatorTests
         // Arrange
         var type = Guid.NewGuid();
         var user = TestsContants.UserUserId;
-        var request = new CreateUserRequest("UserName", "Email", "P@ssw0rd", "P@ssw0rd",
+        var request = new CreateUserRequest("UserName", "Email@test.com", "P@ssw0rd", "P@ssw0rd",
             "FirstName", "MiddleName", "LastName", null);
         var command = request.Adapt<CreateUserCommand>();
         

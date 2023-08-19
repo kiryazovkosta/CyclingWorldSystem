@@ -19,7 +19,7 @@ public class ValidateEntityError
     public string type { get; set; }
     public string title { get; set; }
     public int status { get; set; }
-    public ValidationError errors { get; set; }
+    public Dictionary<string, string[]> errors { get; set; }
 }
 
 public class ValidationError

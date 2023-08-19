@@ -1,5 +1,6 @@
 ﻿namespace Presentation.Controllers;
 
+using Application.Identity.Users.Commands.CreateUser;
 using Application.Identity.Users.Commands.DeleteUser;
 using Application.Identity.Users.Commands.UpdateUser;
 using Application.Identity.Users.Commands.UpdateUserRoles;
@@ -9,6 +10,7 @@ using Application.Identity.Users.Queries.GetUserById;
 using Application.Identity.Users.Queries.GetUserRoles;
 using Base;
 using Domain;
+using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -65,13 +67,19 @@ public class UsersController : ApiController
     [Authorize]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateUser(
+    public async Task<IResult> UpdateUser(
         [FromBody] UpdateUserRequest request, 
+        IValidator<UpdateUserCommand> validator,
         CancellationToken cancellationToken)
     {
         var command = request.Adapt<UpdateUserCommand>();
+        var validation = validator.Validate(command);
+        if (!validation.IsValid)
+        {
+            return Results.ValidationProblem(validation.ToDictionary());
+        }
         var result = await this.Sender.Send(command, cancellationToken);
-        return result.IsSuccess ? NoContent() : BadRequest(result.Error);
+        return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
     }
     
     [HttpDelete("{id:guid}")]

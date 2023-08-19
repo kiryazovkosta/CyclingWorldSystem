@@ -17,6 +17,9 @@ public static class GlobalConstants
 
     public static class User
     {
+	    public const int UserNameMaxLength = 256;
+	    public const int EmailMaxLength = 256;
+	    
         public const int FirstNameMaxLength = 50;
         public const int LastNameMaxLength = 50;
 

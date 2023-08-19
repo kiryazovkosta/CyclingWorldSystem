@@ -15,6 +15,7 @@ using Application.Identity.Users.Commands.ResendConfirmEmail;
 using Application.Identity.Users.Commands.ResetPassword;
 using Application.Identity.Users.Commands.UpdateUser;
 using Application.Identity.Users.Commands.UpdateUserDetails;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 
 public sealed class AccountsController : ApiController
@@ -27,12 +28,18 @@ public sealed class AccountsController : ApiController
 	[HttpPost("Register")]
 	[ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
-	public async Task<IActionResult> CreateUser(
+	public async Task<IResult> CreateUser(
 		[FromForm] CreateUserCommand request, 
+		IValidator<CreateUserCommand> validator,
 		CancellationToken cancellationToken)
 	{
-		var user = await this.Sender.Send(request, cancellationToken);
-		return user.IsSuccess ? Ok(user.Value) : BadRequest(user.Error);
+		var validation = validator.Validate(request);
+		if (!validation.IsValid)
+		{
+			return Results.ValidationProblem(validation.ToDictionary());
+		}
+		var result = await this.Sender.Send(request, cancellationToken);
+		return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
 	}
 
 	[HttpPost("Update")]

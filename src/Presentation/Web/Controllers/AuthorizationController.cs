@@ -8,8 +8,12 @@ using Web.Models.Response;
 
 namespace Web.Controllers
 {
+    using System.Runtime.InteropServices.JavaScript;
+    using System.Text;
     using System.Text.Json;
     using Models;
+    using Newtonsoft.Json;
+    using JsonSerializer = System.Text.Json.JsonSerializer;
 
     public class AuthorizationController : Controller
 	{
@@ -85,13 +89,23 @@ namespace Web.Controllers
 			}
 			else
             {
-                var message = await httpResponse.Content.ReadAsStringAsync();
-                response.Error = GetError(message);
+                var errorMessage = await httpResponse.Content.ReadAsStringAsync();
+                response.Error = GetError(errorMessage);
                 if (string.IsNullOrEmpty(response.Error.Message))
                 {
-                    var validationErrors = GetValidationError(message);
+                    var validationErrors = GetValidationError(errorMessage);
                     response.Error.Code = validationErrors.title;
-                    response.Error.Message = string.Join(".", validationErrors.errors.Name).Replace('\'', ' ');
+                    var allErrors = new StringBuilder();
+                    if (validationErrors.errors.Any())
+                    {
+                        foreach (var kvp in validationErrors.errors)
+                        {
+                            var errorsList = kvp.Value.Select(err => err.Replace("'", "")).ToArray();
+                            allErrors.Append(string.Join(".", errorsList));
+                        }
+                    }
+                    
+                    response.Error.Message = allErrors.ToString();
                 }
             }
 
@@ -121,7 +135,17 @@ namespace Web.Controllers
                     {
                         var validationErrors = GetValidationError(errorMessage);
                         response.Error.Code = validationErrors.title;
-                        response.Error.Message = string.Join(".", validationErrors.errors.Name).Replace('\'', ' ');
+                        var allErrors = new StringBuilder();
+                        if (validationErrors.errors.Any())
+                        {
+                            foreach (var kvp in validationErrors.errors)
+                            {
+                                var errorsList = kvp.Value.Select(err => err.Replace("'", "")).ToArray();
+                                allErrors.Append(string.Join(".", errorsList));
+                            }
+                        }
+                    
+                        response.Error.Message = allErrors.ToString();
                     }
                 }
             }
@@ -199,8 +223,24 @@ namespace Web.Controllers
             }
             else
             {
-                response.Error = GetError(
-                    await httpResponse.Content.ReadAsStringAsync());
+                var errorMessage = await httpResponse.Content.ReadAsStringAsync();
+                response.Error = GetError(errorMessage);
+                if (string.IsNullOrEmpty(response.Error.Message))
+                {
+                    var validationErrors = GetValidationError(errorMessage);
+                    response.Error.Code = validationErrors.title;
+                    var allErrors = new StringBuilder();
+                    if (validationErrors.errors.Any())
+                    {
+                        foreach (var kvp in validationErrors.errors)
+                        {
+                            var errorsList = kvp.Value.Select(err => err.Replace("'", "")).ToArray();
+                            allErrors.Append(string.Join(".", errorsList));
+                        }
+                    }
+                    
+                    response.Error.Message = allErrors.ToString();
+                }
             }
 
             return response;
@@ -237,8 +277,24 @@ namespace Web.Controllers
             }
             else
             {
-                response.Error = GetError(
-                    await httpResponse.Content.ReadAsStringAsync());
+                var errorMessage = await httpResponse.Content.ReadAsStringAsync();
+                response.Error = GetError(errorMessage);
+                if (string.IsNullOrEmpty(response.Error.Message))
+                {
+                    var validationErrors = GetValidationError(errorMessage);
+                    response.Error.Code = validationErrors.title;
+                    var allErrors = new StringBuilder();
+                    if (validationErrors.errors.Any())
+                    {
+                        foreach (var kvp in validationErrors.errors)
+                        {
+                            var errorsList = kvp.Value.Select(err => err.Replace("'", "")).ToArray();
+                            allErrors.Append(string.Join(".", errorsList));
+                        }
+                    }
+                    
+                    response.Error.Message = allErrors.ToString();
+                }
             }
             return response;
         }
@@ -271,12 +327,7 @@ namespace Web.Controllers
 
         private ValidateEntityError GetValidationError(string message)
         {
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-
-            var error = JsonSerializer.Deserialize<ValidateEntityError>(message, options);
+            var error = JsonConvert.DeserializeObject<ValidateEntityError>(message);
             return error!;
         }
             

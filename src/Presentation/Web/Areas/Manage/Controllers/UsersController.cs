@@ -99,6 +99,8 @@ public class UsersController : AuthorizationController
         var userModel = await this.GetAsync<UserInputModel>($"/api/Users/{id}", token);
         if (userModel.IsFailure)
         {
+            var encoded = HtmlEncoder.Default.Encode(userModel?.Error?.Message ?? GlobalMessages.GlobalError);
+            this._notification.Error(encoded);
             return View();
         }
 
@@ -126,6 +128,13 @@ public class UsersController : AuthorizationController
         }
         
         var result = await this.PutAsync<UserInputModel>("/api/Users", userModel, token);
+        if (result.IsFailure)
+        {
+            var message = result?.Error?.Message ?? GlobalMessages.GlobalError;
+            var encoded = HtmlEncoder.Default.Encode(message);
+            this._notification.Error(encoded);
+            return View(userModel);
+        }
         return RedirectToAction("All", "Users");
     }
 
