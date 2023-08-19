@@ -1,0 +1,17 @@
+﻿@using Web.Models.Activities
+
+<h3>Activities summary</h3>
+<ul>
+    <li><h6>Total activities: @Activities.Count()</h6></li>
+    <li><h6>Total distance: @Activities.Sum(a => a.Distance)</h6></li>
+    <li><h6>Total duration: @(new TimeSpan(Activities.Sum(a => a.Duration.Ticks)))</h6></li>
+    <li><h6>Total positive elevation: @Activities.Sum(a => a.PositiveElevation)</h6></li>
+    <li><h6>Total negative elevation: @Activities.Sum(a => a.NegativeElevation)</h6></li>
+</ul>
+
+@code {
+
+    [Parameter]
+    public IEnumerable<MyActivityViewModel> Activities { get; set; } = new List<MyActivityViewModel>();
+
+}

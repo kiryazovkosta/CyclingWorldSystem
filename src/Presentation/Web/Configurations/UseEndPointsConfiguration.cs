@@ -18,6 +18,8 @@ public static class UseEndPointsConfiguration
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             endpoints.MapHub<ActivityHub>("/activityhub");
+
+            endpoints.MapBlazorHub();
         });
         return app;
     }

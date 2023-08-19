@@ -1,0 +1,8 @@
+﻿@using Web.Components
+@model IEnumerable<MyActivityViewModel>
+
+<component type="typeof(ActivityList)" render-mode="ServerPrerendered" param-Activities="Model" />
+
+@section Scripts {
+    <script src="_framework/blazor.server.js"></script>
+}

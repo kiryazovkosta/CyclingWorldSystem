@@ -6,11 +6,13 @@ using Web.Models.GpxFiles;
 
 namespace Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.SignalR;
     using Models.Bikes;
     using Models.Waypoints;
     using Web.Hubs;
 
+    [Authorize(Roles = "User,Manager")]
     public class ActivitiesController : AuthorizationController
     {
         private readonly IHubContext<ActivityHub> _activityHub;
@@ -57,6 +59,27 @@ namespace Web.Controllers
             }
             
             return View(activitiesResponse.Value!);
+        }
+
+        [Authorize(Roles = "Manager")]
+        [HttpGet]
+        public async Task<IActionResult> Mine()
+        {
+            var token = this.GetJwtToken();
+            if (token is null)
+            {
+                return RedirectToAction("LogIn", "Account");
+            }
+
+            var userId = this.CurrentUserId();
+            var mineActivities 
+                = await this.GetAsync<IEnumerable<MyActivityViewModel>>($"api/Activities/GetMine/{userId}", token);
+            if (mineActivities.IsFailure)
+            {
+                return View();
+            }
+            
+            return View(mineActivities.Value);
         }
         
         [HttpGet]

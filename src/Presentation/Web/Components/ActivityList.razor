@@ -1,0 +1,41 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using Microsoft.Build.Construction
+@using Web.Models.Activities
+
+<ActivityStatistic Activities="Activities"></ActivityStatistic>
+
+<h3>Activities</h3>
+<table class="table table-bordered table-striped">
+    <thead>
+    <th>Title</th>
+    <th>Description</th>
+    <th>CreatedOn</th>
+    <th>Distance</th>
+    <th>Duration</th>
+    <th>PositiveElevation</th>
+    <th>NegativeElevation</th>
+    </thead>
+    <tbody>
+    @if (Activities.Any())
+    {
+        foreach (var activity in Activities)
+        {
+            <tr>
+                <th>@activity.Title</th>
+                <th>@activity.Description</th>
+                <th>@activity.CreatedOn</th>
+                <th>@activity.Distance</th>
+                <th>@activity.Duration</th>
+                <th>@activity.PositiveElevation</th>
+                <th>@activity.NegativeElevation</th>
+            </tr>
+        }
+    }
+    </tbody>
+
+</table>
+
+@code {
+    
+    [Parameter] public IEnumerable<MyActivityViewModel> Activities { get; set; } 
+}

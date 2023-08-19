@@ -6,7 +6,8 @@ public static class ControllersWithViewsConfiguration
     {
         services.AddControllersWithViews();
         services.AddSignalR().AddMessagePackProtocol();
-
+        services.AddServerSideBlazor();
+        
         return services;
     }
 }

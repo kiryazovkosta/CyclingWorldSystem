@@ -8,9 +8,11 @@
 
 namespace Web.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Comments;
 
+[Authorize(Roles = "User,Manager")]
 public class CommentsController : AuthorizationController
 {
     public CommentsController(

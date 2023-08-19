@@ -57,4 +57,13 @@ public class ActivityRepository : IActivityRepository
         return await this._context.Set<Activity>()
             .AnyAsync(a => a.Id == id, cancellationToken);
     }
+
+    public async Task<List<Activity>> GetAllMineAsync(Guid userId, CancellationToken cancellationToken)
+    {
+        return await this._context
+            .Set<Activity>()
+            .Where(a => a.UserId == userId)
+            .Sort("CreatedOn desc", null)
+            .ToListAsync(cancellationToken);
+    }
 }
