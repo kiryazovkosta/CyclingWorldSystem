@@ -16,6 +16,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Constants;
+using Domain.Errors;
 using Microsoft.AspNetCore.WebUtilities;
 
 public sealed class CreateUserCommandHandler
@@ -46,6 +47,11 @@ public sealed class CreateUserCommandHandler
 		if (dbUser is null)
 		{
 			return Result.Failure<Guid>(Error.NullValue);
+		}
+
+		if (request.Password != request.ConfirmPassword)
+		{
+			return Result.Failure<Guid>(DomainErrors.User.PasswordsAreNotEqual);
 		}
 
 		if (request.Avatar is not null)

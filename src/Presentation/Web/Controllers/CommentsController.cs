@@ -8,6 +8,8 @@
 
 namespace Web.Controllers;
 
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Common.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Comments;
@@ -15,12 +17,17 @@ using Models.Comments;
 [Authorize(Roles = "User,Manager")]
 public class CommentsController : AuthorizationController
 {
+    private readonly INotyfService _notification;
+    
     public CommentsController(
         IHttpContextAccessor httpContextAccessor, 
         IHttpClientFactory httpClientFactory, 
-        IConfiguration configuration) 
+        IConfiguration configuration,
+        INotyfService notification) 
         : base(httpContextAccessor, httpClientFactory, configuration)
     {
+        ArgumentNullException.ThrowIfNull(notification);
+        this._notification = notification;
     }
 
     [HttpGet]
@@ -52,6 +59,8 @@ public class CommentsController : AuthorizationController
         var createResponse = await this.PostAsync<CommentInputModel, Guid>("/api/Comments", model, token);
         if (createResponse.IsFailure)
         {
+            var errorMessage = createResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+            this._notification.Error(errorMessage);
             return View(model);
         }
         return RedirectToAction("Get", "Activities", new { id = model.ActivityId} );
@@ -69,6 +78,8 @@ public class CommentsController : AuthorizationController
         var commentResult = await this.GetAsync<CommentInputModel>($"/api/Comments/{id}", token);
         if (commentResult.IsFailure)
         {
+            var errorMessage = commentResult?.Error?.Message ?? GlobalMessages.GlobalError;
+            this._notification.Error(errorMessage);
             return View();
         }
 
@@ -93,6 +104,8 @@ public class CommentsController : AuthorizationController
         var createResponse = await this.PutAsync("/api/Comments", model, token);
         if (createResponse.IsFailure)
         {
+            var errorMessage = createResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+            this._notification.Error(errorMessage);
             return View(model);
         }
 

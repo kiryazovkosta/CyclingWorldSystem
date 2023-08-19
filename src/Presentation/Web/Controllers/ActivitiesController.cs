@@ -1,30 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Text;
-using Web.Extensions;
 using Web.Models.Activities;
-using Web.Models.GpxFiles;
 
 namespace Web.Controllers
 {
+    using AspNetCoreHero.ToastNotification.Abstractions;
+    using Common.Constants;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.SignalR;
     using Models.Bikes;
-    using Models.Waypoints;
     using Web.Hubs;
 
     [Authorize(Roles = "User,Manager")]
     public class ActivitiesController : AuthorizationController
     {
         private readonly IHubContext<ActivityHub> _activityHub;
+        private readonly INotyfService _notification;
 
         public ActivitiesController(
             IHttpContextAccessor httpContextAccessor, 
             IHttpClientFactory httpClientFactory, 
             IConfiguration configuration,
-            IHubContext<ActivityHub> activityHub) 
+            IHubContext<ActivityHub> activityHub,
+            INotyfService notification) 
             : base(httpContextAccessor, httpClientFactory, configuration)
         {
-            _activityHub = activityHub;
+            ArgumentNullException.ThrowIfNull(activityHub);
+            ArgumentNullException.ThrowIfNull(notification);
+            
+            this._activityHub = activityHub;
+            this._notification = notification;
         }
 
         [HttpGet]
@@ -55,6 +59,8 @@ namespace Web.Controllers
                 await this.GetAsync<PagedActivityDataViewModel>("api/Activities", token, parameters);
             if (activitiesResponse.IsFailure)
             {
+                var message = activitiesResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(message);
                 return View();
             }
             
@@ -76,6 +82,8 @@ namespace Web.Controllers
                 = await this.GetAsync<IEnumerable<MyActivityViewModel>>($"api/Activities/GetMine/{userId}", token);
             if (mineActivities.IsFailure)
             {
+                var message = mineActivities?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(message);
                 return View();
             }
             
@@ -94,6 +102,8 @@ namespace Web.Controllers
             var activityResponse = await this.GetAsync<ActivityViewModel>($"api/Activities/{id}", token);
             if (activityResponse.IsFailure)
             {
+                var message = activityResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(message);
                  return View();
             }
 
@@ -116,6 +126,8 @@ namespace Web.Controllers
             var bikesResponse = await this.GetAsync<IEnumerable<SimpleBikeViewModel>>("/api/Bikes", token, query);
             if (bikesResponse.IsFailure)
             {
+                var message = bikesResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(message);
                 return View();
             }
             
@@ -147,6 +159,8 @@ namespace Web.Controllers
                 "/api/Activities", model, token);
             if (response.IsFailure) 
             {
+                var errorMessage = response?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(errorMessage);
                 return View();
             }
 

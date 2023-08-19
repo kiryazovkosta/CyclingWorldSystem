@@ -1,21 +1,27 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
-using System;
 using Web.Models.Bikes;
 using Web.Models.BikeTypes;
 
 namespace Web.Controllers
 {
+    using AspNetCoreHero.ToastNotification.Abstractions;
+    using Common.Constants;
+
     [Authorize(Roles = "User,Manager")]
     public class BikesController : AuthorizationController
     {
+        private readonly INotyfService _notification;
+        
         public BikesController(
             IHttpContextAccessor httpContextAccessor, 
             IHttpClientFactory httpClientFactory, 
-            IConfiguration configuration) 
+            IConfiguration configuration,
+            INotyfService notification) 
             : base(httpContextAccessor, httpClientFactory, configuration)
         {
+            ArgumentNullException.ThrowIfNull(notification);
+            this._notification = notification;
         }
 
         [HttpGet]
@@ -31,6 +37,8 @@ namespace Web.Controllers
             var bikesResponse = await this.GetAsync<IEnumerable<BikeViewModel>>("/api/Bikes", token, query);
             if (bikesResponse.IsFailure)
             {
+                var errorMessage = bikesResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(errorMessage);
                 return View();
             }
 
@@ -46,9 +54,11 @@ namespace Web.Controllers
                 return RedirectToAction("LogIn", "Account");
             }
 
-            var bikeTypes = await this.GetAsync<IEnumerable<BikeTypeViewModel>>("/api/BikeTypes", token);
-            if (bikeTypes.IsFailure)
+            var bikeTypesResponse = await this.GetAsync<IEnumerable<BikeTypeViewModel>>("/api/BikeTypes", token);
+            if (bikeTypesResponse.IsFailure)
             {
+                var errorMessage = bikeTypesResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(errorMessage);
                 return View();
             }
 
@@ -56,7 +66,7 @@ namespace Web.Controllers
             { 
                 Id = Guid.Empty.ToString(),
                 UserId = this.CurrentUserId(), 
-                BikeTypes = bikeTypes.Value!
+                BikeTypes = bikeTypesResponse.Value!
             };
 
             return View(bikeModel);
@@ -80,6 +90,8 @@ namespace Web.Controllers
 
             if (bikeModel.UserId != this.CurrentUserId())
             {
+                var errorMessage = GlobalMessages.CredentialsMismatch;
+                this._notification.Error(errorMessage);
                 return View();
             }
 
@@ -88,6 +100,8 @@ namespace Web.Controllers
             if (bikeTypeExists.IsFailure 
                 || (bikeTypeExists.IsSuccess && bikeTypeExists.Value == false))
             {
+                var errorMessage = bikeTypeExists?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(errorMessage);
                 return View();
             }
 
@@ -107,6 +121,8 @@ namespace Web.Controllers
             var bike = await this.GetAsync<BikeInputModel>($"/api/Bikes/{id}", token);
             if (bike.IsFailure)
             {
+                var errorMessage = bike?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(errorMessage);
                 return View();
             }
 
@@ -137,7 +153,14 @@ namespace Web.Controllers
                 return View(bikeModel);
             }
 
-            var result = await this.PutAsync<BikeInputModel>("/api/Bikes", bikeModel, token);
+            var bikeUpdateResponse = await this.PutAsync<BikeInputModel>("/api/Bikes", bikeModel, token);
+            if (bikeUpdateResponse.IsFailure)
+            {
+                var errorMessage = bikeUpdateResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(errorMessage);
+                return View();
+            }
+            
             return RedirectToAction("All", "Bikes");
         }
 

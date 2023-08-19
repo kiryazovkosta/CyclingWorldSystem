@@ -6,6 +6,7 @@ public static class GlobalMessages
 	public const string GlobalError = "An unexpected error occurred during request execution.!";
 	public const string NonExistRecordError = "A record with provided Id does not exists!";
 	public const string AlreadyExists = "A record with provided parameters already exists!";
+	public const string CredentialsMismatch = "There is mismatch between current and provided credensials";
 
 	public static class Cloudinary
 	{
