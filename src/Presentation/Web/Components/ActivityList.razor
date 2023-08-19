@@ -42,6 +42,8 @@
 </table>
 
 @code {
-    
-    [Parameter] public IEnumerable<MyActivityViewModel> Activities { get; set; } 
+
+    [Parameter]
+    public IEnumerable<MyActivityViewModel> Activities { get; set; } = new List<MyActivityViewModel>();
+
 }

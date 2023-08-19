@@ -1,7 +1,6 @@
 ﻿namespace Application.Entities.Activities.Queries.GetMine;
 
 using Abstractions.Messaging;
-using Commands.CreateActivity;
 using Domain.Errors;
 using Domain.Repositories;
 using Domain.Shared;

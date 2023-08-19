@@ -39,6 +39,6 @@ public class UnitOfWorkTests
     public void UnitOfWork_Constructor_NullDbContext_ThrowsArgumentNullException()
     {
         // Arrange, Act & Assert
-        Assert.Throws<ArgumentNullException>(() => new UnitOfWork(null));
+        Assert.Throws<ArgumentNullException>(() => new UnitOfWork(null!));
     }
 }

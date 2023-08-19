@@ -1,12 +1,4 @@
-﻿// ------------------------------------------------------------------------------------------------
-//  <copyright file="ActivityResponse.cs" company="Business Management System Ltd.">
-//      Copyright "2023" (c), Business Management System Ltd.
-//      All rights reserved.
-//  </copyright>
-//  <author>Kosta.Kiryazov</author>
-// ------------------------------------------------------------------------------------------------
-
-namespace Application.Entities.Activities.Models;
+﻿namespace Application.Entities.Activities.Models;
 
 using Comments.Models;
 using Common.Enumerations;
@@ -14,23 +6,14 @@ using Common.Enumerations;
 public class ActivityResponse
 {
     public Guid Id { get; set; }
-    
     public string Title { get; set; } = null!;
-    
     public string Description { get; set; } = null!;
-    
     public string? PrivateNotes { get; set; }
-    
     public decimal Distance { get; set; }
-    
     public TimeSpan Duration { get; set; }
-    
     public decimal? PositiveElevation { get; set; }
-    
     public decimal? NegativeElevation { get; set; }
-    
     public VisibilityLevelType VisibilityLevel { get; set; }
-    
     public DateTime StartDateTime { get; set; }
     public string Bike { get; set; } = null!;
     public string UserName { get; set; } = null!;

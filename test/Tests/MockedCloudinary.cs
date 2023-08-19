@@ -18,10 +18,10 @@ using Newtonsoft.Json.Linq;
 public class MockedCloudinary : Cloudinary
     {
         public Mock<HttpMessageHandler> HandlerMock;
-        public string HttpRequestContent;
+        public string HttpRequestContent = string.Empty;
         private const string CloudName = "test123";
 
-        public MockedCloudinary(string responseStr = "{}", HttpResponseHeaders httpResponseHeaders = null) : base("cloudinary://key:secret@test123")
+        public MockedCloudinary(string responseStr = "{}", HttpResponseHeaders httpResponseHeaders = null!) : base("cloudinary://key:secret@test123")
         {
             HandlerMock = new Mock<HttpMessageHandler>();
 

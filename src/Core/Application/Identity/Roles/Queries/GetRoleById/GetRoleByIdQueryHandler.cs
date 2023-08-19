@@ -28,13 +28,13 @@ public class GetRoleByIdQueryHandler
 
     public async Task<Result<RoleResponse>> Handle(GetRoleByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await this.roleManager.FindByIdAsync(request.Id.ToString());
-        if (user is null)
+        var role = await this.roleManager.FindByIdAsync(request.Id.ToString());
+        if (role is null)
         {
             return Result.Failure<RoleResponse>(DomainErrors.Role.NonExistsRole);
         }
 
-        var response = user.Adapt<RoleResponse>();
+        var response = role.Adapt<RoleResponse>();
         return response;
     }
 }

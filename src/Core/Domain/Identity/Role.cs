@@ -10,5 +10,5 @@ public class Role : IdentityRole<Guid>, IAuditableEntity, IDeletableEntity
 	public bool IsDeleted { get; set; }
 	public DateTime? DeletedOn { get; set; }
 
-	public ICollection<UserRole> UserRoles { get; set; }
+	public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 }

@@ -24,6 +24,6 @@ public class RoleTests
         var role = new Role();
 
         // Assert
-        Assert.Null(role.UserRoles);
+        Assert.Empty(role.UserRoles);
     }
 }
