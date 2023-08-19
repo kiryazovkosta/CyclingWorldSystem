@@ -14,6 +14,7 @@ using Application.Entities.Comments.Commands.UpdateComment;
 using Application.Entities.Comments.Models;
 using Application.Entities.Comments.Queries.GetCommentById;
 using Base;
+using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -46,9 +47,15 @@ public class CommentsController: ApiController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> CreateComment(
         [FromBody] CreateCommentRequest request,
+        IValidator<CreateCommentCommand> validator,
         CancellationToken cancellationToken)
     {
         var command = request.Adapt<CreateCommentCommand>();
+        var validationResult = validator.Validate(command);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
         var result = await this.Sender.Send(command, cancellationToken);
         return result.IsSuccess ? Results.Ok(result.Value) : Results.BadRequest(result.Error);
     }
@@ -56,13 +63,19 @@ public class CommentsController: ApiController
     [HttpPut]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UpdateBike(
-        [FromBody] UpdateCommentRequest request, 
+    public async Task<IResult> UpdateBike(
+        [FromBody] UpdateCommentRequest request,
+        IValidator<UpdateCommentCommand> validator,
         CancellationToken cancellationToken)
     {
         var command = request.Adapt<UpdateCommentCommand>();
+        var validationResult = validator.Validate(command);
+        if (!validationResult.IsValid)
+        {
+            return Results.ValidationProblem(validationResult.ToDictionary());
+        }
         var result = await this.Sender.Send(command, cancellationToken);
-        return result.IsSuccess ? NoContent() : BadRequest(result.Error);
+        return result.IsSuccess ? Results.NoContent() : Results.BadRequest(result.Error);
     }
 
     [HttpDelete("{id:guid}")]

@@ -282,3 +282,24 @@ div.paging-toolbar {
     max-width: 33.33%;
     height: auto;
 }
+
+.summary-list {
+    list-style: none; /* Remove default list bullet points */
+    width: 100%; /* Set width to 80% */
+    margin: 0 auto; /* Center horizontally */
+    border-radius: 10px; /* Apply rounded corners */
+    background-color: #f0f0f0; /* Set background color */
+    padding: 15px; /* Add padding for better spacing */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a slight shadow */
+}
+
+.summary-list li {
+    padding: 8px 0; /* Add spacing between list items */
+}
+
+.summary-message {
+    border-radius: 10px; /* Apply rounded corners */
+    background-color: #f0f0f0; /* Set background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a slight shadow */
+    margin-top: 20px;
+}

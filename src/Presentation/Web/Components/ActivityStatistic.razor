@@ -1,30 +1,32 @@
 ﻿@using Web.Models.Activities
 
 <h3>Activities summary</h3>
-<ul>
-    <li><h6>Total activities: @Activities.Count()</h6></li>
-    <li><h6>Total distance: @Activities.Sum(a => a.Distance)</h6></li>
-    <li><h6>Total duration: @(new TimeSpan(Activities.Sum(a => a.Duration.Ticks)))</h6></li>
-    <li><h6>Total positive elevation: @Activities.Sum(a => a.PositiveElevation)</h6></li>
-    <li><h6>Total negative elevation: @Activities.Sum(a => a.NegativeElevation)</h6></li>
-    <li><h6>Used bike: @string.Join(";", Activities.Select(a => a.Bike).Distinct())</h6></li>
-    <li><h6>Total likes of your activity: @Activities.Sum(a => a.LikesCount)</h6></li>
-    <li><h6>Total comments of your activity: @Activities.Sum(a => a.CommentsCount)</h6></li>
+<ul class="summary-list">
+    <li><h5>Total activities: @Activities.Count()</h5></li>
+    <li><h5>Total distance: @Activities.Sum(a => a.Distance)</h5></li>
+    <li><h5>Total duration: @(new TimeSpan(Activities.Sum(a => a.Duration.Ticks)))</h5></li>
+    <li><h5>Total positive elevation: @Activities.Sum(a => a.PositiveElevation)</h5></li>
+    <li><h5>Total negative elevation: @Activities.Sum(a => a.NegativeElevation)</h5></li>
+    <li><h5>Used bike: @string.Join(";", Activities.Select(a => a.Bike).Distinct())</h5></li>
+    <li><h5>Total likes of your activity: @Activities.Sum(a => a.LikesCount)</h5></li>
+    <li><h5>Total comments of your activity: @Activities.Sum(a => a.CommentsCount)</h5></li>
     @if (Activities.Any())
     {
-        <li><h6>Your first activity is uploaded on: @Activities.Min(a => a.CreatedOn)</h6></li>
-        <li><h6>Your last activity is uploaded on: @Activities.Max(a => a.CreatedOn)</h6></li>
+        <li><h5>Your first activity is uploaded on: @Activities.Min(a => a.CreatedOn)</h5></li>
+        <li><h5>Your last activity is uploaded on: @Activities.Max(a => a.CreatedOn)</h5></li>
     }
-    
+</ul>
+
+<div class="summary-message">
     @if (Activities.Any())
     {
-        <h2 class="text-center">Great job. Continue to ride your bike</h2>
+        <h3 class="text-center">Great job. Continue to ride your bike</h3>
     }
     else
     {
-        <h2 class="text-center">Don't you think it's time for your first activity?</h2>
+        <h3 class="text-center">Don't you think it's time for your first activity?</h3>
     }
-</ul>
+</div>
 
 @code {
 
