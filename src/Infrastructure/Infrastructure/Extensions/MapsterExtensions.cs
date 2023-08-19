@@ -59,6 +59,12 @@ public static class MapsterExtensions
 			.Map(dest => dest.LikeCount, src => src.Likes.Count())
 			.Ignore(dest => dest.IsLikedByMe)
 			.Ignore(dest => dest.Comments);
+		
+		TypeAdapterConfig<Activity, MyActivityResponse>
+			.NewConfig()
+			.Map(dest => dest.Bike, src => src.Bike.Name)
+			.Map(dest => dest.LikesCount, src => src.Likes.Count())
+			.Map(dest => dest.CommentsCount, src => src.Comments.Count());
 
 
 		TypeAdapterConfig.GlobalSettings.Scan(

@@ -62,6 +62,10 @@ public class ActivityRepository : IActivityRepository
     {
         return await this._context
             .Set<Activity>()
+            .AsNoTracking()
+            .Include(a => a.Bike)
+            .Include(a => a.Likes)
+            .Include(a => a.Comments)
             .Where(a => a.UserId == userId)
             .Sort("CreatedOn desc", null)
             .ToListAsync(cancellationToken);

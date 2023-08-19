@@ -7,6 +7,23 @@
     <li><h6>Total duration: @(new TimeSpan(Activities.Sum(a => a.Duration.Ticks)))</h6></li>
     <li><h6>Total positive elevation: @Activities.Sum(a => a.PositiveElevation)</h6></li>
     <li><h6>Total negative elevation: @Activities.Sum(a => a.NegativeElevation)</h6></li>
+    <li><h6>Used bike: @string.Join(";", Activities.Select(a => a.Bike).Distinct())</h6></li>
+    <li><h6>Total likes of your activity: @Activities.Sum(a => a.LikesCount)</h6></li>
+    <li><h6>Total comments of your activity: @Activities.Sum(a => a.CommentsCount)</h6></li>
+    @if (Activities.Any())
+    {
+        <li><h6>Your first activity is uploaded on: @Activities.Min(a => a.CreatedOn)</h6></li>
+        <li><h6>Your last activity is uploaded on: @Activities.Max(a => a.CreatedOn)</h6></li>
+    }
+    
+    @if (Activities.Any())
+    {
+        <h2 class="text-center">Great job. Continue to ride your bike and share you activities with other</h2>
+    }
+    else
+    {
+        <h2 class="text-center">Don't you think it's time for your first activity?</h2>
+    }
 </ul>
 
 @code {

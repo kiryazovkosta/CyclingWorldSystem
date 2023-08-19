@@ -22,6 +22,7 @@ public class MyActivityViewModel
     public decimal? NegativeElevation { get; set; }
     public DateTime StartDateTime { get; set; }
     public string Bike { get; set; } = null!;
-    public int LikeCount { get; set; }
+    public int LikesCount { get; set; }
+    public int CommentsCount { get; set; }
     public DateTime CreatedOn { get; set; }
 }
