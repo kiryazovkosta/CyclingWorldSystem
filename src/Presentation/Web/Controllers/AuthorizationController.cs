@@ -87,6 +87,12 @@ namespace Web.Controllers
             {
                 var message = await httpResponse.Content.ReadAsStringAsync();
                 response.Error = GetError(message);
+                if (string.IsNullOrEmpty(response.Error.Message))
+                {
+                    var validationErrors = GetValidationError(message);
+                    response.Error.Code = validationErrors.title;
+                    response.Error.Message = string.Join(".", validationErrors.errors.Name).Replace('\'', ' ');
+                }
             }
 
 			return response;
@@ -109,8 +115,14 @@ namespace Web.Controllers
                 response.IsSuccess = httpResponse.IsSuccessStatusCode;
                 if (!httpResponse.IsSuccessStatusCode)
                 {
-                    response.Error = GetError(
-                        await httpResponse.Content.ReadAsStringAsync());
+                    var errorMessage = await httpResponse.Content.ReadAsStringAsync();
+                    response.Error = GetError(errorMessage);
+                    if (string.IsNullOrEmpty(response.Error.Message))
+                    {
+                        var validationErrors = GetValidationError(errorMessage);
+                        response.Error.Code = validationErrors.title;
+                        response.Error.Message = string.Join(".", validationErrors.errors.Name).Replace('\'', ' ');
+                    }
                 }
             }
 
@@ -254,6 +266,17 @@ namespace Web.Controllers
             };
 
             var error = JsonSerializer.Deserialize<RestError>(message, options);
+            return error!;
+        }
+
+        private ValidateEntityError GetValidationError(string message)
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var error = JsonSerializer.Deserialize<ValidateEntityError>(message, options);
             return error!;
         }
             

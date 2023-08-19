@@ -13,3 +13,16 @@ public class RestError
     public string Code { get; set; } = null!;
     public string Message { get; set; } = null!;
 }
+
+public class ValidateEntityError
+{
+    public string type { get; set; }
+    public string title { get; set; }
+    public int status { get; set; }
+    public ValidationError errors { get; set; }
+}
+
+public class ValidationError
+{
+    public string[] Name { get; set; }
+}

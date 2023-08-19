@@ -11,8 +11,8 @@ namespace Web.Areas.Manage.Controllers
     [Authorize(Roles = "Administrator")]
     public class BikeTypesController : AuthorizationController
     {
-
         private readonly INotyfService _notification;
+        
         public BikeTypesController(
             IHttpContextAccessor httpContextAccessor, 
             IHttpClientFactory httpClientFactory, 
@@ -34,6 +34,8 @@ namespace Web.Areas.Manage.Controllers
             var rolesResponse = await this.GetAsync<IEnumerable<BikeTypeAdminViewModel>>("api/BikeTypes", token);
             if (rolesResponse.IsFailure)
             {
+                var message = rolesResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(message);
                 return RedirectToAction("Index", "Management");
             }
         
@@ -86,13 +88,15 @@ namespace Web.Areas.Manage.Controllers
                 return RedirectToAction("LogIn", "Account");
             }
 
-            var result = await this.GetAsync<BikeTypeUpdateInputModel>($"api/BikeTypes/{id}", token);
-            if (result.IsFailure)
+            var getBikeTypeResponse = await this.GetAsync<BikeTypeUpdateInputModel>($"api/BikeTypes/{id}", token);
+            if (getBikeTypeResponse.IsFailure)
             {
+                var message = getBikeTypeResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(message);
                 return View(id);
             }
 
-            return View(result.Value!);
+            return View(getBikeTypeResponse.Value!);
         }
         
         [HttpPost]
@@ -109,9 +113,11 @@ namespace Web.Areas.Manage.Controllers
                 return this.View(model);
             }
 
-            var result = await this.PutAsync<BikeTypeUpdateInputModel>("api/BikeTypes", model, token);
-            if (result.IsFailure)
+            var editBikeTypeResponse = await this.PutAsync<BikeTypeUpdateInputModel>("api/BikeTypes", model, token);
+            if (editBikeTypeResponse.IsFailure)
             {
+                var message = editBikeTypeResponse?.Error?.Message ?? GlobalMessages.GlobalError;
+                this._notification.Error(message);
                 return View(model);
             }
             
