@@ -161,7 +161,11 @@ namespace Web.Controllers
             {
                 var errorMessage = response?.Error?.Message ?? GlobalMessages.GlobalError;
                 this._notification.Error(errorMessage);
-                return View();
+                var query = new Dictionary<string, string>() { { "UserId", base.CurrentUserId() } };
+                var bikesResponse = await this.GetAsync<IEnumerable<SimpleBikeViewModel>>("/api/Bikes", token, query);
+                model.UserId = this.CurrentUserId();
+                model.Bikes = bikesResponse.Value!;
+                return View(model);
             }
 
             var message = $"{this.User?.Identity?.Name} create activity with name {model.Title}";
